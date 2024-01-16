@@ -1,6 +1,6 @@
 <?php
 
-namespace Wspomagacz\Constants;
+namespace Wspomagacz\Client\Constants;
 
 class ErrorMessages {
     const USER_NOT_FOUND = 'Nie znaleziono użytkownika.';
