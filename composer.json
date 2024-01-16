@@ -14,7 +14,8 @@
   },
   "autoload": {
     "psr-4": {
-      "Wspomagacz\\": "client/src/"
+      "Wspomagacz\\Client\\": "client/src/",
+      "Wspomagacz\\Server\\": "server/src/"
     }
   }
 }
