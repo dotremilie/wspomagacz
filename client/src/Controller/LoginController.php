@@ -1,8 +1,8 @@
 <?php
 
-namespace Wspomagacz\Client\Controller;
+namespace Wspomagacz\Controller;
 
-use Wspomagacz\Client\View\View;
+use Wspomagacz\View\View;
 
 class LoginController
 {

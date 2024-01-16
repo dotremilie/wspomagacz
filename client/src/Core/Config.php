@@ -1,6 +1,6 @@
 <?php
 
-namespace Wspomagacz\Client\Core;
+namespace Wspomagacz\Core;
 
 class Config {
     const DB_HOST = 'localhost';

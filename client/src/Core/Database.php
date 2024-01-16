@@ -1,12 +1,12 @@
 <?php
 
-namespace Wspomagacz\Client\Core;
+namespace Wspomagacz\Core;
 
 use PDO;
 use PDOException;
 
 use PDOStatement;
-use Wspomagacz\Client\Constants\ErrorMessages;
+use Wspomagacz\Constants\ErrorMessages;
 
 class Database
 {
