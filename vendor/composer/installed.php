@@ -3,7 +3,7 @@
         'name' => 'vendor_name/wspomagacz',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '6a2a5104cc8719d885cf7ac6bd5d61474125e10e',
+        'reference' => 'f6ef4bb14402dfc0c6ad7eb2162dc30c3cf2a667',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'vendor_name/wspomagacz' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '6a2a5104cc8719d885cf7ac6bd5d61474125e10e',
+            'reference' => 'f6ef4bb14402dfc0c6ad7eb2162dc30c3cf2a667',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

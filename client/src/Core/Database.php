@@ -5,12 +5,13 @@ namespace Wspomagacz\Core;
 use PDO;
 use PDOException;
 
+use PDOStatement;
 use Wspomagacz\Constants\ErrorMessages;
 
 class Database
 {
     private ?PDO $pdo;
-    private $stmt;
+    private ?PDOStatement $stmt;
 
     private string $host;
     private string $dbname;

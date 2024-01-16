@@ -1,18 +1,14 @@
-<body class="bg-gray-100 font-sans">
-
-    <nav class="bg-blue-500 p-4 text-white">
-        <div class="container mx-auto">
-            <h1 class="text-2xl font-bold">Wspomagacz</h1>
-        </div>
-    </nav>
-
+<!doctype html>
+<html lang="en">
+<?php require_once __DIR__ . "/../../../templates/head.php"; ?>
+<?php require_once __DIR__ . "/../../../templates/header.php"; ?>
+<body class="bg-gray-100 dark:bg-slate-900 dark:text-white text-slate-800">
     <header class="bg-gray-800 text-white h-48 flex items-center justify-center">
         <div class="text-center">
             <h2 class="text-4xl font-bold mb-2">Od rozpoczęcia treningu dzieli Cię już tylko jeden krok</h2>
             <p class="text-lg">Wyciskaj jak prawdziwy sterydziarz</p>
         </div>
     </header>
-
     <section class="container mx-auto mt-8 p-4 bg-white rounded-lg shadow-md max-w-md">
         <h2 class="text-2xl font-bold mb-4">Zaloguj się na swoje konto</h2>
         <form>
@@ -27,3 +23,5 @@
             <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700">Zaloguj</button>
         </form>
     </section>
+</body>
+</html>

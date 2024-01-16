@@ -6,5 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Wspomagacz\\' => array($baseDir . '/src'),
+    'Wspomagacz\\' => array($baseDir . '/client/src'),
 );

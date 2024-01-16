@@ -1,11 +1,10 @@
-<body class="bg-gray-100 font-sans">
-
-    <header class="bg-blue-500 p-4 text-white text-center">
-        <h1 class="text-2xl font-bold">Wspomagacz</h1>
-    </header>
-
+<!doctype html>
+<html lang="en">
+<?php require_once __DIR__ . "/../../../templates/head.php"; ?>
+<?php require_once __DIR__ . "/../../../templates/header.php"; ?>
+<?php require_once __DIR__ . "/../../../templates/footer.php"; ?>
+<body class="bg-gray-100 dark:bg-slate-900 dark:text-white text-slate-800">
     <section class="container mx-auto mt-4 p-4">
-
         <div class="mb-4">
             <h2 class="text-xl font-bold mb-2">Ćwiczenia</h2>
             <ul class="list-disc pl-4">
@@ -39,6 +38,6 @@
                 </li>
             </ul>
         </div>
-
     </section>
 </body>
+</html>
