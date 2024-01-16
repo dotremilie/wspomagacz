@@ -1,0 +1,20 @@
+{
+  "name": "vendor_name/wspomagacz",
+  "description": "Aplikacja do śledzenia postępów na siłowni",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Remigiusz Nowicki",
+      "email": "remigiusz.nowicki11@gmail.com"
+    }
+  ],
+  "require": {
+    "ext-pdo": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Wspomagacz\\": "src/"
+    }
+  }
+}
