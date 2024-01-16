@@ -1,6 +1,6 @@
 <?php
 
-namespace Wspomagacz\View;
+namespace Wspomagacz\Client\View;
 
 class View {
     private string $viewPath;

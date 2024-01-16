@@ -9,12 +9,17 @@ class ComposerStaticInit2387dc757f95010fe6c33fd46adb72b0
     public static $prefixLengthsPsr4 = array (
         'W' => 
         array (
-            'Wspomagacz\\' => 11,
+            'Wspomagacz\\Server\\' => 18,
+            'Wspomagacz\\Client\\' => 18,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Wspomagacz\\' => 
+        'Wspomagacz\\Server\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/server/src',
+        ),
+        'Wspomagacz\\Client\\' => 
         array (
             0 => __DIR__ . '/../..' . '/client/src',
         ),

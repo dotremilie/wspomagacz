@@ -1,8 +1,8 @@
 <?php
 
-namespace Wspomagacz\Controller;
+namespace Wspomagacz\Client\Controller;
 
-use Wspomagacz\View\View;
+use Wspomagacz\Client\View\View;
 
 class ExercisesController
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Wspomagacz\Core;
+namespace Wspomagacz\Client\Core;
 
 class Router {
     private array $routes = [];
