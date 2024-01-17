@@ -2,7 +2,6 @@
 <html lang="en">
 <?php require_once __DIR__ . "/../../../templates/head.php"; ?>
 <?php require_once __DIR__ . "/../../../templates/header.php"; ?>
-<?php require_once __DIR__ . "/../../../templates/footer.php"; ?>
 <body class="bg-gray-100 dark:bg-slate-900 dark:text-white text-slate-800">
     <section class="container mx-auto mt-4 p-4">
         <div class="mb-4">
@@ -26,5 +25,6 @@
             </ol>
         </div>
     </section>
+    <?php require_once __DIR__ . "/../../../templates/footer.php"; ?>
 </body>
 </html>

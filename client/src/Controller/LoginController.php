@@ -6,6 +6,9 @@ use Wspomagacz\Client\View\View;
 
 class LoginController
 {
+    /**
+     * @return void
+     */
     public function index(): void
     {
         session_start();
