@@ -1,14 +1,13 @@
 <?php
 
-require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
-use Wspomagacz\Client\Controller\ExercisesController;
-use Wspomagacz\Client\Controller\HomeController;
-use Wspomagacz\Client\Controller\StartupController;
-use Wspomagacz\Client\Controller\RankingController;
-use Wspomagacz\Client\Controller\RegisterController;
-use Wspomagacz\Client\Controller\TrainingController;
-use Wspomagacz\Client\Core\Router;
+use Wspomagacz\Controller\ExercisesController;
+use Wspomagacz\Controller\HomeController;
+use Wspomagacz\Controller\StartupController;
+use Wspomagacz\Controller\RankingController;
+use Wspomagacz\Controller\TrainingController;
+use Wspomagacz\Core\Router;
 
 $router = new Router();
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Wspomagacz\Client\Model;
+namespace Wspomagacz\Model;
 
 class Muscle
 {

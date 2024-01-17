@@ -1,9 +1,9 @@
 <?php
 
-namespace Wspomagacz\Client\Controller;
+namespace Wspomagacz\Controller;
 
-use Wspomagacz\Client\Core\Request;
-use Wspomagacz\Client\View\View;
+use Wspomagacz\Core\Request;
+use Wspomagacz\View\View;
 
 class StartupController
 {

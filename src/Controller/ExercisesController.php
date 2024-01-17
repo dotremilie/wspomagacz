@@ -1,9 +1,9 @@
 <?php
 
-namespace Wspomagacz\Client\Controller;
+namespace Wspomagacz\Controller;
 
-use Wspomagacz\Client\Model\Exercise;
-use Wspomagacz\Client\View\View;
+use Wspomagacz\Model\Exercise;
+use Wspomagacz\View\View;
 
 class ExercisesController
 {
@@ -62,7 +62,7 @@ class ExercisesController
         } else {
             // Process the data
             foreach($data as $exercise) {
-                $exercise = new Exercise();
+                // $exercise = new Exercise();
             }
         }
     }

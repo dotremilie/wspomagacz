@@ -1,8 +1,6 @@
 <?php
 
-namespace Wspomagacz\Client\Core;
-
-use CurlHandle;
+namespace Wspomagacz\Core;
 
 class Request
 {
