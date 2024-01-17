@@ -1,9 +1,9 @@
 <?php
-namespace WspomagaczServer\Controllers;
+namespace Wspomagacz\Server\Controllers;
 
 class VersionController
 {
-    public static function getVersion()
+    public static function getVersion(): void
     {
         $response = [
             'version' => '1.0',

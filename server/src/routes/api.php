@@ -1,12 +1,15 @@
 <?php
 
+use Wspomagacz\Server\Controllers\VersionController;
+
 $request_uri = $_SERVER['REQUEST_URI'];
 $method = $_SERVER['REQUEST_METHOD'];
 
 switch ($request_uri) {
     case '/api/v1/version':
         if ($method === 'GET') {
-            \WspomagaczServer\Controllers\VersionController::getVersion();
+            echo "test";
+            VersionController::getVersion();
         } else {
             http_response_code(405); // Method Not Allowed
         }
