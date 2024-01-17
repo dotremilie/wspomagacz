@@ -54,5 +54,3 @@
         </a>
     <?php endif; ?>
 </nav>
-
-<script>feather.replace();</script>

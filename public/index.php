@@ -4,7 +4,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Wspomagacz\Client\Controller\ExercisesController;
 use Wspomagacz\Client\Controller\HomeController;
-use Wspomagacz\Client\Controller\LoginController;
+use Wspomagacz\Client\Controller\StartupController;
 use Wspomagacz\Client\Controller\RankingController;
 use Wspomagacz\Client\Controller\RegisterController;
 use Wspomagacz\Client\Controller\TrainingController;
@@ -14,9 +14,14 @@ $router = new Router();
 
 $router->addRoute('GET', '/', HomeController::class, 'index');
 
-$router->addRoute('GET', '/login', LoginController::class, 'index');
+$router->addRoute('GET', '/startup', StartupController::class, 'index');
+$router->addRoute('GET', '/startup/login', StartupController::class, 'login');
+$router->addRoute('GET', '/startup/login', StartupController::class, 'login');
+$router->addRoute('GET', '/startup/login/forgot-password', StartupController::class, 'forgotPassword');
+$router->addRoute('GET', '/startup/login/forgot-password/reset-password', StartupController::class, 'resetPassword');
 
-$router->addRoute('GET', '/register', RegisterController::class, 'index');
+$router->addRoute('GET', '/startup/signup', StartupController::class, 'signup');
+$router->addRoute('POST', '/startup/signup', StartupController::class, 'verification');
 
 $router->addRoute('GET', '/ranking', RankingController::class, 'index');
 
