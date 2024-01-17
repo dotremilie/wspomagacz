@@ -2,13 +2,13 @@
 
 namespace Wspomagacz\Model;
 
-class Exercise
+abstract class Exercise
 {
-    private int $id;
-    private string $name;
-    private string $description;
-    private array $equipmentUsed;
-    private array $musclesUsed;
+    protected int $id;
+    protected string $name;
+    protected string $description;
+    protected array $equipmentUsed;
+    protected array $musclesUsed;
 
     public function __construct(int $id, string $name, string $description, array $equipmentUsed, array $musclesUsed)
     {

@@ -2,7 +2,6 @@
 
 namespace Wspomagacz\Controller;
 
-use Wspomagacz\Core\Request;
 use Wspomagacz\View\View;
 
 class StartupController
@@ -78,11 +77,6 @@ class StartupController
                     'error' => 'Pole nie może być puste'
                 ];
             } else {
-                //TODO: API request to check for existing login
-                $request = new Request('https://wspomagacz.remilie.me/');
-
-                $response = $request->get("/users/$login");
-
 
             }
 
