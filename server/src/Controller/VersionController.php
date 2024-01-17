@@ -14,7 +14,7 @@ class VersionController
             'code' => 200
         ];
 
-        $view = new View(__DIR__ . '/../View/Default');
+        $view = new View(__DIR__ . '/../View/Response');
         $view->render('index', $data);
     }
 }
