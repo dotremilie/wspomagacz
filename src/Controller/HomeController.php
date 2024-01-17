@@ -6,6 +6,9 @@ use Wspomagacz\View\View;
 
 class HomeController
 {
+    /**
+     * @return void
+     */
     public function index(): void
     {
         $view = new View(__DIR__ . '/../View/Home');

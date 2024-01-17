@@ -5,12 +5,12 @@ namespace Wspomagacz\Core;
 use PDO;
 use PDOException;
 
-use Wspomagacz\Constants\ErrorMessages;
+use PDOStatement;
 
 class Database
 {
     private ?PDO $pdo;
-    private $stmt;
+    private ?PDOStatement $stmt;
 
     private string $host;
     private string $dbname;
@@ -29,7 +29,7 @@ class Database
             $this->pdo = new PDO($dsn, $this->username, $this->password);
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
-            die(ErrorMessages::DB_CONNECTION_FAILED . " (" . $e->getCode() . ") " . $e->getMessage());
+            die("Nie udało się połączyć z bazą danych: (" . $e->getCode() . ") " . $e->getMessage());
         }
     }
 
@@ -40,7 +40,7 @@ class Database
             $stmt->execute($params);
             return $stmt;
         } catch (PDOException $e) {
-            die(ErrorMessages::DB_QUERY_FAILED . " (" . $e->getCode() . ") " . $e->getMessage());
+            die("Nie udało się wykonać zapytania: (" . $e->getCode() . ") " . $e->getMessage());
         }
     }
 

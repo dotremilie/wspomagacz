@@ -7,10 +7,18 @@
     {
       "name": "Remigiusz Nowicki",
       "email": "remigiusz.nowicki11@gmail.com"
+    },
+    {
+      "name": "Patryk Haufa",
+      "email": "patrykhaufa2001@gmail.com"
+    },
+    {
+      "name": "Jakub Ligęcki"
     }
   ],
   "require": {
-    "ext-pdo": "*"
+    "ext-pdo": "*",
+    "ext-curl": "*"
   },
   "autoload": {
     "psr-4": {

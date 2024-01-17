@@ -1,29 +1,9 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><?= /** @var string $title */ $title; ?></title>
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-</head>
-<body class="bg-gray-100 font-sans">
-
-
-    <nav class="bg-blue-500 p-4 text-white">
-        <div class="container mx-auto">
-            <h1 class="text-2xl font-bold">Wspomagacz</h1>
-            <a href="login.html" class="text-white hover:underline">Logowanie</a>
-        </div>
-    </nav>
-
-
+<?php require_once __DIR__ . "/../../../templates/head.php"; ?>
+<?php require_once __DIR__ . "/../../../templates/header.php"; ?>
+<body class="bg-gray-100 dark:bg-slate-900 dark:text-white text-slate-800">
     <section class="container mx-auto mt-8 p-4 bg-white rounded-lg shadow-md max-w-3xl">
-        <style>
-   
-        </style>
         <h2 class="text-2xl font-bold mb-4">Moje dzisiejsze wyniki 🔥 💪</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
@@ -43,11 +23,8 @@
             </div>
         </div>
     </section>
-
-
     <section class="container mx-auto mt-8 p-4 bg-white rounded-lg shadow-md max-w-3xl">
         <h2 class="text-2xl font-bold mb-4">Moje ostatnie ćwiczenia</h2>
-
         <ul>
             <li class="mb-4">
                 <p class="text-lg font-bold">Klata na ławeczce</p>
@@ -69,8 +46,8 @@
                 <p class="text-lg font-bold">Bułgary</p>
                 <p class="text-gray-600">3 serie | 12 powtórzeń | 2x10kg</p>
             </li>
-
         </ul>
     </section>
+    <?php require_once __DIR__ . "/../../../templates/footer.php"; ?>
 </body>
 </html>
