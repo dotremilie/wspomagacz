@@ -7,7 +7,7 @@ class Muscle
     private int $id;
     private string $name;
 
-    public function __construct(int $id, string $name, string $description)
+    public function __construct(int $id, string $name)
     {
         $this->id = $id;
         $this->name = $name;
