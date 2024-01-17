@@ -1,4 +1,12 @@
 <?php
 
-require_once __DIR__ . '/../src/Routes/api.php';
 require_once __DIR__ . '/../../vendor/autoload.php';
+
+use Wspomagacz\Server\Controller\VersionController;
+use Wspomagacz\Server\Core\Router;
+
+$router = new Router();
+
+$router->addRoute('GET', '/api/version', VersionController::class, 'index');
+
+$router->dispatch($_SERVER['REQUEST_METHOD'], parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
