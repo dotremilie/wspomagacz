@@ -10,15 +10,16 @@ use Wspomagacz\View\View;
 
 class ExercisesController
 {
-    public array $exercises = [];
+    private array $exercises = [];
 
-    public array $customExercises = [];
+    private array $customExercises = [];
 
     public function index(): void
     {
-        $this->fetchExercises();
+        $this->setExercises($this->fetchExercises());
+
         $view = new View(__DIR__ . '/../View/Exercises');
-        $view->render('index', [], 'Wspomagacz | Ćwiczenia');
+        $view->render('index', $this->getExercises(), 'Wspomagacz | Ćwiczenia');
     }
 
     private function setExercises(array $exercises): void
