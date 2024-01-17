@@ -62,7 +62,7 @@ class ExercisesController
         } else {
             // Process the data
             foreach($data as $exercise) {
-                // $exercise = new Exercise();
+                $exercise = null; // new Exercise();
             }
         }
     }
