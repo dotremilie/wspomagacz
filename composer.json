@@ -7,6 +7,13 @@
     {
       "name": "Remigiusz Nowicki",
       "email": "remigiusz.nowicki11@gmail.com"
+    },
+    {
+      "name": "Patryk Haufa",
+      "email": "patrykhaufa2001@gmail.com"
+    },
+    {
+      "name": "Jakub Ligęcki"
     }
   ],
   "require": {
@@ -15,8 +22,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Wspomagacz\\Client\\": "client/src/",
-      "Wspomagacz\\Server\\": "server/src/"
+      "Wspomagacz\\": "src/"
     }
   }
 }
