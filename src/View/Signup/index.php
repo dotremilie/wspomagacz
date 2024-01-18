@@ -26,7 +26,7 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
             $icon = $field->getIcon();
             ?>
             <div class="w-full" id="<?= "$id-container" ?>">
-                <div class="relative rounded w-full">
+                <div class="relative rounded-xl w-full">
                     <div class="absolute pointer-events-none inset-y-0 left-0 pl-3 flex items-center">
                         <i data-feather="<?= $icon ?>"
                            class="absolute h-5 w-5 text-slate-400"></i>
@@ -49,7 +49,7 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
         <div class="w-full">Rejestrując się akceptujesz <a href="" class="text-red-400 font-bold">Warunki
                 korzystania</a> oraz <a href="" class="text-red-400 font-bold">Politykę prywatności</a>.
         </div>
-        <input type="submit" id="submit-button" name="signup" class="w-full bg-red-400 transition active:bg-red-500 rounded p-3 disabled:bg-gray-400"
+        <input type="submit" id="submit-button" name="signup" class="w-full bg-red-400 transition active:bg-red-500 rounded-xl p-3 disabled:bg-gray-400"
                value="Zarejestruj" disabled>
     </form>
 </section>
@@ -112,7 +112,7 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
 
         // Validation for password input
         passwordInput.on('blur', function () {
-            inputApplyStyle(passwordInput, passwordError, passwordErrorIcon, validateInput(loginInput, /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{8,}$/));
+            inputApplyStyle(passwordInput, passwordError, passwordErrorIcon, validateInput(passwordInput, /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{8,}$/));
             updateSubmitButton();
         });
 
@@ -126,7 +126,7 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
 
         // Validation for email input
         emailInput.on('blur', function () {
-            inputApplyStyle(emailInput, emailError, emailErrorIcon, validateInput(loginInput, /^[^\s@]+@[^\s@]+\.[^\s@]+$/));
+            inputApplyStyle(emailInput, emailError, emailErrorIcon, validateInput(emailInput, /^[^\s@]+@[^\s@]+\.[^\s@]+$/));
             updateSubmitButton();
         });
     });
