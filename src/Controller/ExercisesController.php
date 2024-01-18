@@ -90,7 +90,7 @@ class ExercisesController
         WHERE
             e.user_id = :user_id;";
 
-        $data = $database->query($query, [$user_id])->fetchAll();
+        $data = $database->query($query, ["user_id"=>$user_id])->fetchAll();
         $database->close();
 
         $customExercises = $this->getExercisesArray($data);
@@ -113,7 +113,7 @@ class ExercisesController
             (:name, :user_id);";
 
 
-        $database->query($query, [$customExercise->getName(), $user_id]);
+        $database->query($query, ["name"=>$customExercise->getName(), "user_id"=>$user_id]);
         $exerciseId = $database->lastInsertId();
 
         ## TODO -> Add strength default to database
@@ -125,7 +125,7 @@ class ExercisesController
             VALUES
                 (:custom_exercise_id, :muscle_id, 1);";
 
-            $database->query($query, [$exerciseId, $muscle->getId()]);
+            $database->query($query, ["custom_exercise_id"=>$exerciseId, "muscle_id"=>$muscle->getId()]);
         }
 
         foreach ($customExercise->getEquipmentUsed() as $equipment){
@@ -135,7 +135,7 @@ class ExercisesController
             VALUES 
                 (:custom_exercise_id, :equipment_id);";
 
-            $database->query($query, [$exerciseId, $equipment->getId()]);
+            $database->query($query, ["custom_exercise_id"=>$exerciseId, "equipment_id"=>$equipment->getId()]);
         }
 
         $database->close();
