@@ -4,10 +4,10 @@
 <body class="bg-white dark:bg-slate-900 dark:text-white text-slate-800 mb-20">
 <?php require_once __DIR__ . "/../../../templates/header.php"; ?>
 <div class="flex flex-col justify-center items-center gap-4">
-    <section class="mx-auto pl-6 w-full">
+    <section class="mx-auto pl-4 w-full">
         <div class="text-2xl font-bold mb-4">Dzisiejszy plan</div>
         <div class="">
-            <div class="flex gap-6 pr-6 mb-4">
+            <div class="flex gap-6 overflow-x-scroll overflow-y-hidden pr-4 mb-4">
                 <div class="flex flex-col w-full gap-2 dark:bg-slate-800 bg-slate-100 rounded-xl p-4">
                     <div class="w-full flex items-center justify-between">
                         <div class="flex items-center gap-2">
@@ -29,7 +29,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex gap-6 overflow-y-scroll pr-6">
+            <div class="flex gap-6 overflow-x-scroll overflow-y-hidden pr-4">
                 <div class="flex items-center dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
                     <div class="flex flex-col h-full justify-center">
                         <div class="mb-4 truncate max-w-48">
@@ -43,7 +43,7 @@
                             8 powtórzeń
                         </div>
                     </div>
-                    <div class="h-full flex items-center dark:text-slate-400 text-slate-600 pl-6">
+                    <div class="h-full flex items-center dark:text-slate-400 text-slate-600 pl-4">
                         <i data-feather="chevron-right"></i>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
                             10 powtórzeń
                         </div>
                     </div>
-                    <div class="h-full flex items-center dark:text-slate-400 text-slate-600 pl-6">
+                    <div class="h-full flex items-center dark:text-slate-400 text-slate-600 pl-4">
                         <i data-feather="chevron-right"></i>
                     </div>
                 </div>
@@ -77,13 +77,13 @@
                             4 powtórzenia
                         </div>
                     </div>
-                    <div class="h-full flex items-center dark:text-slate-400 text-slate-600 pl-6">
+                    <div class="h-full flex items-center dark:text-slate-400 text-slate-600 pl-4">
                         <i class="ti ti-chevron-right"></i>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="hidden w-full pr-6">
+        <div class="hidden w-full pr-4">
             <div class="text-xl w-full flex flex-col gap-4 p-6 text-center dark:bg-slate-800 bg-slate-100 rounded-xl">
                 Nie zaplanowałeś na dzisiaj żadnych treningów. Czy chcesz rozpocząć nowy trening?
                 <a href="/training"
@@ -93,9 +93,9 @@
             </div>
         </div>
     </section>
-    <section class="mx-auto pl-6 w-full">
+    <section class="mx-auto pl-4 w-full">
         <div class="text-2xl font-bold mb-4">Popularne treningi</div>
-        <div class="flex gap-6 overflow-y-scroll pr-6">
+        <div class="flex gap-6 overflow-y-scroll pr-4">
             <div class="flex items-center dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
                 <div class="flex flex-col h-full leading-none justify-center">
                     <div class="mb-4 truncate max-w-48">
@@ -106,7 +106,7 @@
                     </div>
                     8 ćwiczeń
                 </div>
-                <div class="h-full flex items-center dark:text-slate-400 text-slate-600 pl-6">
+                <div class="h-full flex items-center dark:text-slate-400 text-slate-600 pl-4">
                     <i class="ti ti-plus"></i>
                 </div>
             </div>
@@ -117,7 +117,7 @@
                 </div>
             </div>
     </section>
-    <section class="mx-auto px-6 w-full">
+    <section class="mx-auto px-4 w-full">
         <h2 class="text-2xl font-bold mb-4">Ostatni Trening</h2>
     </section>
 </div>
