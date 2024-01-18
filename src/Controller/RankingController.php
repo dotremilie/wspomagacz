@@ -2,6 +2,7 @@
 
 namespace Wspomagacz\Controller;
 
+use Wspomagacz\Core\Database;
 use Wspomagacz\Model\RankingCard;
 use Wspomagacz\Model\RankingUserCard;
 use Wspomagacz\View\View;
@@ -15,7 +16,7 @@ class RankingController
     {
         if (!isset($_SESSION['user_id'])) header('Location: /startup');
 
-        $this->fetchRanking();
+        $this->fetchRanking($_SESSION['user_id']);
 
         $data = [
             'userCard' => $this->getRankingUserCard(),
@@ -36,28 +37,46 @@ class RankingController
         return $this->ranking;
     }
 
-    private function fetchRanking(): void
+    private function fetchRanking(int $user_id): void
     {
-        $ranking = [
-            new RankingCard(1, 'sneakydog', 20, 12061),
-            new RankingCard(2, 'Remilie', 14, 10038),
-            new RankingCard(3, 'suprenoctome', 11, 9047),
-            new RankingCard(4, 'FleQQ', 9, 7015),
-        ];
+        $database = new Database();
 
-        /*
-         * TODO: Fetch Rankings
-         *
-         * Group Trainings by user
-         * Count Trainings
-         * Sum Sets for each exercise, sort by this sum
-         * Get User id from session
-         * Find User place, username and weights from $ranking array by id
-         */
+        $query = "
+        SELECT
+            u.id AS user_id,
+            u.username,
+            COUNT(DISTINCT t.id) AS training_count,
+            SUM(tes.repetitions * tes.weight) AS weight_sum
+        FROM
+            users u
+                LEFT JOIN
+            trainings t ON u.id = t.user_id
+                LEFT JOIN
+            training_exercises te ON t.id = te.training_id
+                LEFT JOIN
+            training_exercises_sets tes ON te.id = tes.training_exercise_id
+        WHERE
+            u.status = 1
+        GROUP BY
+            u.id, u.username
+        ORDER BY
+            weight_sum DESC";
+
+        $data = $database->query($query)->fetchAll();
+        $database->close();
+
+        $ranking = [];
+        foreach ($data as $rankingUser) {
+            $ranking[] = new RankingCard($rankingUser['user_id'], $rankingUser['username'], $rankingUser['training_count'], $rankingUser['weight_sum']);
+        }
 
         $this->setRanking($ranking);
-        $this->setRankingUserCard(new RankingUserCard(1, 'sneakydog', 1, 12061));
 
+        foreach ($data as $key => $rankingUser) {
+            if ($rankingUser['user_id'] = $user_id){
+                $this->setRankingUserCard(new RankingUserCard($rankingUser['user_id'], $rankingUser['username'], ($key+1), $rankingUser['weight_sum']));
+            }
+        }
     }
 
     public function getRankingUserCard(): RankingUserCard
