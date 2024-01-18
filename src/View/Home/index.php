@@ -117,8 +117,39 @@
                 </div>
             </div>
     </section>
-    <section class="mx-auto px-4 w-full">
-        <h2 class="text-2xl font-bold mb-4">Ostatni Trening</h2>
+    <section class="mx-auto pl-4 w-full">
+        <div class="text-2xl font-bold mb-4">Twoje rekordy</div>
+        <div class="grid grid-cols-2 gap-4 overflow-y-scroll pr-4">
+            <div class="p-6 dark:bg-slate-800 rounded-xl flex items-center">
+                <div>
+                    <div class="text-lg">Nazwa ćwiczenia</div>
+                    <div class="text-gray-400 max-w-64 truncate">
+                        <div class="flex gap-2 items-center">
+                            <i class="ti ti-calendar"></i>
+                            <div class="max-w-64 truncate">10.12.2022</div>
+                        </div>
+                        <div class="flex gap-2 items-center">
+                            <i class="ti ti-weight"></i>
+                            <div class="max-w-64 truncate">100kg</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-6 dark:bg-slate-800 rounded-xl flex items-center">
+                <div>
+                    <div class="text-lg">Nazwa ćwiczenia</div>
+                    <div class="text-gray-400 max-w-64 truncate">
+                        <div class="flex gap-2 items-center">
+                            <i class="ti ti-calendar"></i>
+                            <div class="max-w-64 truncate">10.12.2022</div>
+                        </div>
+                        <div class="flex gap-2 items-center">
+                            <i class="ti ti-weight"></i>
+                            <div class="max-w-64 truncate">100kg</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </section>
 </div>
 <?php require_once __DIR__ . "/../../../templates/footer.php"; ?>
