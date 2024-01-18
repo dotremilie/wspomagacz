@@ -112,7 +112,7 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
 
         // Validation for password input
         passwordInput.on('blur', function () {
-            inputApplyStyle(passwordInput, passwordError, passwordErrorIcon, /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{8,}$/);
+            inputApplyStyle(passwordInput, passwordError, passwordErrorIcon, validateInput(loginInput, /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{8,}$/));
             updateSubmitButton();
         });
 
@@ -126,7 +126,7 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
 
         // Validation for email input
         emailInput.on('blur', function () {
-            inputApplyStyle(emailInput, emailError, emailErrorIcon, /^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+            inputApplyStyle(emailInput, emailError, emailErrorIcon, validateInput(loginInput, /^[^\s@]+@[^\s@]+\.[^\s@]+$/));
             updateSubmitButton();
         });
     });
