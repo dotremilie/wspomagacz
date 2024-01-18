@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <?php require_once __DIR__ . "/../../../templates/head.php"; ?>
-<body class="bg-gray-100 dark:bg-slate-900 dark:text-white text-slate-800">
+<body class="bg-white dark:bg-slate-900 dark:text-white text-slate-800">
 <?php require_once __DIR__ . "/../../../templates/header.php"; ?>
 <section class="container mx-auto mt-4 p-4">
     <div class="mb-4">
