@@ -1,27 +1,22 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <?php require_once __DIR__ . "/../../../templates/head.php"; ?>
-<?php require_once __DIR__ . "/../../../templates/header.php"; ?>
-<body class="bg-gray-100 dark:bg-slate-900 dark:text-white text-slate-800">
-    <header class="bg-gray-800 text-white h-48 flex items-center justify-center">
-        <div class="text-center">
-            <h2 class="text-4xl font-bold mb-2">Od rozpoczęcia treningu dzieli Cię już tylko jeden krok</h2>
-            <p class="text-lg">Wyciskaj jak prawdziwy sterydziarz</p>
-        </div>
+<body class="bg-white dark:bg-slate-900 dark:text-white text-slate-800">
+<section class="w-screen h-screen flex flex-col">
+    <?php require_once __DIR__ . "/../../../templates/header.php"; ?>
+    <header class="bg-white dark:bg-slate-800 text-center flex flex-col justify-center gap-4 p-6 py-12">
+        <div class="text-4xl font-bold">Witaj we Wspomagaczu!</div>
+        <div class="text-lg">Zaloguj się żeby zacząć swoją przygodę.</div>
     </header>
-    <section class="container mx-auto mt-8 p-4 bg-white rounded-lg shadow-md max-w-md">
-        <h2 class="text-2xl font-bold mb-4">Zaloguj się na swoje konto</h2>
-        <form>
-            <div class="mb-4">
-                <label for="email" class="block text-gray-600 text-sm font-semibold mb-2">Email</label>
-                <input type="email" id="email" name="email" class="w-full p-2 border rounded-md">
-            </div>
-            <div class="mb-4">
-                <label for="password" class="block text-gray-600 text-sm font-semibold mb-2">Hasło</label>
-                <input type="password" id="password" name="password" class="w-full p-2 border rounded-md">
-            </div>
-            <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700">Zaloguj</button>
-        </form>
-    </section>
+    <div class="flex flex-col gap-6 p-6 grow justify-center">
+        <a href="/login"
+           class="w-full text-center bg-red-400 transition active:bg-red-500 rounded p-3 disabled:bg-gray-400">Zaloguj
+            się</a>
+        <div class="w-full text-center">Nie masz jeszcze konta?</div>
+        <a href="/signup"
+           class="w-full text-center bg-slate-800 transition active:bg-red-500 rounded p-3 disabled:bg-gray-400">Zarejestruj
+            się</a>
+    </div>
+</section>
 </body>
 </html>
