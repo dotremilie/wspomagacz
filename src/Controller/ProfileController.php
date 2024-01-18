@@ -29,7 +29,8 @@ class ProfileController
             u.id AS user_id,
             u.username,
             COUNT(DISTINCT t.id) AS training_count,
-            SUM(tes.repetitions * tes.weight) AS weight_sum
+            COALESCE(SUM(tes.repetitions * tes.weight), 0) AS weight_sum,
+            COALESCE(SUM(t.burned_calories), 0) AS burnt_calories
         FROM
             users u
                 LEFT JOIN
@@ -44,7 +45,7 @@ class ProfileController
         $data = $database->query($query, ["user_id"=>$user_id])->fetch();
         $database->close();
 
-        $this->profileStatistics = new ProfileStatistics($data['user_id'], $data['username'], $data['training_count'], $data['weight_sum']);
+        $this->profileStatistics = new ProfileStatistics($data['user_id'], $data['username'], $data['training_count'], $data['weight_sum'], $data['burnt_calories']);
     }
 
     public function getProfileStatistics(): ProfileStatistics

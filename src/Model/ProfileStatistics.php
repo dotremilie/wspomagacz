@@ -8,13 +8,15 @@ class ProfileStatistics
     private string $username;
     private int $trainings;
     private int $weight;
+    private int $burntCalories;
 
-    public function __construct(int $id, string $username, int $trainings, int $weight)
+    public function __construct(int $id, string $username, int $trainings, int $weight, int $burntCalories)
     {
         $this->id = $id;
         $this->username = $username;
         $this->trainings = $trainings;
         $this->weight = $weight;
+        $this->burntCalories = $burntCalories;
     }
 
     public function getWeight(): int
@@ -35,5 +37,10 @@ class ProfileStatistics
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function getBurntCalories(): int
+    {
+        return $this->burntCalories;
     }
 }
