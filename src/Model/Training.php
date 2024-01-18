@@ -14,7 +14,7 @@ class Training
     private ?DateTime $date;
     private TrainingStatus $status;
     private ?DateTime $startedAt;
-    private ?DateTime $FinishedAt;
+    private ?DateTime $finishedAt;
 
     public function __construct(int $id, int $userId, string $name, int $burnedCalories, DateTime $date, TrainingStatus $status, DateTime|null $startedAt, DateTime|null $FinishedAt)
     {
@@ -25,17 +25,17 @@ class Training
         $this->date = $date;
         $this->status = $status;
         $this->startedAt = $startedAt;
-        $this->FinishedAt = $FinishedAt;
+        $this->finishedAt = $FinishedAt;
     }
 
     public function getFinishedAt(): ?DateTime
     {
-        return $this->FinishedAt;
+        return $this->finishedAt;
     }
 
-    public function setFinishedAt(?DateTime $FinishedAt): void
+    public function setFinishedAt(?DateTime $finishedAt): void
     {
-        $this->FinishedAt = $FinishedAt;
+        $this->finishedAt = $finishedAt;
     }
 
     public function getStartedAt(): ?DateTime
