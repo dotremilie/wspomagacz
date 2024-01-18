@@ -13,6 +13,8 @@ class RankingController
 
     public function index(): void
     {
+        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+
         $this->fetchRanking();
 
         $data = [

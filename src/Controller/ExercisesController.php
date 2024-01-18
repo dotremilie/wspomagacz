@@ -17,6 +17,8 @@ class ExercisesController
 
     public function index(): void
     {
+        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+
         $this->fetchExercises();
         $this->fetchCustomExercises($_SESSION['user_id']);
 

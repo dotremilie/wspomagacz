@@ -9,6 +9,8 @@ class SignupController
 {
     public function index(): void
     {
+        if (isset($_SESSION['user_id'])) header('Location: /');
+
         $inputFields = [
             new InputField('login', 'Nazwa użytkownika', 'Nazwa użytkownika może się składać tylko z liter, cyfr i mieć od 3 do 24 znaków.', 'user'),
             new InputField('password', 'Hasło', 'Hasło musi zawierać co najmniej jedną wielką literę, znak specjalny, cyfrę i mieć co najmniej 8 znaków.', 'lock'),

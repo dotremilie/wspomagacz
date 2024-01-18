@@ -8,6 +8,8 @@ class TrainingController
 {
     public function index(): void
     {
+        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+
         $view = new View(__DIR__ . '/../View/Training');
         $view->render('index', [], 'Wspomagacz | Treningi');
     }
