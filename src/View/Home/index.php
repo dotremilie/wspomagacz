@@ -4,29 +4,67 @@
 <body class="bg-white dark:bg-slate-900 dark:text-white text-slate-800 mb-20">
 <?php require_once __DIR__ . "/../../../templates/header.php"; ?>
 <div class="flex flex-col justify-center items-center gap-4">
-    <section class="mx-auto rounded-xl px-6 w-full">
+    <section class="mx-auto pl-6 w-full">
         <div class="text-2xl font-bold mb-4">Dzisiejszy plan</div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div class="dark:bg-slate-800 bg-slate-100 p-6 rounded-xl">
-                <div class="text-2xl text-sky-400">Podniesiony ciężar</div>
-                <div class="text-xl font-semibold">1000 kg</div>
+        <div class="flex gap-6 overflow-y-scroll pr-6">
+            <div class="flex items-center dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
+                <div class="flex flex-col h-full justify-center">
+                    <div class="mb-4 truncate max-w-48">
+                        Podnoszenie ciężarów
+                        <div class="text-sm truncate flex gap-2 items-center text-lime-400">
+                            <i data-feather="check-circle" class="w-4 h-4"></i>
+                            Wykonane
+                        </div>
+                    </div>
+                    <div class="text-sm dark:text-slate-400 text-slate-600 truncate">
+                        8 powtórzeń
+                    </div>
+                </div>
+                <div class="h-full flex items-center dark:text-slate-400 text-slate-600 pl-6">
+                    <i data-feather="chevron-right"></i>
+                </div>
             </div>
-            <div class="dark:bg-slate-800 bg-slate-100 p-6 rounded-xl">
-                <div class="text-2xl text-lime-400">Wykonane ćwiczenia</div>
-                <div class="text-xl font-semibold">10</div>
+            <div class="flex items-center dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
+                <div class="flex flex-col h-full justify-center">
+                    <div class="mb-4 truncate max-w-48">
+                        Pompki
+                        <div class="text-sm truncate flex gap-2 items-center text-amber-400">
+                            <i data-feather="calendar" class="w-4 h-4"></i>
+                            Zaplanowane
+                        </div>
+                    </div>
+                    <div class="text-sm dark:text-slate-400 text-slate-600 truncate">
+                        10 powtórzeń
+                    </div>
+                </div>
+                <div class="h-full flex items-center dark:text-slate-400 text-slate-600 pl-6">
+                    <i data-feather="chevron-right"></i>
+                </div>
             </div>
-            <div class="dark:bg-slate-800 bg-slate-100 p-6 rounded-xl">
-                <div class="text-2xl text-amber-400">Spalone kalorie</div>
-                <div class="text-xl font-semibold">1000 kcal</div>
+            <div class="flex items-center dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
+                <div class="flex flex-col h-full justify-center">
+                    <div class="mb-4 truncate max-w-48">
+                        Podciąganie
+                        <div class="text-sm truncate flex gap-2 items-center text-sky-400">
+                            <i data-feather="arrow-right-circle" class="w-4 h-4"></i>
+                            W trakcie
+                        </div>
+                    </div>
+                    <div class="text-sm dark:text-slate-400 text-slate-600 truncate">
+                        4 powtórzenia
+                    </div>
+                </div>
+                <div class="h-full flex items-center dark:text-slate-400 text-slate-600 pl-6">
+                    <i class="ti ti-chevron-right"></i>
+                </div>
             </div>
-        </div>
     </section>
     <section class="mx-auto pl-6 w-full">
         <div class="text-2xl font-bold mb-4">Popularne treningi</div>
         <div class="flex gap-6 overflow-y-scroll pr-6">
             <div class="flex items-center dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
                 <div class="flex flex-col h-full leading-none justify-center">
-                    <div class="mb-4 truncate w-48">
+                    <div class="mb-4 truncate max-w-48">
                         Przerzucanie żeliwa
                         <div class="text-sm dark:text-slate-400 text-slate-600 truncate">
                             utworzył <span class="font-semibold">sneakydog</span>
@@ -35,12 +73,12 @@
                     8 ćwiczeń
                 </div>
                 <div class="h-full flex items-center dark:text-slate-400 text-slate-600 pl-6">
-                    <i data-feather="plus"></i>
+                    <i class="ti ti-plus"></i>
                 </div>
             </div>
             <div class="flex flex-col items-center justify-center rounded-xl text-xl p-4">
                 <div class="h-full items-center justify-center flex flex-col text-center gap-2 dark:text-slate-400 text-slate-600 w-32">
-                    <i data-feather="frown"></i>
+                    <i class="ti ti-mood-cry"></i>
                     To wszystko w tej sekcji
                 </div>
             </div>
