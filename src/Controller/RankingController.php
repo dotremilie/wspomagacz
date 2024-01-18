@@ -73,7 +73,7 @@ class RankingController
         $this->setRanking($ranking);
 
         foreach ($data as $key => $rankingUser) {
-            if ($rankingUser['user_id'] = $user_id){
+            if ($rankingUser['user_id'] == $user_id){
                 $this->setRankingUserCard(new RankingUserCard($rankingUser['user_id'], $rankingUser['username'], ($key+1), $rankingUser['weight_sum']));
             }
         }
