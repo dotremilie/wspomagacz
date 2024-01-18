@@ -4,12 +4,12 @@ namespace Wspomagacz\Model;
 
 class Exercise
 {
-    protected int $id;
+    protected ?int $id;
     protected string $name;
     protected array $equipmentUsed;
     protected array $musclesUsed;
 
-    public function __construct(int $id, string $name, array $equipmentUsed, array $musclesUsed)
+    public function __construct(int|null $id, string $name, array $equipmentUsed, array $musclesUsed)
     {
         $this->id = $id;
         $this->name = $name;
@@ -35,5 +35,10 @@ class Exercise
     public function getMusclesUsed(): array
     {
         return $this->musclesUsed;
+    }
+
+    public function setId(?int $id): void
+    {
+        $this->id = $id;
     }
 }
