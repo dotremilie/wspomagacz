@@ -46,7 +46,7 @@ class RankingController
             u.id AS user_id,
             u.username,
             COUNT(DISTINCT t.id) AS training_count,
-            SUM(tes.repetitions * tes.weight) AS weight_sum
+            COALESCE(SUM(tes.repetitions * tes.weight), 0) AS weight_sum
         FROM
             users u
                 LEFT JOIN
