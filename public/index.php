@@ -1,5 +1,9 @@
 <?php
 
+session_start();
+
+$_SESSION['user_id'] = 1;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Wspomagacz\Controller\ExercisesController;
