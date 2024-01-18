@@ -5,10 +5,9 @@ use Wspomagacz\Model\Equipment;
 use Wspomagacz\Model\Exercise;
 use Wspomagacz\Model\Muscle;
 
-require_once __DIR__ . "/../../../templates/head.php";
-require_once __DIR__ . "/../../../templates/header.php";
-?>
-<body class="bg-gray-100 dark:bg-slate-900 dark:text-white text-slate-800">
+require_once __DIR__ . "/../../../templates/head.php";?>
+<body class="bg-white dark:bg-slate-900 dark:text-white text-slate-800 mb-20">
+<?php require_once __DIR__ . "/../../../templates/header.php"; ?>
 <section class="mx-auto p-4">
     <div class="w-full flex flex-col gap-4 justify-center items-center">
         <?php

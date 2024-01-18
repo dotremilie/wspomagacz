@@ -1,37 +1,33 @@
 <!doctype html>
 <html lang="en">
 <?php require_once __DIR__ . "/../../../templates/head.php"; ?>
-<body class="bg-white dark:bg-slate-900 dark:text-white text-slate-800">
+<body class="bg-white dark:bg-slate-900 dark:text-white text-slate-800 mb-20">
 <?php require_once __DIR__ . "/../../../templates/header.php"; ?>
-<section class="container mx-auto mt-4 p-4">
-    <div class="mb-4">
-        <h2 class="text-xl font-bold mb-2">DJ Daddy Riddim</h2>
-        <div class="border p-4 rounded-lg">
-            <p class="text-lg font-bold mb-2">Nazwa użytkownika: riddaddy</p>
-            <p class="text-gray-600 mb-2">Wiek: 30</p>
-            <p class="text-gray-600 mb-2">Lokalizacja: Radgoszcz, Polska</p>
-            <p class="text-gray-600 mb-2">Liczba treningów: 1678</p>
+<div class="flex flex-col justify-center items-center gap-4">
+    <div class="flex justify-between items-center h-32 dark:bg-slate-800 bg-slate-100 px-4">
+        <div>
+            <div class="text-4xl font-semibold">sneakydog</div>
+            <div class="text-2xl"><span class="text-sm">KG</span></div>
         </div>
     </div>
-    <div>
-        <h2 class="text-xl font-bold mb-2">Zmiana hasła</h2>
-        <form class="border p-4 rounded-lg">
-            <div class="mb-4">
-                <label for="currentPassword" class="block text-gray-700 text-sm font-bold mb-2">Current
-                    Password:</label>
-                <input type="password" id="currentPassword" name="currentPassword"
-                       class="border rounded-lg px-3 py-2 w-full">
+    <section class="mx-auto rounded-xl px-6 w-full">
+        <div class="text-2xl font-bold mb-4">Statystyki</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="dark:bg-slate-800 bg-slate-100 p-6 rounded-xl">
+                <div class="text-2xl dark:text-sky-400 text-sky-600">Podniesiony ciężar</div>
+                <div class="text-xl font-semibold">1000 kg</div>
             </div>
-            <div class="mb-4">
-                <label for="newPassword" class="block text-gray-700 text-sm font-bold mb-2">New Password:</label>
-                <input type="password" id="newPassword" name="newPassword" class="border rounded-lg px-3 py-2 w-full">
+            <div class="dark:bg-slate-800 bg-slate-100 p-6 rounded-xl">
+                <div class="text-2xl dark:text-lime-400 text-lime-600">Wykonane ćwiczenia</div>
+                <div class="text-xl font-semibold">10</div>
             </div>
-            <div>
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Change Password</button>
+            <div class="dark:bg-slate-800 bg-slate-100 p-6 rounded-xl">
+                <div class="text-2xl dark:text-amber-400 text-amber-600">Spalone kalorie</div>
+                <div class="text-xl font-semibold">1000 kcal</div>
             </div>
-        </form>
-    </div>
-</section>
+        </div>
+    </section>
+</div>
 <?php require_once __DIR__ . "/../../../templates/footer.php"; ?>
 </body>
 </html>

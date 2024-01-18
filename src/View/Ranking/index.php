@@ -5,9 +5,9 @@
 /** @var array $data */
 $rankingUserCard = $data['userCard'];
 
-require_once __DIR__ . "/../../../templates/head.php";
-require_once __DIR__ . "/../../../templates/header.php"; ?>
-<body class="dark:bg-slate-900 bg-white dark:text-slate-100 text-slate-900">
+require_once __DIR__ . "/../../../templates/head.php"; ?>
+<body class="bg-white dark:bg-slate-900 dark:text-white text-slate-800 mb-20">
+<?php require_once __DIR__ . "/../../../templates/header.php"; ?>
 <section class="w-full flex flex-col gap-4 mx-auto">
     <div class="flex justify-between items-center h-32 dark:bg-slate-800 bg-slate-100 px-4">
         <div>
