@@ -58,26 +58,7 @@ class ExercisesController
 
 
         $data = $database->query($query)->fetchAll();
-        $database->close();
-
-        $exercises = [];
-
-        foreach ($data as $row) {
-            $muscles = [];
-            $equipment = [];
-            foreach ($data as $exercise) {
-                if ($exercise['exercise_id'] == $row['exercise_id']) {
-                    $muscle = new Muscle($exercise['muscle_id'],$exercise['muscle_name']);
-                    $eq = new Equipment($exercise['equipment_id'],$exercise['equipment_name']);
-
-                    if (!array_search($muscle, $muscles)) $muscles[] = $muscle;
-                    if (!array_search($eq, $equipment)) $equipment[] = $eq;
-                }
-            }
-
-            //Add exercise to array
-            $exercises[$row['exercise_id']] = new Exercise($row['exercise_id'], $row['exercise_name'], $equipment, $muscles);
-        }
+        $exercises = $this->getExercisesArray($database, $data);
 
         $this->setExercises($exercises);
     }
@@ -108,26 +89,7 @@ class ExercisesController
 
 
         $data = $database->query($query, [$user_id])->fetchAll();
-        $database->close();
-
-        $customExercises = [];
-
-        foreach ($data as $row) {
-            $muscles = [];
-            $equipment = [];
-            foreach ($data as $exercise) {
-                if ($exercise['exercise_id'] == $row['exercise_id']) {
-                    $muscle = new Muscle($exercise['muscle_id'],$exercise['muscle_name']);
-                    $eq = new Equipment($exercise['equipment_id'],$exercise['equipment_name']);
-
-                    if (!array_search($muscle, $muscles)) $muscles[] = $muscle;
-                    if (!array_search($eq, $equipment)) $equipment[] = $eq;
-                }
-            }
-
-            //Add exercise to array
-            $customExercises[$row['exercise_id']] = new Exercise($row['exercise_id'], $row['exercise_name'], $equipment, $muscles);
-        }
+        $customExercises = $this->getExercisesArray($database, $data);
 
         $this->setCustomExercises($customExercises);
     }
@@ -186,5 +148,35 @@ class ExercisesController
     public function getCustomExercises(): array
     {
         return $this->customExercises;
+    }
+
+    /**
+     * @param Database $database
+     * @param false|array $data
+     * @return array
+     */
+    private function getExercisesArray(Database $database, false|array $data): array
+    {
+        $database->close();
+
+        $exercises = [];
+
+        foreach ($data as $row) {
+            $muscles = [];
+            $equipment = [];
+            foreach ($data as $exercise) {
+                if ($exercise['exercise_id'] == $row['exercise_id']) {
+                    $muscle = new Muscle($exercise['muscle_id'], $exercise['muscle_name']);
+                    $eq = new Equipment($exercise['equipment_id'], $exercise['equipment_name']);
+
+                    if (!array_search($muscle, $muscles)) $muscles[] = $muscle;
+                    if (!array_search($eq, $equipment)) $equipment[] = $eq;
+                }
+            }
+
+            //Add exercise to array
+            $exercises[$row['exercise_id']] = new Exercise($row['exercise_id'], $row['exercise_name'], $equipment, $muscles);
+        }
+        return $exercises;
     }
 }
