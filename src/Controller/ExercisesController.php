@@ -16,7 +16,7 @@ class ExercisesController
 
     public function index(): void
     {
-        $this->setExercises($this->fetchExercises());
+        $this->fetchExercises();
 
         $view = new View(__DIR__ . '/../View/Exercises');
         $view->render('index', $this->getExercises(), 'Wspomagacz | Ćwiczenia');
@@ -27,7 +27,7 @@ class ExercisesController
         $this->exercises = $exercises;
     }
 
-    private function fetchExercises(): array
+    private function fetchExercises(): void
     {
         $database = new Database();
         $query = "
@@ -53,42 +53,17 @@ class ExercisesController
         $data = $database->query($query)->fetchAll();
 
         $exercises = [];
-        $musclesCounter = 0;
-        $equipmentCounter = 0;
 
         foreach ($data as $row) {
             $muscles = [];
             $equipment = [];
             foreach ($data as $exercise) {
                 if ($exercise['exercise_id'] == $row['exercise_id']) {
-                    //Add first muscle and equipment for exercise
-                    if (empty($muscles)) {
-                        $muscles[$musclesCounter] = new Muscle($exercise['muscle_id'],$exercise['muscle_name']);
-                        $musclesCounter++;
-                    }
-                    if (empty($equipment)) {
-                        $equipment[$equipmentCounter] = new Equipment($exercise['equipment_id'],$exercise['equipment_name']);
-                        $equipmentCounter++;
-                    }
+                    $muscle = new Muscle($exercise['muscle_id'],$exercise['muscle_name']);
+                    $eq = new Equipment($exercise['equipment_id'],$exercise['equipment_name']);
 
-                    //Check if muscle name don't exist in muscles array
-                    $counter = 0;
-                    foreach ($muscles as $muscle) if ($muscle->getId() != $exercise['muscle_id']) $counter++;
-
-                    // If not then add this muscle to array
-                    if ($counter == 0) {
-                        $muscles[$musclesCounter] = new Muscle($exercise['muscle_id'],$exercise['muscle_name']);
-                        $musclesCounter++;
-                    } else $counter = 0;
-
-                    //Check if equipment name don't exist in equipment array
-                    foreach ($equipment as $eq) if ($eq->getId() != $exercise['equipment_id']) $counter++;
-
-                    // If not then add this equipment to array
-                    if ($counter == 0) {
-                        $equipment[$equipmentCounter] = new Equipment($exercise['equipment_id'],$exercise['equipment_name']);
-                        $equipmentCounter++;
-                    }
+                    if (!array_search($muscle, $muscles)) $muscles[] = $muscle;
+                    if (!array_search($eq, $equipment)) $equipment[] = $eq;
                 }
             }
 
@@ -96,7 +71,7 @@ class ExercisesController
             $exercises[$row['exercise_id']] = new Exercise($row['exercise_id'], $row['exercise_name'], $equipment, $muscles);
         }
 
-        return $exercises;
+        $this->setExercises($exercises);
     }
 
     private function addCustomExercise(Exercise $exercise): void
@@ -106,7 +81,7 @@ class ExercisesController
 
     private function pushCustomExercises(): void
     {
-        //TODO: Send Custom User Exercises to API
+        //TODO: Send Custom User Exercises to Database
     }
 
     public function getExercises(): array
