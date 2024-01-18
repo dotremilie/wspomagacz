@@ -55,6 +55,7 @@ class RankingController
 
         $this->setRanking($ranking);
         $this->setRankingUserCard(new RankingUserCard(1, 'sneakydog', 1, 12061));
+
     }
 
     public function getRankingUserCard(): RankingUserCard
