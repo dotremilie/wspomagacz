@@ -56,9 +56,10 @@ class ExercisesController
         JOIN
             muscles m ON m.id = em.muscle_id;";
 
-
         $data = $database->query($query)->fetchAll();
-        $exercises = $this->getExercisesArray($database, $data);
+        $database->close();
+
+        $exercises = $this->getExercisesArray($data);
 
         $this->setExercises($exercises);
     }
@@ -87,9 +88,10 @@ class ExercisesController
         WHERE
             e.user_id = :user_id;";
 
-
         $data = $database->query($query, [$user_id])->fetchAll();
-        $customExercises = $this->getExercisesArray($database, $data);
+        $database->close();
+
+        $customExercises = $this->getExercisesArray($data);
 
         $this->setCustomExercises($customExercises);
     }
@@ -150,15 +152,8 @@ class ExercisesController
         return $this->customExercises;
     }
 
-    /**
-     * @param Database $database
-     * @param false|array $data
-     * @return array
-     */
-    private function getExercisesArray(Database $database, false|array $data): array
+    private function getExercisesArray(false|array $data): array
     {
-        $database->close();
-
         $exercises = [];
 
         foreach ($data as $row) {
