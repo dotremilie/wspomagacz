@@ -2,17 +2,21 @@
 
 namespace Wspomagacz\Model;
 
+use Wspomagacz\Enums\TrainingStatus;
+
 class TrainingExercise
 {
     private int $id;
     private int $order;
+    private TrainingStatus $status;
     private array $sets;
 
-    public function __construct(int $id, int $order, array $sets)
+    public function __construct(int $id, int $order, TrainingStatus $status, array $sets)
     {
         $this->id = $id;
         $this->order = $order;
         $this->sets = $sets;
+        $this->status = $status;
     }
 
     public function getOrder(): int
@@ -43,5 +47,15 @@ class TrainingExercise
     public function setSets(array $sets): void
     {
         $this->sets = $sets;
+    }
+
+    public function getStatus(): TrainingStatus
+    {
+        return $this->status;
+    }
+
+    public function setStatus(TrainingStatus $status): void
+    {
+        $this->status = $status;
     }
 }
