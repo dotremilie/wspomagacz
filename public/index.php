@@ -29,8 +29,10 @@ $router->addRoute('GET', '/signup', SignupController::class, 'index');
 $router->addRoute('GET', '/ranking', RankingController::class, 'index');
 
 $router->addRoute('GET', '/exercises', ExercisesController::class, 'index');
+$router->addRoute('GET', '/exercises/{id}', ExercisesController::class, 'show');
 
 $router->addRoute('GET', '/training', TrainingController::class, 'index');
+$router->addRoute('GET', '/training/{id}', TrainingController::class, 'show');
 
 
 $router->addRoute('GET', '/profile', ProfileController::class, 'index');
