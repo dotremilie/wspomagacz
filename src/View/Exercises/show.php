@@ -66,7 +66,10 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
             <?php endforeach; ?>
         </div>
     <?php else: ?>
-
+        <div class="w-full items-center justify-center flex flex-col text-center gap-2 dark:text-slate-400 text-slate-600 w-32">
+            <i class="ti ti-mood-cry text-2xl"></i>
+            Nie znaleziono takiego ćwiczenia.
+        </div>
     <?php endif; ?>
 </section>
 <?php require_once __DIR__ . "/../../../templates/footer.php"; ?>
