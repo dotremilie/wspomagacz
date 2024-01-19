@@ -10,7 +10,7 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
         <div class="text-4xl font-bold">Wyciskaj ze Wspomagaczem!</div>
         <div class="text-lg">Od rozpoczęcia treningu dzieli Cię już tylko jeden krok.</div>
     </header>
-    <form method="post" action="/startup/signup/validate" name="signup" class="flex flex-col gap-6 p-6 grow justify-center">
+    <form method="post" action="/signup/verify" name="signup" class="flex flex-col gap-6 p-6 grow justify-center">
         <div class="text-2xl font-bold">Zarejestruj się</div>
         <?php
         // Define an array with input field details

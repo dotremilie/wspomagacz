@@ -23,10 +23,17 @@ class SignupController
         $view->render('index', $inputFields, 'Wspomagacz | Rejestracja');
     }
 
-    private function createUser(string $username, string $password, string $email, int $gender): void
+    public function verify(): void
     {
-        if ($this->checkIfUsernameExists($username)) return;
-        if ($this->checkIfEmailExists($email)) return;
+        if (isset($_POST['login']) && isset($_POST['password']) && isset($_POST['repeat-password']) && isset($_POST['email'])) {
+            if (is_string($this->createUser($_POST['login'], $_POST['password'], $_POST['email'], 1))) header('Location: /login');
+        } else header('Location: /signup');
+    }
+
+    private function createUser(string $username, string $password, string $email, int $gender): false|string
+    {
+        if ($this->checkIfUsernameExists($username)) return false;
+        if ($this->checkIfEmailExists($email)) return false;
 
         $database = new Database();
 
@@ -37,6 +44,8 @@ class SignupController
             (:username, :password, :email, :gender)";
 
         $database->query($query, ['username' => $username, 'password' => password_hash($password, PASSWORD_DEFAULT), 'email' => $email, 'gender' => $gender,]);
+
+        return $database->lastInsertId();
     }
 
     private function checkIfUsernameExists(string $username): bool
