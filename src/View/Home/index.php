@@ -54,13 +54,15 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
                                 Planowane
                             </div>
                         </a>
-                        <a href="/trainings/<?= $todayTraining->getId(); ?>?set_status=2" class="flex items-center justify-center w-full dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
+                        <a href="/trainings/<?= $todayTraining->getId(); ?>?set_status=2"
+                           class="flex items-center justify-center w-full dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
                             <div class="text-sm truncate flex flex-col justify-center gap-2 items-center text-sky-400 aspect-square">
                                 <i data-feather="arrow-right-circle" class="w-5 h-5"></i>
                                 W trakcie
                             </div>
                         </a>
-                        <a href="/trainings/<?= $todayTraining->getId(); ?>?set_status=3" class="flex items-center justify-center w-full bg-lime-400 dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
+                        <a href="/trainings/<?= $todayTraining->getId(); ?>?set_status=3"
+                           class="flex items-center justify-center w-full bg-lime-400 dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
                             <div class="text-sm truncate flex flex-col justify-center gap-2 items-center text-lime-400 aspect-square">
                                 <i data-feather="check-circle" class="w-5 h-5"></i>
                                 Wykonane
@@ -68,7 +70,8 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
                         </a>
                         <?php break;
                     case TrainingStatus::InProgress: ?>
-                        <a href="/trainings/<?= $todayTraining->getId(); ?>?set_status=1" class="flex items-center justify-center w-full dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
+                        <a href="/trainings/<?= $todayTraining->getId(); ?>?set_status=1"
+                           class="flex items-center justify-center w-full dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
                             <div class="text-sm truncate flex flex-col justify-center gap-2 items-center text-amber-400 aspect-square">
                                 <i data-feather="calendar" class="w-5 h-5"></i>
                                 Planowane
@@ -80,7 +83,8 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
                                 W trakcie
                             </div>
                         </a>
-                        <a href="/trainings/<?= $todayTraining->getId(); ?>?set_status=3" class="flex items-center justify-center w-full bg-lime-400 dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
+                        <a href="/trainings/<?= $todayTraining->getId(); ?>?set_status=3"
+                           class="flex items-center justify-center w-full bg-lime-400 dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
                             <div class="text-sm truncate flex flex-col justify-center gap-2 items-center text-lime-400 aspect-square">
                                 <i data-feather="check-circle" class="w-5 h-5"></i>
                                 Wykonane
@@ -88,13 +92,15 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
                         </a>
                         <?php break;
                     case TrainingStatus::Completed: ?>
-                        <a href="/trainings/<?= $todayTraining->getId(); ?>?set_status=1" class="flex items-center justify-center w-full dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
+                        <a href="/trainings/<?= $todayTraining->getId(); ?>?set_status=1"
+                           class="flex items-center justify-center w-full dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
                             <div class="text-sm truncate flex flex-col justify-center gap-2 items-center text-amber-400 aspect-square">
                                 <i data-feather="calendar" class="w-5 h-5"></i>
                                 Planowane
                             </div>
                         </a>
-                        <a href="/trainings/<?= $todayTraining->getId(); ?>?set_status=2" class="flex items-center justify-center w-full dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
+                        <a href="/trainings/<?= $todayTraining->getId(); ?>?set_status=2"
+                           class="flex items-center justify-center w-full dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
                             <div class="text-sm truncate flex flex-col justify-center gap-2 items-center text-sky-400 aspect-square">
                                 <i data-feather="arrow-right-circle" class="w-5 h-5"></i>
                                 W trakcie
@@ -112,7 +118,8 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
             <div class="flex gap-4 overflow-x-scroll snap-x overflow-y-hidden pr-4">
                 <?php /** @var TrainingExercise $exercise */
                 foreach ($todayTraining->getExercises() as $exercise): ?>
-                    <a href="/trainings/<?= $todayTraining->getId(); ?>/exercises/<?= $exercise->getId(); ?>" class="flex items-center dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
+                    <a href="/trainings/<?= $todayTraining->getId(); ?>/exercises/<?= $exercise->getId(); ?>"
+                       class="flex items-center dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
                         <div class="flex flex-col h-full justify-center">
                             <div class="mb-4 truncate max-w-48">
                                 <?= $exercise->getName() ?>
@@ -169,60 +176,68 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
         <div class="text-2xl font-bold mb-4">Treningi społeczności</div>
         <div class="flex gap-4 overflow-x-scroll overflow-y-hidden snap-x pr-4">
             <?php /** @var CommunityTraining $communityTraining */
-            foreach ($communityTrainings as $communityTraining): ?>
-            <a href="/trainings/create?user_id=<?= $communityTraining->getUserId(); ?>&training_id=<?= $communityTraining->getTrainingId(); ?>&exercises=<?php
-            $exercises = [];
-            foreach ($communityTraining->getExercises() as $exercise2) /** @var Exercise $exercise2 */ $exercises[] = $exercise2->getId();
+            if (!empty($communityTrainings)):
+                foreach ($communityTrainings as $communityTraining): ?>
+                    <a href="/trainings/create?user_id=<?= $communityTraining->getUserId(); ?>&training_id=<?= $communityTraining->getTrainingId(); ?>&exercises=<?php
+                    $exercises = [];
+                    foreach ($communityTraining->getExercises() as $exercise2) /** @var Exercise $exercise2 */
+                        $exercises[] = $exercise2->getId();
 
-            echo implode(",",$exercises) ?>" class="flex items-center dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
-                <div class="flex flex-col h-full leading-none justify-center">
-                    <div class="mb-4 truncate max-w-48">
-                        <?= $communityTraining->getTrainingName(); ?>
-                        <div class="text-sm dark:text-slate-400 text-slate-600 truncate">
-                            utworzył <span class="font-semibold"><?= $communityTraining->getUsername(); ?></span>
+                    echo implode(",", $exercises) ?>"
+                       class="flex items-center dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
+                        <div class="flex flex-col h-full leading-none justify-center">
+                            <div class="mb-4 truncate max-w-48">
+                                <?= $communityTraining->getTrainingName(); ?>
+                                <div class="text-sm dark:text-slate-400 text-slate-600 truncate">
+                                    utworzył <span
+                                            class="font-semibold"><?= $communityTraining->getUsername(); ?></span>
+                                </div>
+                            </div>
+                            <?php echo count($communityTraining->getExercises());
+
+                            if (count($communityTraining->getExercises()) === 1) echo " ćwiczenie";
+                            else if (count($communityTraining->getExercises()) >= 2 && count($communityTraining->getExercises()) <= 4) echo " ćwiczenia";
+                            else echo " ćwiczeń"; ?>
                         </div>
-                    </div>
-                    <?php echo count($communityTraining->getExercises());
-
-                    if (count($communityTraining->getExercises()) === 1) echo " ćwiczenie";
-                    else if (count($communityTraining->getExercises()) >= 2 && count($communityTraining->getExercises()) <= 4) echo " ćwiczenia";
-                    else echo " ćwiczeń"; ?>
+                        <div class="h-full flex items-center dark:text-slate-400 text-slate-600 pl-4">
+                            <i class="ti ti-plus"></i>
+                        </div>
+                    </a>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="w-full text-xl col-span-2 p-4 text-center dark:text-slate-400 text-slate-600">
+                    Nikt nie zrobił jeszcze treningu.
                 </div>
-                <div class="h-full flex items-center dark:text-slate-400 text-slate-600 pl-4">
-                    <i class="ti ti-plus"></i>
-                </div>
-            </a>
-            <?php endforeach; ?>
-            <div class="flex flex-col items-center justify-center rounded-xl text-xl p-4">
-                <div class="h-full items-center justify-center flex flex-col text-center gap-2 dark:text-slate-400 text-slate-600 w-32">
-                    <i class="ti ti-mood-cry"></i>
-                    To wszystko w tej sekcji
-                </div>
-            </div>
+            <?php endif; ?>
     </section>
     <section class="mx-auto pl-4 w-full">
         <div class="text-2xl font-bold mb-4">Twoje rekordy</div>
         <div class="grid grid-cols-2 gap-4 overflow-y-scroll pr-4">
-            <?php if (isset($data['personalBests'])):
+            <?php if (!empty($data['personalBests'])):
                 foreach ($data['personalBests'] as $personalBest): ?>
-            <a href="/trainings/<?= $personalBest->getTrainingId(); ?>" class="p-6 dark:bg-slate-800 bg-slate-100 rounded-xl flex items-center">
-                <div>
-                    <div class="text-lg"><?= $personalBest->getTrainingExerciseName(); ?></div>
-                    <div class="text-gray-400 max-w-64 truncate">
-                        <div class="flex gap-2 items-center">
-                            <i class="ti ti-calendar"></i>
-                            <div class="max-w-64 truncate">
-                                <?= $personalBest->getDate()->format('d.m.Y'); ?>
+                    <a href="/trainings/<?= $personalBest->getTrainingId(); ?>"
+                       class="p-6 dark:bg-slate-800 bg-slate-100 rounded-xl flex items-center">
+                        <div>
+                            <div class="text-lg"><?= $personalBest->getTrainingExerciseName(); ?></div>
+                            <div class="text-gray-400 max-w-64 truncate">
+                                <div class="flex gap-2 items-center">
+                                    <i class="ti ti-calendar"></i>
+                                    <div class="max-w-64 truncate">
+                                        <?= $personalBest->getDate()->format('d.m.Y'); ?>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2 items-center">
+                                    <i class="ti ti-weight"></i>
+                                    <div class="max-w-64 truncate"><?= $personalBest->getWeight(); ?>kg</div>
+                                </div>
                             </div>
                         </div>
-                        <div class="flex gap-2 items-center">
-                            <i class="ti ti-weight"></i>
-                            <div class="max-w-64 truncate"><?= $personalBest->getWeight(); ?>kg</div>
-                        </div>
-                    </div>
+                    </a>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="text-xl col-span-2 p-4 text-center dark:text-slate-400 text-slate-600">
+                    Nie ustanowiłeś jeszcze żadnego rekordu.
                 </div>
-            </a>
-            <?php endforeach; ?>
             <?php endif; ?>
     </section>
     <section class="mx-auto rounded-xl px-4 w-full">
