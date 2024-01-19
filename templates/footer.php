@@ -1,56 +1,38 @@
-<nav class="bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white fixed bottom-0 w-full h-[60px] flex justify-between items-center">
+<nav class="bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white fixed bottom-0 w-full flex justify-between">
     <?php if ($_SERVER['REQUEST_URI'] === '/'): ?>
-        <div class="flex flex-col gap-2 justify-center items-center w-full py-3 dark:text-white text-slate-800">
+        <a href="/" class="grow flex justify-center p-4 text-red-400 active:dark:bg-slate-700 active:bg-slate-200 transition">
             <i data-feather="home"></i>
-            <span class="h-[0.15rem] rounded-xl bg-red-400 w-1/4"></span>
-        </div>
+        </a>
     <?php else: ?>
-        <a href="/"
-           class="flex flex-col gap-2 justify-center items-center w-full py-3 group active:text-red-400 active:dark:bg-slate-700 text-slate-800 dark:text-white transition">
+        <a href="/" class="grow flex justify-center p-4 active:dark:bg-slate-700 active:bg-slate-200 transition">
             <i data-feather="home"></i>
-            <span class="h-[0.15rem] rounded-xl hidden bg-white w-1/4 group-hover:block group-active:bg-red-400 transition"></span>
         </a>
     <?php endif; ?>
-    <?php if ($_SERVER['REQUEST_URI'] === '/exercises'): ?>
-        <div class="flex flex-col gap-2 justify-center items-center w-full py-3">
+    <?php if (str_contains($_SERVER['REQUEST_URI'], 'exercises')): ?>
+        <a href="/exercises" class="grow flex justify-center p-4 text-red-400 active:dark:bg-slate-700 active:bg-slate-200 transition">
             <i data-feather="zap"></i>
-            <span class="h-[0.15rem] rounded-xl bg-red-400 w-1/4"></span>
-        </div>
+        </a>
     <?php else: ?>
-        <a href="/exercises"
-           class="flex flex-col gap-2 justify-center items-center w-full py-3 group active:text-red-400 active:dark:bg-slate-700 transition">
+        <a href="/exercises" class="grow flex justify-center p-4 active:dark:bg-slate-700 active:bg-slate-200 transition">
             <i data-feather="zap"></i>
-            <span class="h-[0.15rem] rounded-xl hidden bg-white w-1/4 group-hover:block group-active:bg-red-400 transition"></span>
         </a>
     <?php endif; ?>
-    <div class="w-full flex justify-center items-center transition">
-        <a href="/training"
-           class="flex gap-2 justify-center items-center w-full p-3 bg-red-400 rounded-xl active:bg-red-500">
-            <i data-feather="plus"></i>
+    <?php if (str_contains($_SERVER['REQUEST_URI'], 'training')): ?>
+        <a href="/trainings" class="grow flex justify-center p-4 text-red-400 active:dark:bg-slate-700 active:bg-slate-200 transition">
+            <i data-feather="activity"></i>
         </a>
-    </div>
-    <?php if ($_SERVER['REQUEST_URI'] === '/ranking'): ?>
-        <div class="flex flex-col gap-2 justify-center items-center w-full py-3">
-            <i data-feather="award"></i>
-            <span class="h-[0.15rem] rounded-xl bg-red-400 w-1/4"></span>
-        </div>
     <?php else: ?>
-        <a href="/ranking"
-           class="flex flex-col gap-2 justify-center items-center w-full py-3 group active:text-red-400 active:dark:bg-slate-700 transition">
-            <i data-feather="award"></i>
-            <span class="h-[0.15rem] rounded-xl hidden bg-white w-1/4 group-hover:block group-active:bg-red-400 transition"></span>
+        <a href="/trainings" class="grow flex justify-center p-4 active:dark:bg-slate-700 active:bg-slate-200 transition">
+            <i data-feather="activity"></i>
         </a>
     <?php endif; ?>
-    <?php if ($_SERVER['REQUEST_URI'] === '/profile'): ?>
-        <div class="flex flex-col gap-2 justify-center items-center w-full py-3">
-            <i data-feather="user"></i>
-            <span class="h-[0.15rem] rounded-xl bg-red-400 w-1/4"></span>
-        </div>
+    <?php if (str_contains($_SERVER['REQUEST_URI'], 'ranking')): ?>
+        <a href="/ranking" class="grow flex justify-center p-4 text-red-400 active:dark:bg-slate-700 active:bg-slate-200 transition">
+            <i data-feather="award"></i>
+        </a>
     <?php else: ?>
-        <a href="/profile"
-           class="flex flex-col gap-2 justify-center items-center w-full py-3 group active:text-red-400 active:dark:bg-slate-700 transition">
-            <i data-feather="user"></i>
-            <span class="h-[0.15rem] rounded-xl hidden bg-white w-1/4 group-hover:block group-active:bg-red-400 transition"></span>
+        <a href="/ranking" class="grow flex justify-center p-4 active:dark:bg-slate-700 active:bg-slate-200 transition">
+            <i data-feather="award"></i>
         </a>
     <?php endif; ?>
 </nav>
