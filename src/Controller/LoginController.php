@@ -50,7 +50,7 @@ class LoginController
 
         $query = "UPDATE users u SET u.status = 1, u.last_logged_at = CURRENT_TIMESTAMP() WHERE u.id = :user_id";
 
-        $database->query($query, ['user_id' => $user_id])->execute();
+        $database->query($query, ['user_id' => $user_id]);
     }
 
     private function updateLastUserLogin(int $user_id): void
@@ -59,6 +59,6 @@ class LoginController
 
         $query = "UPDATE users u SET u.last_logged_at = CURRENT_TIMESTAMP() WHERE u.id = :user_id";
 
-        $database->query($query, ['user_id' => $user_id])->execute();
+        $database->query($query, ['user_id' => $user_id]);
     }
 }

@@ -36,7 +36,7 @@ class SignupController
         VALUES
             (:username, :password, :email, :gender)";
 
-        $database->query($query, ['username' => $username, 'password' => password_hash($password, PASSWORD_DEFAULT), 'email' => $email, 'gender' => $gender,])->execute();
+        $database->query($query, ['username' => $username, 'password' => password_hash($password, PASSWORD_DEFAULT), 'email' => $email, 'gender' => $gender,]);
     }
 
     private function checkIfUsernameExists(string $username): bool
