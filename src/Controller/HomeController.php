@@ -179,7 +179,6 @@ class HomeController
         if (!$trainingExercises = $database->query($query, ["training_id" => $trainingId])->fetchAll()) return;
         $trainingExercisesArray = [];
 
-
         foreach($trainingExercises as $trainingExercise) {
             $query = "
             SELECT 
