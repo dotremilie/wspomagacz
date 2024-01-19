@@ -16,7 +16,7 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
         $training = $data['training'];
         $exercise = $data['exercise'];
         $set = $data['set']; ?>
-        <form action="/trainings/<?= $training->getId() ?>/exercises/<?= $exercise->getId() ?>/sets/<?= $set->getId() ?>/edit"
+        <form action="/trainings/<?= $training->getId() ?>/exercises/<?= $exercise->getId() ?>/sets/<?= $set->getId() ?>/edit/save"
               class="flex flex-col gap-4">
             <div class="w-full">
                 <div class="relative rounded-xl w-full">
@@ -24,9 +24,9 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
                         <i class="ti ti-123 absolute h-5 w-5 text-slate-400"></i>
                     </div>
                     <label>
-                        <input type="number"
+                        <input type="number" name="repetitions"
                                class="w-full block pl-10 p-3 border bg-transparent border-slate-400 rounded-xl dark:focus:bg-white dark:focus:bg-opacity-10 transition"
-                               placeholder="Nazwa" value="<?= $set->getRepetitions(); ?>">
+                               placeholder="Powtórzenia" value="<?= $set->getRepetitions(); ?>">
                     </label>
                 </div>
             </div>
@@ -36,7 +36,7 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
                         <i class="ti ti-weight absolute h-4 w-4 text-slate-400"></i>
                     </div>
                     <label>
-                        <input type="number"
+                        <input type="number" name="weight"
                                class="w-full block pl-10 p-3 border bg-transparent border-slate-400 rounded-xl dark:focus:bg-white dark:focus:bg-opacity-10 transition"
                                placeholder="Ciężar w kilogramach" value="<?= $set->getWeight(); ?>">
                     </label>
