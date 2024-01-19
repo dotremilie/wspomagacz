@@ -73,9 +73,9 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
                             <div class="text-sm dark:text-slate-400 text-slate-600 truncate">
                                 <?php echo count($exercise->getSets());
 
-                                if (count($exercise->getSets()) === 1) echo " powtórzenie";
-                                else if (count($exercise->getSets()) >= 2 && count($exercise->getSets()) <= 4) echo " powtórzenia";
-                                else echo " powtórzeń"; ?>
+                                if (count($exercise->getSets()) === 1) echo " seria";
+                                else if (count($exercise->getSets()) >= 2 && count($exercise->getSets()) <= 4) echo " serie";
+                                else echo " serii"; ?>
                             </div>
                         </div>
                         <div class="h-full flex items-center dark:text-slate-400 text-slate-600 pl-4">
