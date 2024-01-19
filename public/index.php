@@ -2,8 +2,6 @@
 
 session_start();
 
-$_SESSION['user_id'] = 1;
-
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Wspomagacz\Controller\ExercisesController;
@@ -22,8 +20,10 @@ $router->addRoute('GET', '/', HomeController::class, 'index');
 $router->addRoute('GET', '/startup', StartupController::class, 'index');
 
 $router->addRoute('GET', '/login', LoginController::class, 'index');
+$router->addRoute('POST', '/login/verify', LoginController::class, 'verify');
 
 $router->addRoute('GET', '/signup', SignupController::class, 'index');
+$router->addRoute('POST', '/signup/verify', SignupController::class, 'verify');
 
 $router->addRoute('GET', '/ranking', RankingController::class, 'index');
 
@@ -42,7 +42,8 @@ $router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}/sets/
 $router->addRoute('GET', '/trainings/{id}/edit', TrainingController::class, 'edit');
 $router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}/sets/{set_id}/edit', TrainingController::class, 'editSets');
 
-$router->addRoute('GET', '/trainings/{id}/edit/save', TrainingController::class, 'save');
-$router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}/sets/{set_id}/edit/save', TrainingController::class, 'saveSets');
+$router->addRoute('GET', '/trainings/create/save', TrainingController::class, 'save');
+$router->addRoute('GET', '/trainings/{id}/edit/save', TrainingController::class, 'editSave');
+$router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}/sets/{set_id}/edit/save', TrainingController::class, 'editSaveSets');
 
 $router->dispatch($_SERVER['REQUEST_METHOD'], parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
