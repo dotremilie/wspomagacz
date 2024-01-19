@@ -5,6 +5,8 @@ namespace Wspomagacz\Controller;
 use DateTime;
 use Exception;
 use Wspomagacz\Core\Database;
+use Wspomagacz\Enums\TrainingStatus;
+use Wspomagacz\Model\Training;
 use Wspomagacz\Model\UserExercisePersonalBest;
 use Wspomagacz\View\View;
 
@@ -12,6 +14,7 @@ class HomeController
 {
     private array $personalBests = [];
     private UserExercisePersonalBest $personalBest;
+    private ?Training $todayTraining;
 
     /**
      * @throws Exception
@@ -21,10 +24,12 @@ class HomeController
         if (!isset($_SESSION['user_id'])) header('Location: /startup');
 
         $this->fetchPersonalBests($_SESSION['user_id']);
+        $this->fetchTodayTraining($_SESSION['user_id']);
+
 
         $data = [
-            'personalBests' => $this->getPersonalBests()
-            //'todayTraining' => $this->getTodayTraining(),
+            'personalBests' => $this->getPersonalBests(),
+            'todayTraining' => $this->getTodayTraining(),
             //'popularTrainings' => $this->getPopularTrainings()
         ];
 
@@ -33,8 +38,7 @@ class HomeController
     }
 
     /**
-     * TODO: Fetch today's training and its exercises.
-     * 5 "random" finished trainings as a popular trainings
+     * TODO: 5 "random" finished trainings as a popular trainings
      *
      * @throws Exception
      */
@@ -61,7 +65,7 @@ class HomeController
         WHERE
             u.id = :user_id";
 
-        $data = $database->query($query, ["user_id"=>$user_id])->fetchAll();
+        $data = $database->query($query, ["user_id" => $user_id])->fetchAll();
         $database->close();
 
         $personalBests = [];
@@ -90,6 +94,52 @@ class HomeController
     public function setPersonalBest(UserExercisePersonalBest $personalBest): void
     {
         $this->personalBest = $personalBest;
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function fetchTodayTraining(int $user_id): void
+    {
+        $database = new Database();
+
+        $query = "
+        SELECT
+            t.id,
+            u.id AS user_id,
+            t.name,
+            t.burned_calories,
+            t.date,
+            t.status,
+            t.started_at,
+            t.finished_at
+        FROM
+            trainings t
+                JOIN
+            users u ON t.user_id = u.id
+        WHERE
+            u.id = :user_id
+            AND t.status = 1
+            AND DATE(t.date) = CURDATE()-1
+        LIMIT 1";
+
+        $data = $database->query($query, ["user_id" => $user_id])->fetch();
+        $database->close();
+
+        if (isset($data)) {
+            $todayTraining = new Training($data['id'], $data['user_id'], $data['name'], $data['burned_calories'], new DateTime($data['date']), TrainingStatus::from($data['status']), new DateTime($data['started_at']), new DateTime($data['finished_at']));
+            $this->setTodayTraining($todayTraining);
+        }
+    }
+
+    public function getTodayTraining(): Training
+    {
+        return $this->todayTraining;
+    }
+
+    public function setTodayTraining(Training $todayTraining): void
+    {
+        $this->todayTraining = $todayTraining;
     }
 
 }
