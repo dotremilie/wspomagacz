@@ -36,7 +36,7 @@ $router->addRoute('GET', '/trainings', TrainingController::class, 'index');
 $router->addRoute('GET', '/trainings/create', TrainingController::class, 'index');
 
 $router->addRoute('GET', '/trainings/{id}', TrainingController::class, 'show');
-$router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}', TrainingController::class, 'show');
-$router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}/sets/{set_id}', TrainingController::class, 'show');
+$router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}', TrainingController::class, 'showTrainingExercises');
+$router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}/sets/{set_id}', TrainingController::class, 'showTrainingExerciseSets');
 
 $router->dispatch($_SERVER['REQUEST_METHOD'], parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
