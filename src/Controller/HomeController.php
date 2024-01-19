@@ -13,4 +13,17 @@ class HomeController
         $view = new View(__DIR__ . '/../View/Home');
         $view->render('index', [], 'Wspomagacz | Strona Główna');
     }
+
+
+    /**
+     * TODO: Fetch today's training and its exercises.
+     *
+     * 5 "random" finished trainings as a popular trainings
+     * fetch personal records
+     *
+     */
+
+
+
 }
+
