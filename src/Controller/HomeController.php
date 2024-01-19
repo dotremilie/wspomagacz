@@ -2,28 +2,88 @@
 
 namespace Wspomagacz\Controller;
 
+use Wspomagacz\Core\Database;
+use Wspomagacz\Model\ProfileStatistics;
+use Wspomagacz\Model\UserExercisePersonalBest;
 use Wspomagacz\View\View;
 
 class HomeController
 {
+    private array $personalBests = [];
+    private UserExercisePersonalBest $personalBest;
     public function index(): void
     {
         if (!isset($_SESSION['user_id'])) header('Location: /startup');
 
-        $view = new View(__DIR__ . '/../View/Home');
-        $view->render('index', [], 'Wspomagacz | Strona Główna');
-    }
+        $this->fetchPersonalBests($_SESSION['user_id']);
 
+        $data = [
+            'personalBests' => $this->getPersonalBests()
+            //'todayTraining' => $this->getTodayTraining(),
+            //'popularTrainings' => $this->getPopularTrainings()
+        ];
+
+        $view = new View(__DIR__ . '/../View/Home');
+        $view->render('index', $data, 'Wspomagacz | Strona Główna');
+    }
 
     /**
      * TODO: Fetch today's training and its exercises.
-     *
      * 5 "random" finished trainings as a popular trainings
-     * fetch personal records
-     *
      */
 
+    private function fetchPersonalBests(int $user_id): void
+    {
+        $database = new Database();
 
+        $query = "
+        SELECT
+            u.id AS user_id,
+            t.id AS training_id,
+            e.name AS exercise_name,
+            t.date,
+            ueps.weight
+        FROM
+            user_exercise_personal_best ueps
+        JOIN
+            users u ON ueps.user_id = u.id
+        JOIN
+            exercises e ON ueps.exercise_id = e.id
+        JOIN
+            trainings t ON ueps.training_id = t.id
+        WHERE
+            u.id = :user_id";
+
+        $data = $database->query($query, ["user_id"=>$user_id])->fetchAll();
+        $database->close();
+
+        $personalBests = [];
+        foreach ($data as $personalBest) {
+            $personalBests[] = new UserExercisePersonalBest($personalBest['user_id'], $personalBest['training_id'], $personalBest['exercise_name'], $personalBest['date'], $personalBest['weight']);
+        }
+
+        $this->setPersonalBests($personalBests);
+    }
+
+    public function getPersonalBests(): array
+    {
+        return $this->personalBests;
+    }
+
+    public function setPersonalBests(array $personalBests): void
+    {
+        $this->personalBests = $personalBests;
+    }
+
+    public function getPersonalBest(): UserExercisePersonalBest
+    {
+        return $this->personalBest;
+    }
+
+    public function setPersonalBest(UserExercisePersonalBest $personalBest): void
+    {
+        $this->personalBest = $personalBest;
+    }
 
 }
 
