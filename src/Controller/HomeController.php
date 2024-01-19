@@ -126,9 +126,9 @@ class HomeController
             u.id = :user_id";
 
         $data = $database->query($query, ["user_id" => $user_id])->fetch();
-        $database->close();
-
         $this->userStatistics = new UserStatistics($data['user_id'], $data['username'], $data['exercise_count'], $data['weight_sum'], $data['burnt_calories']);
+
+        $database->close();
     }
 
     /**
@@ -204,9 +204,10 @@ class HomeController
 
             $trainingExercisesArray[] = new TrainingExercise($trainingExercise['id'], $trainingId, $trainingExercise['name'], $trainingExercise['order'], TrainingStatus::from($trainingExercise['status']), $trainingExercisesSetsArray);
         }
-
         $todayTraining = new Training($data['training_id'], $data['user_id'], $data['training_name'], $data['burnt_calories'], new DateTime($data['date']), TrainingStatus::from($data['status']), new DateTime($data['started_at']), new DateTime($data['finished_at']), $trainingExercisesArray);
         $this->setTodayTraining($todayTraining);
+
+        $database->close();
     }
 
     public function getTodayTraining(): Training|null

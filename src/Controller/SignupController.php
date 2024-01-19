@@ -44,8 +44,10 @@ class SignupController
             (:username, :password, :email, :gender)";
 
         $database->query($query, ['username' => $username, 'password' => password_hash($password, PASSWORD_DEFAULT), 'email' => $email, 'gender' => $gender,]);
+        $lastInsertId = $database->lastInsertId();
 
-        return $database->lastInsertId();
+        $database->close();
+        return $lastInsertId;
     }
 
     private function checkIfUsernameExists(string $username): bool
@@ -55,6 +57,8 @@ class SignupController
         $query = "SELECT u.id FROM users u WHERE u.username = :username";
 
         $user = $database->query($query, ['username' => $username])->fetch();
+
+        $database->close();
 
         if (isset($user['id'])) return true;
         return false;
@@ -68,8 +72,9 @@ class SignupController
 
         $user = $database->query($query, ['email' => $email])->fetch();
 
-        if ($user > 0) return true;
+        $database->close();
+
+        if (isset($user['email'])) return true;
         return false;
     }
-
 }

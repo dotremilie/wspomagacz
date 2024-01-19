@@ -348,6 +348,7 @@ class TrainingsController
         }
 
         $this->setTrainings($trainingsArray);
+        $database->close();
     }
 
 
@@ -362,8 +363,10 @@ class TrainingsController
             (:user_id, :training_name, :training_date, 1)";
 
         $database->query($query, ["user_id" => $user_id, "training_name" => $training_name, "training_date" => $training_date]);
+        $lastInsertId = $database->lastInsertId();
 
-        return $database->lastInsertId();
+        $database->close();
+        return $lastInsertId;
     }
 
     private function editTraining(int $training_id, string $training_name, string $training_date): void
@@ -376,9 +379,20 @@ class TrainingsController
             name = :training_name,
             date = :training_date
         WHERE
-            id = 3;";
+            id = :training_id;";
 
         $database->query($query, ["training_id" => $training_id, "training_name" => $training_name, "training_date" => $training_date]);
+        $database->close();
+    }
+
+    private function editTrainingStatus(int $trainingId, int $trainingStatus): void
+    {
+        $database = new Database();
+
+        $query = "UPDATE trainings SET status = :training_status WHERE id = :training_id;";
+
+        $database->query($query, ["training_id" => $trainingId, "training_status" => $trainingStatus]);
+        $database->close();
     }
 
     private function removeTraining(int $trainingId): void
@@ -388,6 +402,7 @@ class TrainingsController
         $query = "DELETE FROM trainings where id = :training_id";
 
         $database->query($query, ["training_id" => $trainingId]);
+        $database->close();
     }
 
     private function addTrainingExercises(int $trainingId, int $exerciseId): false|string
@@ -401,8 +416,10 @@ class TrainingsController
             (:training_id, :exercise_id, (SELECT COALESCE(MAX(`order`), 0) + 1 FROM training_exercises te WHERE te.training_id = :training_id));";
 
         $database->query($query, ["training_id" => $trainingId, "exercise_id" => $exerciseId]);
+        $lastInsertId = $database->lastInsertId();
 
-        return $database->lastInsertId();
+        $database->close();
+        return $lastInsertId;
     }
 
     private function removeTrainingExercises(int $trainingExerciseId): void
@@ -412,5 +429,8 @@ class TrainingsController
         $query = "DELETE FROM training_exercises where id = :training_exercise_id";
 
         $database->query($query, ["training_exercise_id" => $trainingExerciseId]);
+        $database->close();
     }
+
+
 }

@@ -36,6 +36,8 @@ class LoginController
 
         $user_data = $database->query($query, ['username' => $username])->fetch();
 
+        $database->close();
+
         if ($user_data['status'] == 3) return false;
         else if ($user_data['status'] == 2) $this->activateUser($user_data['id']);
         else if ($user_data['status'] == 1) $this->updateLastUserLogin($user_data['id']);
@@ -51,6 +53,8 @@ class LoginController
         $query = "UPDATE users u SET u.status = 1, u.last_logged_at = CURRENT_TIMESTAMP() WHERE u.id = :user_id";
 
         $database->query($query, ['user_id' => $user_id]);
+
+        $database->close();
     }
 
     private function updateLastUserLogin(int $user_id): void
@@ -60,5 +64,8 @@ class LoginController
         $query = "UPDATE users u SET u.last_logged_at = CURRENT_TIMESTAMP() WHERE u.id = :user_id";
 
         $database->query($query, ['user_id' => $user_id]);
+
+        $database->close();
+
     }
 }
