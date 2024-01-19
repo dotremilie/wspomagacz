@@ -15,8 +15,9 @@ class Training
     private TrainingStatus $status;
     private ?DateTime $startedAt;
     private ?DateTime $finishedAt;
+    private array $exercises;
 
-    public function __construct(int $id, int $userId, string $name, int $burnedCalories, DateTime $date, TrainingStatus $status, DateTime|null $startedAt, DateTime|null $FinishedAt)
+    public function __construct(int $id, int $userId, string $name, int $burnedCalories, DateTime $date, TrainingStatus $status, DateTime|null $startedAt, DateTime|null $FinishedAt, array $exercises = [])
     {
         $this->id = $id;
         $this->userId = $userId;
@@ -26,6 +27,7 @@ class Training
         $this->status = $status;
         $this->startedAt = $startedAt;
         $this->finishedAt = $FinishedAt;
+        $this->exercises = $exercises;
     }
 
     public function getFinishedAt(): ?DateTime
@@ -101,5 +103,15 @@ class Training
     public function setDate(?DateTime $date): void
     {
         $this->date = $date;
+    }
+
+    public function getExercises(): array
+    {
+        return $this->exercises;
+    }
+
+    public function setExercises(array $exercises): void
+    {
+        $this->exercises = $exercises;
     }
 }
