@@ -6,15 +6,15 @@ class ProfileStatistics
 {
     private int $id;
     private string $username;
-    private int $trainings;
+    private int $exercises;
     private int $weight;
     private int $burntCalories;
 
-    public function __construct(int $id, string $username, int $trainings, int $weight, int $burntCalories)
+    public function __construct(int $id, string $username, int $exercises, int $weight, int $burntCalories)
     {
         $this->id = $id;
         $this->username = $username;
-        $this->trainings = $trainings;
+        $this->exercises = $exercises;
         $this->weight = $weight;
         $this->burntCalories = $burntCalories;
     }
@@ -24,9 +24,9 @@ class ProfileStatistics
         return $this->weight;
     }
 
-    public function getTrainings(): int
+    public function getExercises(): int
     {
-        return $this->trainings;
+        return $this->exercises;
     }
 
     public function getUsername(): string

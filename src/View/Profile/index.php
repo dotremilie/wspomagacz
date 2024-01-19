@@ -22,7 +22,7 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
             </div>
             <div class="dark:bg-slate-800 bg-slate-100 p-6 rounded-xl">
                 <div class="text-2xl dark:text-lime-400 text-lime-600 flex gap-2 items-center mb-2"><i class="ti ti-barbell"></i>Wykonane ćwiczenia</div>
-                <div class="text-xl font-semibold"><?= $profileStatistics->getTrainings(); ?></div>
+                <div class="text-xl font-semibold"><?= $profileStatistics->getExercises(); ?></div>
             </div>
             <div class="dark:bg-slate-800 bg-slate-100 p-6 rounded-xl">
                 <div class="text-2xl dark:text-amber-400 text-amber-600 flex gap-2 items-center mb-2"><i class="ti ti-flame"></i>Spalone kalorie</div>
