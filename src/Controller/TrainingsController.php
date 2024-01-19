@@ -12,7 +12,7 @@ use Wspomagacz\Model\TrainingExercise;
 use Wspomagacz\Model\TrainingExerciseSet;
 use Wspomagacz\View\View;
 
-class TrainingController
+class TrainingsController
 {
     private array $trainings = [];
 
@@ -214,7 +214,7 @@ class TrainingController
         $trainingObject = null;
         $exercises = [];
 
-        if(isset($_GET['user_id']) && isset($_GET['training_id']) && isset($_GET['exercises'])) {
+        if (isset($_GET['user_id']) && isset($_GET['training_id']) && isset($_GET['exercises'])) {
             $this->fetchTrainings(intval($_GET['user_id']));
             /** @var Training $training */
             foreach ($this->getTrainings() as $training) {
@@ -236,6 +236,28 @@ class TrainingController
         $view = new View(__DIR__ . '/../View/Trainings');
         $view->render('create', ['training' => $trainingObject, 'exercises' => $exercises], 'Wspomagacz | Nowy Trening');
     }
+
+    public function save(): void
+    {
+        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+
+        if (!isset($_GET['name']) || !isset($_GET['date'])) header('Location: /trainings');
+
+        if ($_GET['name'] == '' || $_GET['date'] == '') header('Location: /trainings');
+
+        if (!($trainingId = $this->addTraining($_SESSION['user_id'], $_GET['name'], $_GET['date']))) header('Location: /trainings');
+
+        if (!isset($_GET['exercises'])) header('Location: /trainings');
+
+        $exercisesIds = explode(',', $_GET['exercises']);
+
+        foreach ($exercisesIds as $exerciseId) {
+            $this->addTrainingExercises(intval($trainingId), intval($exerciseId));
+        }
+
+        header('Location: /trainings');
+    }
+
 
     public function getTrainings(): array
     {
@@ -276,58 +298,60 @@ class TrainingController
         $trainingsArray = [];
 
         foreach ($trainings as $training) {
-            $query = "
-        SELECT 
-            te.id,
-            e.name,
-            te.status,
-            `order`
-        FROM 
-            training_exercises te
-        JOIN
-            trainings t ON t.id = te.training_id
-        JOIN
-            exercises e ON e.id = te.exercise_id
-        WHERE 
-            training_id = :training_id
-        ORDER BY 
-            `order`";
-
-            if (!$trainingExercises = $database->query($query, ["training_id" => $training['training_id']])->fetchAll()) return;
             $trainingExercisesArray = [];
 
-            foreach ($trainingExercises as $trainingExercise) {
-                $query = "
+            $query = "
             SELECT 
-                tes.id,                  
-                tes.`order`,
-                repetitions,
-                weight
+                te.id,
+                e.name,
+                te.status,
+                `order`
             FROM 
-                training_exercises_sets tes
+                training_exercises te
             JOIN
-                training_exercises te ON te.id = tes.training_exercise_id
+                trainings t ON t.id = te.training_id
+            JOIN
+                exercises e ON e.id = te.exercise_id
             WHERE 
-                training_exercise_id = :training_exercise_id
+                training_id = :training_id
             ORDER BY 
                 `order`";
 
-                $trainingExercisesSets = $database->query($query, ["training_exercise_id" => $trainingExercise['id']])->fetchAll();
-                $trainingExercisesSetsArray = [];
+            if ($trainingExercises = $database->query($query, ["training_id" => $training['training_id']])->fetchAll()) {
+                foreach ($trainingExercises as $trainingExercise) {
+                    $query = "
+                    SELECT 
+                        tes.id,                  
+                        tes.`order`,
+                        repetitions,
+                        weight
+                    FROM 
+                        training_exercises_sets tes
+                    JOIN
+                        training_exercises te ON te.id = tes.training_exercise_id
+                    WHERE 
+                        training_exercise_id = :training_exercise_id
+                    ORDER BY 
+                        `order`";
 
-                foreach ($trainingExercisesSets as $trainingExercisesSet) $trainingExercisesSetsArray[] = new TrainingExerciseSet($trainingExercisesSet['id'], $trainingExercisesSet['order'], $trainingExercisesSet['repetitions'], $trainingExercisesSet['weight']);
+                    if ($trainingExercisesSets = $database->query($query, ["training_exercise_id" => $trainingExercise['id']])->fetchAll()) {
+                        $trainingExercisesSetsArray = [];
 
-                $trainingExercisesArray[] = new TrainingExercise($trainingExercise['id'], $training['training_id'], $trainingExercise['name'], $trainingExercise['order'], TrainingStatus::from($trainingExercise['status']), $trainingExercisesSetsArray);
+                        foreach ($trainingExercisesSets as $trainingExercisesSet) $trainingExercisesSetsArray[] = new TrainingExerciseSet($trainingExercisesSet['id'], $trainingExercisesSet['order'], $trainingExercisesSet['repetitions'], $trainingExercisesSet['weight']);
+
+                        $trainingExercisesArray[] = new TrainingExercise($trainingExercise['id'], $training['training_id'], $trainingExercise['name'], $trainingExercise['order'], TrainingStatus::from($trainingExercise['status']), $trainingExercisesSetsArray);
+                    }
+                }
             }
 
-            $trainingsArray[] = new Training($training['training_id'], $training['user_id'], $training['training_name'], $training['burnt_calories'], new DateTime($training['date']), TrainingStatus::from($training['status']), new DateTime($training['started_at']), new DateTime($training['finished_at']), $trainingExercisesArray);
+            $trainingsArray[] = new Training($training['training_id'], $training['user_id'], $training['training_name'], $training['burnt_calories'], new DateTime($training['date']), TrainingStatus::from($training['status']), null, null, $trainingExercisesArray);
         }
 
         $this->setTrainings($trainingsArray);
     }
 
 
-    private function addTraining(int $user_id, string $training_name, string $training_date): void
+    private function addTraining(int $user_id, string $training_name, string $training_date): false|string
     {
         $database = new Database();
 
@@ -337,7 +361,9 @@ class TrainingController
         VALUES
             (:user_id, :training_name, :training_date, 1)";
 
-        $database->query($query, ["user_id" => $user_id,"training_name" => $training_name, "training_date" => $training_date])->execute();
+        $database->query($query, ["user_id" => $user_id, "training_name" => $training_name, "training_date" => $training_date]);
+
+        return $database->lastInsertId();
     }
 
     private function editTraining(int $training_id, string $training_name, string $training_date): void
@@ -352,7 +378,7 @@ class TrainingController
         WHERE
             id = 3;";
 
-        $database->query($query, ["training_id" => $training_id,"training_name" => $training_name, "training_date" => $training_date])->execute();
+        $database->query($query, ["training_id" => $training_id, "training_name" => $training_name, "training_date" => $training_date]);
     }
 
     private function removeTraining(int $trainingId): void
@@ -361,10 +387,10 @@ class TrainingController
 
         $query = "DELETE FROM trainings where id = :training_id";
 
-        $database->query($query, ["training_id" => $trainingId])->execute();
+        $database->query($query, ["training_id" => $trainingId]);
     }
 
-    private function addTrainingExercises(TrainingExercise $trainingExercise): void
+    private function addTrainingExercises(int $trainingId, int $exerciseId): false|string
     {
         $database = new Database();
 
@@ -374,14 +400,17 @@ class TrainingController
         VALUES
             (:training_id, :exercise_id, (SELECT COALESCE(MAX(`order`), 0) + 1 FROM training_exercises te WHERE te.training_id = :training_id));";
 
-        $database->query($query, ["training_id" => $trainingExercise->getTrainingId(), "exercise_id" => $trainingExercise->getId()])->execute();
+        $database->query($query, ["training_id" => $trainingId, "exercise_id" => $exerciseId]);
+
+        return $database->lastInsertId();
     }
+
     private function removeTrainingExercises(int $trainingExerciseId): void
     {
         $database = new Database();
 
         $query = "DELETE FROM training_exercises where id = :training_exercise_id";
 
-        $database->query($query, ["training_exercise_id" => $trainingExerciseId])->execute();
+        $database->query($query, ["training_exercise_id" => $trainingExerciseId]);
     }
 }

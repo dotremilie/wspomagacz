@@ -9,7 +9,7 @@
         <div class="text-4xl font-bold">Wyciskaj ze Wspomagaczem!</div>
         <div class="text-lg">Twoje treningi już na ciebie czekają.</div>
     </header>
-    <form method="post" action="/startup/login/validate" name="login"
+    <form method="post" action="/login/verify" id="login"
           class="flex flex-col gap-6 p-6 grow justify-center">
         <div class="text-2xl font-bold">Zaloguj się</div>
         <div class="w-full" id="login-container">
@@ -111,8 +111,8 @@
                 inputApplyStyle(passwordInput, passwordError, passwordErrorIcon, validateInput(passwordInput, /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{8,}$/));
             }
 
-            if (!isLoginEmpty && isPasswordEmpty) {
-                //TODO: Ajax query to check for login
+            if (!isLoginEmpty && !isPasswordEmpty) {
+                $('#login').submit();
             }
 
             buttonClicked = true;

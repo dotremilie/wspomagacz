@@ -2,11 +2,7 @@
 <html lang="en">
 <?php
 
-use Wspomagacz\Enums\TrainingStatus;
-use Wspomagacz\Model\Equipment;
-use Wspomagacz\Model\ExerciseMuscle;
-use Wspomagacz\Model\Training;
-use Wspomagacz\Model\TrainingExercise;
+use Wspomagacz\Model\TrainingExerciseSet;
 
 require_once __DIR__ . "/../../../templates/head.php"; ?>
 <body class="bg-white dark:bg-slate-900 dark:text-white text-slate-800 mb-20">
@@ -14,39 +10,42 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
 <section class="mx-auto p-4 flex flex-col gap-4">
     <?php
     /** @var array $data */
-    /** @var Training $training */
+    /** @var TrainingExerciseSet $set */
 
-    if (isset($data['training'])):
-        $training = $data['training']; ?>
-        <form action="/trainings/<?= $training->getId() ?>/edit/save" class="flex flex-col gap-4">
-            <input type="hidden">
+    if (isset($data['set'])):
+        $training = $data['training'];
+        $exercise = $data['exercise'];
+        $set = $data['set']; ?>
+        <form action="/trainings/<?= $training->getId() ?>/exercises/<?= $exercise->getId() ?>/sets/<?= $set->getId() ?>/create/save"
+              class="flex flex-col gap-4">
+            <input type="hidden" name="set_id" value="<?= $set->getId() ?>">
             <div class="w-full">
                 <div class="relative rounded-xl w-full">
                     <div class="absolute pointer-events-none inset-y-0 left-0 pl-3 flex items-center">
-                        <i data-feather="edit-2" class="absolute h-5 w-5 text-slate-400"></i>
+                        <i class="ti ti-123 absolute h-5 w-5 text-slate-400"></i>
                     </div>
                     <label>
-                        <input type="text"
+                        <input type="number" name="repetitions"
                                class="w-full block pl-10 p-3 border bg-transparent border-slate-400 rounded-xl dark:focus:bg-white dark:focus:bg-opacity-10 transition"
-                               placeholder="Nazwa" value="<?= $training->getName(); ?>">
+                               placeholder="Nazwa" value="<?= $set->getRepetitions(); ?>">
                     </label>
                 </div>
             </div>
             <div class="w-full">
                 <div class="relative rounded-xl w-full">
                     <div class="absolute pointer-events-none inset-y-0 left-0 pl-3 flex items-center">
-                        <i data-feather="calendar" class="absolute h-5 w-5 text-slate-400"></i>
+                        <i class="ti ti-weight absolute h-4 w-4 text-slate-400"></i>
                     </div>
                     <label>
-                        <input type="date"
+                        <input type="number" name="weight"
                                class="w-full block pl-10 p-3 border bg-transparent border-slate-400 rounded-xl dark:focus:bg-white dark:focus:bg-opacity-10 transition"
-                               placeholder="Data" value="<?= (new DateTime())->format('Y-m-d'); ?>">
+                               placeholder="Ciężar w kilogramach" value="<?= $set->getWeight(); ?>">
                     </label>
                 </div>
             </div>
             <input type="submit"
                    class="w-full text-center border border-lime-400 text-lime-400 transition active:bg-red-500 rounded-xl p-3 disabled:bg-gray-400"
-                   value="Zapisz Trening">
+                   value="Zapisz serię">
         </form>
     <?php endif; ?>
 </section>

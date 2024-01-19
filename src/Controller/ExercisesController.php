@@ -220,17 +220,15 @@ class ExercisesController
             $equipment = [];
             foreach ($data as $exercise) {
                 if ($exercise['exercise_id'] == $row['exercise_id']) {
-                    $muscle = new ExerciseMuscle($exercise['muscle_id'], $exercise['muscle_name'], $exercise['muscle_strength']);
-                    $eq = new Equipment($exercise['equipment_id'], $exercise['equipment_name']);
-
-                    if (!array_search($muscle, $muscles)) $muscles[] = $muscle;
-                    if (!array_search($eq, $equipment)) $equipment[] = $eq;
+                    $muscles[$exercise['muscle_id']] = new ExerciseMuscle($exercise['muscle_id'], $exercise['muscle_name'], $exercise['muscle_strength']);
+                    $equipment[$exercise['equipment_id']] = new Equipment($exercise['equipment_id'], $exercise['equipment_name']);
                 }
             }
 
             //Add exercise to array
             $exercises[$row['exercise_id']] = new Exercise($row['exercise_id'], $row['exercise_name'], $equipment, $muscles);
         }
+
         return $exercises;
     }
 }
