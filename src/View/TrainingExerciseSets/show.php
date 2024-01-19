@@ -23,8 +23,12 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
         $training = $data['training']; ?>
         <div class="w-full">
             <div class="flex flex-col gap-4 mb-4">
-                <a href="/trainings/<?= $training->getId() ?>/exercise/<?= $exercise->getId() ?>/set/<?= $set->getId() ?>/delete"
-                   class="w-full text-center border border-red-400 text-red-400 transition active:bg-red-500 rounded-xl p-3 disabled:bg-gray-400">
+                <a href="/trainings/<?= $training->getId() ?>/exercises/<?= $exercise->getId() ?>/sets/<?= $set->getId() ?>/edit"
+                   class="w-full text-center border border-sky-400 text-sky-400 transition rounded-xl p-3 disabled:bg-gray-400">
+                    Edytuj serię
+                </a>
+                <a href="/trainings/<?= $training->getId() ?>/exercise/<?= $exercise->getId() ?>/sets/<?= $set->getId() ?>/delete"
+                   class="w-full text-center border border-red-400 text-red-400 transition rounded-xl p-3 disabled:bg-gray-400">
                     Usuń serię
                 </a>
                 <div class="flex flex-col w-full gap-2 dark:bg-slate-800 bg-slate-100 rounded-xl p-4">

@@ -23,7 +23,7 @@ class ExercisesController
         $this->fetchCustomExercises($_SESSION['user_id']);
 
         $view = new View(__DIR__ . '/../View/Exercises');
-        $view->render('index', ["exercises"=>$this->getExercises(),"customExercises"=>$this->getCustomExercises()], 'Wspomagacz | Ćwiczenia');
+        $view->render('index', ["exercises" => $this->getExercises(), "customExercises" => $this->getCustomExercises()], 'Wspomagacz | Ćwiczenia');
     }
 
     public function show(array $params): void
@@ -46,7 +46,7 @@ class ExercisesController
         $titleExercise = isset($exerciseObject) ? $exerciseObject->getName() : "Nie znaleziono";
 
         $view = new View(__DIR__ . '/../View/Exercises');
-        $view->render('show', ["exercise"=> $exerciseObject], "Wspomagacz | $titleExercise");
+        $view->render('show', ["exercise" => $exerciseObject], "Wspomagacz | $titleExercise");
     }
 
     private function setExercises(array $exercises): void
@@ -90,6 +90,38 @@ class ExercisesController
         $this->setExercises($exercises);
     }
 
+    public function fetchExerciseById(int $exerciseId): Exercise
+    {
+        $database = new Database();
+        $query = "
+        SELECT 
+            e.id AS exercise_id,
+            e.name AS exercise_name,
+            q.id AS equipment_id,
+            q.name AS equipment_name,
+            m.id AS muscle_id,
+            m.name AS muscle_name,
+            em.strength AS muscle_strength
+        FROM 
+            exercises e
+        JOIN
+            exercise_equipment eq ON eq.exercise_id = e.id
+        JOIN
+            equipment q ON q.id = eq.equipment_id
+        JOIN
+            exercise_muscles em ON em.exercise_id = e.id
+        JOIN
+            muscles m ON m.id = em.muscle_id
+        WHERE e.id = :exercise_id";
+
+        $data = $database->query($query, ['exercise_id' => $exerciseId])->fetchAll();
+        $database->close();
+
+        $exercises = $this->getExercisesArray($data);
+
+        return $exercises[$exerciseId];
+    }
+
     private function fetchCustomExercises(int $user_id): void
     {
         $database = new Database();
@@ -115,7 +147,7 @@ class ExercisesController
         WHERE
             e.user_id = :user_id;";
 
-        $data = $database->query($query, ["user_id"=>$user_id])->fetchAll();
+        $data = $database->query($query, ["user_id" => $user_id])->fetchAll();
         $database->close();
 
         $customExercises = $this->getExercisesArray($data);
@@ -126,7 +158,7 @@ class ExercisesController
     private function addCustomExercise(CustomExercise $customExercise, int $user_id): void
     {
         /** @var CustomExercise $exercise */
-        foreach ($this->customExercises as $exercise){
+        foreach ($this->customExercises as $exercise) {
             if ($exercise->getName() == $customExercise->getName()) return;
         }
 
@@ -138,29 +170,29 @@ class ExercisesController
             (:name, :user_id);";
 
 
-        $database->query($query, ["name"=>$customExercise->getName(), "user_id"=>$user_id]);
+        $database->query($query, ["name" => $customExercise->getName(), "user_id" => $user_id]);
         $exerciseId = $database->lastInsertId();
 
         ## TODO -> Add strength default to database
 
-        foreach ($customExercise->getMusclesUsed() as $muscle){
+        foreach ($customExercise->getMusclesUsed() as $muscle) {
             $query = "
             INSERT INTO 
                 custom_exercise_muscles (custom_exercise_id, muscle_id, strength)
             VALUES
                 (:custom_exercise_id, :muscle_id, 1);";
 
-            $database->query($query, ["custom_exercise_id"=>$exerciseId, "muscle_id"=>$muscle->getId()]);
+            $database->query($query, ["custom_exercise_id" => $exerciseId, "muscle_id" => $muscle->getId()]);
         }
 
-        foreach ($customExercise->getEquipmentUsed() as $equipment){
+        foreach ($customExercise->getEquipmentUsed() as $equipment) {
             $query = "
             INSERT INTO 
                 custom_exercise_equipment (custom_exercise_id, equipment_id) 
             VALUES 
                 (:custom_exercise_id, :equipment_id);";
 
-            $database->query($query, ["custom_exercise_id"=>$exerciseId, "equipment_id"=>$equipment->getId()]);
+            $database->query($query, ["custom_exercise_id" => $exerciseId, "equipment_id" => $equipment->getId()]);
         }
 
         $database->close();

@@ -20,8 +20,12 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
         $training = $data['training']; ?>
         <div class="w-full">
             <div class="flex flex-col gap-4 mb-4">
+                <a href="/trainings/<?= $training->getId() ?>/edit"
+                   class="w-full text-center border border-sky-400 text-sky-400 transition rounded-xl p-3 disabled:bg-gray-400">
+                    Edytuj trening
+                </a>
                 <a href="/trainings/<?= $training->getId() ?>/delete"
-                   class="w-full text-center border border-red-400 text-red-400 transition active:bg-red-500 rounded-xl p-3 disabled:bg-gray-400">
+                   class="w-full text-center border border-red-400 text-red-400 transition rounded-xl p-3 disabled:bg-gray-400">
                     Usuń trening
                 </a>
                 <div class="flex flex-col w-full gap-2 dark:bg-slate-800 bg-slate-100 rounded-xl p-4">
@@ -62,13 +66,13 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
                                     Planowane
                                 </div>
                             </a>
-                            <a class="flex items-center justify-center w-full dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
+                            <a href="/trainings/<?= $training->getId(); ?>?set_status=2" class="flex items-center justify-center w-full dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
                                 <div class="text-sm truncate flex flex-col justify-center gap-2 items-center text-sky-400 aspect-square">
                                     <i data-feather="arrow-right-circle" class="w-5 h-5"></i>
                                     W trakcie
                                 </div>
                             </a>
-                            <a class="flex items-center justify-center w-full bg-lime-400 dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
+                            <a href="/trainings/<?= $training->getId(); ?>?set_status=3" class="flex items-center justify-center w-full bg-lime-400 dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
                                 <div class="text-sm truncate flex flex-col justify-center gap-2 items-center text-lime-400 aspect-square">
                                     <i data-feather="check-circle" class="w-5 h-5"></i>
                                     Wykonane
@@ -76,7 +80,7 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
                             </a>
                             <?php break;
                         case TrainingStatus::InProgress: ?>
-                            <a class="flex items-center justify-center w-full dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
+                            <a href="/trainings/<?= $training->getId(); ?>?set_status=1" class="flex items-center justify-center w-full dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
                                 <div class="text-sm truncate flex flex-col justify-center gap-2 items-center text-amber-400 aspect-square">
                                     <i data-feather="calendar" class="w-5 h-5"></i>
                                     Planowane
@@ -88,7 +92,7 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
                                     W trakcie
                                 </div>
                             </a>
-                            <a class="flex items-center justify-center w-full bg-lime-400 dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
+                            <a href="/trainings/<?= $training->getId(); ?>?set_status=3" class="flex items-center justify-center w-full bg-lime-400 dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
                                 <div class="text-sm truncate flex flex-col justify-center gap-2 items-center text-lime-400 aspect-square">
                                     <i data-feather="check-circle" class="w-5 h-5"></i>
                                     Wykonane
@@ -96,13 +100,13 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
                             </a>
                             <?php break;
                         case TrainingStatus::Completed: ?>
-                            <a class="flex items-center justify-center w-full dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
+                            <a href="/trainings/<?= $training->getId(); ?>?set_status=1" class="flex items-center justify-center w-full dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
                                 <div class="text-sm truncate flex flex-col justify-center gap-2 items-center text-amber-400 aspect-square">
                                     <i data-feather="calendar" class="w-5 h-5"></i>
                                     Planowane
                                 </div>
                             </a>
-                            <a class="flex items-center justify-center w-full dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
+                            <a href="/trainings/<?= $training->getId(); ?>?set_status=2" class="flex items-center justify-center w-full dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
                                 <div class="text-sm truncate flex flex-col justify-center gap-2 items-center text-sky-400 aspect-square">
                                     <i data-feather="arrow-right-circle" class="w-5 h-5"></i>
                                     W trakcie

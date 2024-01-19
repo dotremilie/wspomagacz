@@ -109,7 +109,7 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
                         <?php break;
                 endswitch; ?>
             </div>
-            <div class="flex gap-6 overflow-x-scroll snap-x overflow-y-hidden pr-4">
+            <div class="flex gap-4 overflow-x-scroll snap-x overflow-y-hidden pr-4">
                 <?php /** @var TrainingExercise $exercise */
                 foreach ($todayTraining->getExercises() as $exercise): ?>
                     <a href="/trainings/<?= $todayTraining->getId(); ?>/exercises/<?= $exercise->getId(); ?>" class="flex items-center dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
@@ -167,10 +167,10 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
     </section>
     <section class="mx-auto pl-4 w-full">
         <div class="text-2xl font-bold mb-4">Treningi społeczności</div>
-        <div class="flex gap-6 overflow-x-scroll overflow-y-hidden snap-x pr-4">
+        <div class="flex gap-4 overflow-x-scroll overflow-y-hidden snap-x pr-4">
             <?php /** @var CommunityTraining $communityTraining */
             foreach ($communityTrainings as $communityTraining): ?>
-            <a href="/trainings/create?name=<?= $communityTraining->getTrainingName(); ?>&exercises=<?php
+            <a href="/trainings/create?user_id=<?= $communityTraining->getUserId(); ?>&training_id=<?= $communityTraining->getTrainingId(); ?>&exercises=<?php
             $exercises = [];
             foreach ($communityTraining->getExercises() as $exercise2) /** @var Exercise $exercise2 */ $exercises[] = $exercise2->getId();
 
