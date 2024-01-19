@@ -10,7 +10,7 @@ use Wspomagacz\Controller\LoginController;
 use Wspomagacz\Controller\SignupController;
 use Wspomagacz\Controller\StartupController;
 use Wspomagacz\Controller\RankingController;
-use Wspomagacz\Controller\TrainingController;
+use Wspomagacz\Controller\TrainingsController;
 use Wspomagacz\Core\Router;
 
 $router = new Router();
@@ -30,20 +30,20 @@ $router->addRoute('GET', '/ranking', RankingController::class, 'index');
 $router->addRoute('GET', '/exercises', ExercisesController::class, 'index');
 $router->addRoute('GET', '/exercises/{id}', ExercisesController::class, 'show');
 
-$router->addRoute('GET', '/trainings', TrainingController::class, 'index');
+$router->addRoute('GET', '/trainings', TrainingsController::class, 'index');
 
-$router->addRoute('GET', '/trainings', TrainingController::class, 'index');
-$router->addRoute('GET', '/trainings/create', TrainingController::class, 'create');
+$router->addRoute('GET', '/trainings', TrainingsController::class, 'index');
+$router->addRoute('GET', '/trainings/create', TrainingsController::class, 'create');
 
-$router->addRoute('GET', '/trainings/{id}', TrainingController::class, 'show');
-$router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}', TrainingController::class, 'showExercises');
-$router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}/sets/{set_id}', TrainingController::class, 'showSets');
+$router->addRoute('GET', '/trainings/{id}', TrainingsController::class, 'show');
+$router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}', TrainingsController::class, 'showExercises');
+$router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}/sets/{set_id}', TrainingsController::class, 'showSets');
 
-$router->addRoute('GET', '/trainings/{id}/edit', TrainingController::class, 'edit');
-$router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}/sets/{set_id}/edit', TrainingController::class, 'editSets');
+$router->addRoute('GET', '/trainings/{id}/edit', TrainingsController::class, 'edit');
+$router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}/sets/{set_id}/edit', TrainingsController::class, 'editSets');
 
-$router->addRoute('GET', '/trainings/create/save', TrainingController::class, 'save');
-$router->addRoute('GET', '/trainings/{id}/edit/save', TrainingController::class, 'editSave');
-$router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}/sets/{set_id}/edit/save', TrainingController::class, 'editSaveSets');
+$router->addRoute('GET', '/trainings/create/save', TrainingsController::class, 'save');
+$router->addRoute('GET', '/trainings/{id}/edit/save', TrainingsController::class, 'editSave');
+$router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}/sets/{set_id}/edit/save', TrainingsController::class, 'editSaveSets');
 
 $router->dispatch($_SERVER['REQUEST_METHOD'], parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
