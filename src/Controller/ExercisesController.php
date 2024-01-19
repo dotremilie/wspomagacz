@@ -43,7 +43,7 @@ class ExercisesController
             }
         }
 
-        $titleExercise = $exerciseObject->getName() ?? "Nie znaleziono";
+        $titleExercise = isset($exerciseObject) ? $exerciseObject->getName() : "Nie znaleziono";
 
         $view = new View(__DIR__ . '/../View/Exercises');
         $view->render('show', ["exercise"=> $exerciseObject], "Wspomagacz | $titleExercise");
