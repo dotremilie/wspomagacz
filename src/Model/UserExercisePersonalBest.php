@@ -8,15 +8,15 @@ class UserExercisePersonalBest
 {
     private int $id;
     private int $trainingId;
-    private int $trainingExerciseId;
+    private string $trainingExerciseName;
     private DateTime $date;
     private float $weight;
 
-    public function __construct(int $id, int $trainingId, int $trainingExerciseId, \DateTime $date, float $weight)
+    public function __construct(int $id, int $trainingId, string $trainingExerciseName, \DateTime $date, float $weight)
     {
         $this->id = $id;
         $this->trainingId = $trainingId;
-        $this->trainingExerciseId = $trainingExerciseId;
+        $this->trainingExerciseName = $trainingExerciseName;
         $this->date = $date;
         $this->weight = $weight;
     }
@@ -41,14 +41,14 @@ class UserExercisePersonalBest
         $this->date = $date;
     }
 
-    public function getTrainingExerciseId(): int
+    public function getTrainingExerciseName(): string
     {
-        return $this->trainingExerciseId;
+        return $this->trainingExerciseName;
     }
 
-    public function setTrainingExerciseId(int $trainingExerciseId): void
+    public function setTrainingExerciseId(string $trainingExerciseName): void
     {
-        $this->trainingExerciseId = $trainingExerciseId;
+        $this->trainingExerciseName = $trainingExerciseName;
     }
 
     public function getTrainingId(): int

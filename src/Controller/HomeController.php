@@ -2,8 +2,9 @@
 
 namespace Wspomagacz\Controller;
 
+use DateTime;
+use Exception;
 use Wspomagacz\Core\Database;
-use Wspomagacz\Model\ProfileStatistics;
 use Wspomagacz\Model\UserExercisePersonalBest;
 use Wspomagacz\View\View;
 
@@ -11,6 +12,10 @@ class HomeController
 {
     private array $personalBests = [];
     private UserExercisePersonalBest $personalBest;
+
+    /**
+     * @throws Exception
+     */
     public function index(): void
     {
         if (!isset($_SESSION['user_id'])) header('Location: /startup');
@@ -30,6 +35,8 @@ class HomeController
     /**
      * TODO: Fetch today's training and its exercises.
      * 5 "random" finished trainings as a popular trainings
+     *
+     * @throws Exception
      */
 
     private function fetchPersonalBests(int $user_id): void
@@ -59,7 +66,7 @@ class HomeController
 
         $personalBests = [];
         foreach ($data as $personalBest) {
-            $personalBests[] = new UserExercisePersonalBest($personalBest['user_id'], $personalBest['training_id'], $personalBest['exercise_name'], $personalBest['date'], $personalBest['weight']);
+            $personalBests[] = new UserExercisePersonalBest($personalBest['user_id'], $personalBest['training_id'], $personalBest['exercise_name'], new DateTime($personalBest['date']), $personalBest['weight']);
         }
 
         $this->setPersonalBests($personalBests);
