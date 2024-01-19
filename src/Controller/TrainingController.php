@@ -6,6 +6,7 @@ use DateTime;
 use Exception;
 use Wspomagacz\Core\Database;
 use Wspomagacz\Enums\TrainingStatus;
+use Wspomagacz\Model\Exercise;
 use Wspomagacz\Model\Training;
 use Wspomagacz\Model\TrainingExercise;
 use Wspomagacz\Model\TrainingExerciseSet;
@@ -219,12 +220,71 @@ class TrainingController
 
                 foreach ($trainingExercisesSets as $trainingExercisesSet) $trainingExercisesSetsArray[] = new TrainingExerciseSet($trainingExercisesSet['id'], $trainingExercisesSet['order'], $trainingExercisesSet['repetitions'], $trainingExercisesSet['weight']);
 
-                $trainingExercisesArray[] = new TrainingExercise($trainingExercise['id'], $trainingExercise['name'], $trainingExercise['order'], TrainingStatus::from($trainingExercise['status']), $trainingExercisesSetsArray);
+                $trainingExercisesArray[] = new TrainingExercise($trainingExercise['id'], $training['training_id'], $trainingExercise['name'], $trainingExercise['order'], TrainingStatus::from($trainingExercise['status']), $trainingExercisesSetsArray);
             }
 
             $trainingsArray[] = new Training($training['training_id'], $training['user_id'], $training['training_name'], $training['burnt_calories'], new DateTime($training['date']), TrainingStatus::from($training['status']), new DateTime($training['started_at']), new DateTime($training['finished_at']), $trainingExercisesArray);
         }
 
         $this->setTrainings($trainingsArray);
+    }
+
+
+    private function addTraining(int $user_id, string $training_name, string $training_date): void
+    {
+        $database = new Database();
+
+        $query = "
+        INSERT INTO
+            trainings (user_id, name, date, status)
+        VALUES
+            (:user_id, :training_name, :training_date, 1)";
+
+        $database->query($query, ["user_id" => $user_id,"training_name" => $training_name, "training_date" => $training_date])->execute();
+    }
+
+    private function editTraining(int $training_id, string $training_name, string $training_date): void
+    {
+        $database = new Database();
+
+        $query = "
+        UPDATE trainings
+        SET
+            name = :training_name,
+            date = :training_date
+        WHERE
+            id = 3;";
+
+        $database->query($query, ["training_id" => $training_id,"training_name" => $training_name, "training_date" => $training_date])->execute();
+    }
+
+    private function removeTraining(int $trainingId): void
+    {
+        $database = new Database();
+
+        $query = "DELETE FROM trainings where id = :training_id";
+
+        $database->query($query, ["training_id" => $trainingId])->execute();
+    }
+
+    private function addTrainingExercises(TrainingExercise $trainingExercise): void
+    {
+        $database = new Database();
+
+        $query = "
+        INSERT INTO
+            training_exercises (training_id, exercise_id, `order`)
+        VALUES
+            (:training_id, :exercise_id, (SELECT COALESCE(MAX(`order`), 0) + 1 FROM training_exercises te WHERE te.training_id = :training_id));";
+
+        $database->query($query, ["training_id" => $trainingExercise->getTrainingId(), "exercise_id" => $trainingExercise->getId()])->execute();
+    }
+    private function removeTrainingExercises(int $trainingExerciseId): void
+    {
+        $database = new Database();
+
+        $query = "DELETE FROM training_exercises where id = :training_exercise_id";
+
+        $database->query($query, ["training_exercise_id" => $trainingExerciseId])->execute();
     }
 }

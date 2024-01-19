@@ -7,14 +7,16 @@ use Wspomagacz\Enums\TrainingStatus;
 class TrainingExercise
 {
     private int $id;
+    private int $trainingId;
     private string $name;
     private int $order;
     private TrainingStatus $status;
     private array $sets;
 
-    public function __construct(int $id, string $name, int $order, TrainingStatus $status, array $sets = [])
+    public function __construct(int $id, int $trainingId, string $name, int $order, TrainingStatus $status, array $sets = [])
     {
         $this->id = $id;
+        $this->trainingId = $trainingId;
         $this->order = $order;
         $this->sets = $sets;
         $this->status = $status;
@@ -69,5 +71,15 @@ class TrainingExercise
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+
+    public function getTrainingId(): int
+    {
+        return $this->trainingId;
+    }
+
+    public function setTrainingId(int $trainingId): void
+    {
+        $this->trainingId = $trainingId;
     }
 }

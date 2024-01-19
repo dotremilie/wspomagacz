@@ -202,7 +202,7 @@ class HomeController
 
             foreach ($trainingExercisesSets as $trainingExercisesSet) $trainingExercisesSetsArray[] = new TrainingExerciseSet($trainingExercisesSet['id'], $trainingExercisesSet['order'], $trainingExercisesSet['repetitions'], $trainingExercisesSet['weight']);
 
-            $trainingExercisesArray[] = new TrainingExercise($trainingExercise['id'], $trainingExercise['name'], $trainingExercise['order'], TrainingStatus::from($trainingExercise['status']), $trainingExercisesSetsArray);
+            $trainingExercisesArray[] = new TrainingExercise($trainingExercise['id'], $trainingId, $trainingExercise['name'], $trainingExercise['order'], TrainingStatus::from($trainingExercise['status']), $trainingExercisesSetsArray);
         }
 
         $todayTraining = new Training($data['training_id'], $data['user_id'], $data['training_name'], $data['burnt_calories'], new DateTime($data['date']), TrainingStatus::from($data['status']), new DateTime($data['started_at']), new DateTime($data['finished_at']), $trainingExercisesArray);
