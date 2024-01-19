@@ -27,7 +27,8 @@ class SignupController
     {
         if (isset($_POST['login']) && isset($_POST['password']) && isset($_POST['repeat-password']) && isset($_POST['email'])) {
             if (is_string($this->createUser($_POST['login'], $_POST['password'], $_POST['email'], 1))) header('Location: /login');
-        } else header('Location: /signup');
+            else header('Location: /signup');
+        }
     }
 
     private function createUser(string $username, string $password, string $email, int $gender): false|string
@@ -74,7 +75,7 @@ class SignupController
 
         $database->close();
 
-        if (isset($user['email'])) return true;
+        if (isset($user['id'])) return true;
         return false;
     }
 }

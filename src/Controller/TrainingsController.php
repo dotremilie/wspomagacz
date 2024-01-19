@@ -157,6 +157,8 @@ class TrainingsController
         $trainingObject = null;
         $exerciseObject = null;
 
+        if (isset($_GET['set_status'])) $this->editTrainingExerciseStatus($exerciseId, $_GET['set_status']);
+
         $this->fetchTrainings($_SESSION['user_id']);
 
         /** @var Training $training */
@@ -452,5 +454,14 @@ class TrainingsController
         $database->close();
     }
 
+    private function editTrainingExerciseStatus(int $exerciseId, int $exerciseStatus): void
+    {
+        $database = new Database();
+
+        $query = "UPDATE training_exercises SET status = :exercise_status WHERE id = :exercise_id;";
+
+        $database->query($query, ["exercise_id" => $exerciseId, "exercise_status" => $exerciseStatus]);
+        $database->close();
+    }
 
 }

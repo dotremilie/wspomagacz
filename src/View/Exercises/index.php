@@ -93,7 +93,7 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
                 <div class="w-full">
                     <div class="text-xl w-full flex flex-col gap-6 text-center rounded-xl">
                         <div class="text-center dark:text-slate-400 text-slate-600">
-                            Brakuje ci jakiegoś ćwiczenia?
+                            Brakuje twojego ulubionego ćwiczenia?
                         </div>
                         <a href="/training"
                            class="w-full text-center bg-red-400 transition active:bg-red-500 rounded-xl p-3 disabled:bg-gray-400">
