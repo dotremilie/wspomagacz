@@ -7,14 +7,18 @@ use Exception;
 use Wspomagacz\Core\Database;
 use Wspomagacz\Enums\TrainingStatus;
 use Wspomagacz\Model\Training;
+use Wspomagacz\Model\TrainingExercise;
+use Wspomagacz\Model\TrainingExerciseSet;
 use Wspomagacz\Model\UserExercisePersonalBest;
+use Wspomagacz\Model\UserStatistics;
 use Wspomagacz\View\View;
 
 class HomeController
 {
     private array $personalBests = [];
     private UserExercisePersonalBest $personalBest;
-    private ?Training $todayTraining;
+    private ?Training $todayTraining = null;
+    private UserStatistics $userStatistics;
 
     /**
      * @throws Exception
@@ -25,12 +29,13 @@ class HomeController
 
         $this->fetchPersonalBests($_SESSION['user_id']);
         $this->fetchTodayTraining($_SESSION['user_id']);
-
+        $this->fetchUserStatistics($_SESSION['user_id']);
 
         $data = [
             'personalBests' => $this->getPersonalBests(),
             'todayTraining' => $this->getTodayTraining(),
-            //'popularTrainings' => $this->getPopularTrainings()
+            'userStatistics' => $this->getUserStatistics(),
+            //'communityTrainings' => $this->getCommunityTrainings()
         ];
 
         $view = new View(__DIR__ . '/../View/Home');
@@ -96,6 +101,34 @@ class HomeController
         $this->personalBest = $personalBest;
     }
 
+    private function fetchUserStatistics(int $user_id): void
+    {
+        $database = new Database();
+
+        $query = "
+        SELECT
+            u.id AS user_id,
+            u.username,
+            COUNT(DISTINCT te.id) AS exercise_count,
+            COALESCE(SUM(tes.repetitions * tes.weight), 0) AS weight_sum,
+            COALESCE(SUM(t.burned_calories), 0) AS burnt_calories
+        FROM
+            users u
+                LEFT JOIN
+            trainings t ON u.id = t.user_id
+                LEFT JOIN
+            training_exercises te ON t.id = te.training_id
+                LEFT JOIN
+            training_exercises_sets tes ON te.id = tes.training_exercise_id
+        WHERE
+            u.id = :user_id";
+
+        $data = $database->query($query, ["user_id" => $user_id])->fetch();
+        $database->close();
+
+        $this->userStatistics = new UserStatistics($data['user_id'], $data['username'], $data['exercise_count'], $data['weight_sum'], $data['burnt_calories']);
+    }
+
     /**
      * @throws Exception
      */
@@ -105,34 +138,77 @@ class HomeController
 
         $query = "
         SELECT
-            t.id,
+            t.id AS training_id,
             u.id AS user_id,
-            t.name,
-            t.burned_calories,
-            t.date,
-            t.status,
-            t.started_at,
-            t.finished_at
+            t.name  AS training_name,
+            t.burned_calories AS 'burnt_calories',
+            t.date AS 'date',
+            t.status AS 'status',
+            t.started_at AS 'started_at',
+            t.finished_at AS 'finished_at' 
         FROM
             trainings t
-                JOIN
+        JOIN
             users u ON t.user_id = u.id
         WHERE
             u.id = :user_id
-            AND t.status = 1
-            AND DATE(t.date) = CURDATE()-1
+            AND t.date = CURDATE()
         LIMIT 1";
 
-        $data = $database->query($query, ["user_id" => $user_id])->fetch();
-        $database->close();
+        if (!$data = $database->query($query, ["user_id" => $user_id])->fetch()) return;
 
-        if (isset($data)) {
-            $todayTraining = new Training($data['id'], $data['user_id'], $data['name'], $data['burned_calories'], new DateTime($data['date']), TrainingStatus::from($data['status']), new DateTime($data['started_at']), new DateTime($data['finished_at']));
-            $this->setTodayTraining($todayTraining);
+        $trainingId = $data['training_id'];
+
+        $query = "
+        SELECT 
+            te.id,
+            e.name,
+            te.status,
+            `order`
+        FROM 
+            training_exercises te
+        JOIN
+            trainings t ON t.id = te.training_id
+        JOIN
+            exercises e ON e.id = te.exercise_id
+        WHERE 
+            training_id = :training_id
+        ORDER BY 
+            `order`";
+
+        if (!$trainingExercises = $database->query($query, ["training_id" => $trainingId])->fetchAll()) return;
+        $trainingExercisesArray = [];
+
+
+        foreach($trainingExercises as $trainingExercise) {
+            $query = "
+            SELECT 
+                tes.id,                  
+                tes.`order`,
+                repetitions,
+                weight
+            FROM 
+                training_exercises_sets tes
+            JOIN
+                training_exercises te ON te.id = tes.training_exercise_id
+            WHERE 
+                training_exercise_id = :training_exercise_id
+            ORDER BY 
+                `order`";
+
+            $trainingExercisesSets = $database->query($query, ["training_exercise_id" => $trainingExercise['id']])->fetchAll();
+            $trainingExercisesSetsArray = [];
+
+            foreach ($trainingExercisesSets as $trainingExercisesSet) $trainingExercisesSetsArray[] = new TrainingExerciseSet($trainingExercisesSet['id'], $trainingExercisesSet['order'], $trainingExercisesSet['repetitions'], $trainingExercisesSet['weight']);
+
+            $trainingExercisesArray[] = new TrainingExercise($trainingExercise['id'], $trainingExercise['name'], $trainingExercise['order'], TrainingStatus::from($trainingExercise['status']), $trainingExercisesSetsArray);
         }
+
+        $todayTraining = new Training($data['training_id'], $data['user_id'], $data['training_name'], $data['burnt_calories'], new DateTime($data['date']), TrainingStatus::from($data['status']), new DateTime($data['started_at']), new DateTime($data['finished_at']), $trainingExercisesArray);
+        $this->setTodayTraining($todayTraining);
     }
 
-    public function getTodayTraining(): Training
+    public function getTodayTraining(): Training|null
     {
         return $this->todayTraining;
     }
@@ -142,5 +218,14 @@ class HomeController
         $this->todayTraining = $todayTraining;
     }
 
+    public function getUserStatistics(): UserStatistics
+    {
+        return $this->userStatistics;
+    }
+
+    public function setUserStatistics(UserStatistics $ProfileStatistics): void
+    {
+        $this->userStatistics = $ProfileStatistics;
+    }
 }
 
