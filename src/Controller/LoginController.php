@@ -31,11 +31,33 @@ class LoginController
     {
         $database = new Database();
 
-        $query = "SELECT u.id, u.password_hash FROM users u WHERE u.username = :username;";
+        $query = "SELECT u.id, u.password_hash, u.status FROM users u WHERE u.username = :username;";
 
         $user_data = $database->query($query, ['username' => $username])->fetch();
 
+        if ($user_data['status'] == 3) return false;
+        else if ($user_data['status'] == 2) $this->activateUser($user_data['id']);
+        else if ($user_data['status'] == 1) $this->updateLastUserLogin($user_data['id']);
+
         if (password_verify($password, $user_data['password_hash'])) return $user_data['id'];
         return false;
+    }
+
+    private function activateUser(int $user_id): void
+    {
+        $database = new Database();
+
+        $query = "UPDATE users u SET u.status = 1, u.last_logged_at = CURRENT_TIMESTAMP() WHERE u.id = :user_id";
+
+        $database->query($query, ['user_id' => $user_id])->execute();
+    }
+
+    private function updateLastUserLogin(int $user_id): void
+    {
+        $database = new Database();
+
+        $query = "UPDATE users u SET u.last_logged_at = CURRENT_TIMESTAMP() WHERE u.id = :user_id";
+
+        $database->query($query, ['user_id' => $user_id])->execute();
     }
 }

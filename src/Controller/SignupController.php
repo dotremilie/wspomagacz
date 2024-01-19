@@ -2,6 +2,7 @@
 
 namespace Wspomagacz\Controller;
 
+use Wspomagacz\Core\Database;
 use Wspomagacz\Model\InputField;
 use Wspomagacz\View\View;
 
@@ -21,4 +22,45 @@ class SignupController
         $view = new View(__DIR__ . '/../View/Signup');
         $view->render('index', $inputFields, 'Wspomagacz | Rejestracja');
     }
+
+    private function createUser(string $username, string $password, string $email, int $gender): void
+    {
+        if ($this->checkIfUsernameExists($username)) return;
+        if ($this->checkIfEmailExists($email)) return;
+
+        $database = new Database();
+
+        $query = "
+        INSERT INTO
+            users (username, password_hash, email, gender)
+        VALUES
+            (:username, :password, :email, :gender)";
+
+        $database->query($query, ['username' => $username, 'password' => password_hash($password, PASSWORD_DEFAULT), 'email' => $email, 'gender' => $gender,])->execute();
+    }
+
+    private function checkIfUsernameExists(string $username): bool
+    {
+        $database = new Database();
+
+        $query = "SELECT u.id FROM users u WHERE u.username = :username";
+
+        $user = $database->query($query, ['username' => $username])->fetch();
+
+        if (isset($user['id'])) return true;
+        return false;
+    }
+
+    private function checkIfEmailExists(string $email): bool
+    {
+        $database = new Database();
+
+        $query = "SELECT u.id FROM users u WHERE u.email = :email";
+
+        $user = $database->query($query, ['email' => $email])->fetch();
+
+        if ($user > 0) return true;
+        return false;
+    }
+
 }
