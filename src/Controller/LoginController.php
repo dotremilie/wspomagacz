@@ -21,10 +21,11 @@ class LoginController
     {
         if (isset($_POST['login']) && isset($_POST['password'])) {
             if ($user_id = $this->verifyLogin($_POST['login'], $_POST['password'])) {
-                session_start();
                 $_SESSION['user_id'] = $user_id;
+                header('Location: /');
             }
         }
+        header('Location: /login');
     }
 
     private function verifyLogin(string $username, string $password): bool | int
