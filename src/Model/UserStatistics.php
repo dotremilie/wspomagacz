@@ -2,7 +2,7 @@
 
 namespace Wspomagacz\Model;
 
-class ProfileStatistics
+class UserStatistics
 {
     private int $id;
     private string $username;
