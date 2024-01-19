@@ -6,6 +6,8 @@ use DateTime;
 use Exception;
 use Wspomagacz\Core\Database;
 use Wspomagacz\Enums\TrainingStatus;
+use Wspomagacz\Model\CommunityTraining;
+use Wspomagacz\Model\Exercise;
 use Wspomagacz\Model\Training;
 use Wspomagacz\Model\TrainingExercise;
 use Wspomagacz\Model\TrainingExerciseSet;
@@ -19,6 +21,7 @@ class HomeController
     private UserExercisePersonalBest $personalBest;
     private ?Training $todayTraining = null;
     private UserStatistics $userStatistics;
+    private array $communityTrainings = [];
 
     /**
      * @throws Exception
@@ -30,12 +33,13 @@ class HomeController
         $this->fetchPersonalBests($_SESSION['user_id']);
         $this->fetchTodayTraining($_SESSION['user_id']);
         $this->fetchUserStatistics($_SESSION['user_id']);
+        $this->fetchCommunityTrainings();
 
         $data = [
             'personalBests' => $this->getPersonalBests(),
             'todayTraining' => $this->getTodayTraining(),
             'userStatistics' => $this->getUserStatistics(),
-            //'communityTrainings' => $this->getCommunityTrainings()
+            'communityTrainings' => $this->getCommunityTrainings()
         ];
 
         $view = new View(__DIR__ . '/../View/Home');
@@ -43,8 +47,6 @@ class HomeController
     }
 
     /**
-     * TODO: 5 "random" finished trainings as a popular trainings
-     *
      * @throws Exception
      */
 
@@ -225,6 +227,58 @@ class HomeController
     public function setUserStatistics(UserStatistics $ProfileStatistics): void
     {
         $this->userStatistics = $ProfileStatistics;
+    }
+
+    private function fetchCommunityTrainings(): void
+    {
+        $database = new Database();
+
+        $query = "
+        SELECT
+            t.id AS training_id,
+            u.id AS user_id,
+            u.username AS username,
+            t.name  AS training_name
+        FROM
+            trainings t
+            JOIN users u ON t.user_id = u.id
+        WHERE t.status = 3
+        ORDER BY RAND()
+        LIMIT 5";
+        $trainingData = $database->query($query)->fetchAll();
+
+        $communityTrainings = [];
+        foreach ($trainingData as $training) {
+
+            $query = "
+            SELECT
+                e.id AS exercise_id,
+                e.name AS exercise_name
+            FROM
+                exercises e
+                JOIN training_exercises te ON e.id = te.exercise_id
+                JOIN trainings t ON te.training_id = t.id
+            WHERE t.id = :training_id";
+            $exercisesData = $database->query($query, ["training_id"=>$training['training_id']])->fetchAll();
+
+            $exercises = [];
+            foreach ($exercisesData as $exercise) $exercises[] = new Exercise($exercise['exercise_id'], $exercise['exercise_name'], [], []);
+
+            $communityTrainings[] = new CommunityTraining($training['training_id'], $training['user_id'], $training['username'], $training['training_name'], $exercises);
+        }
+
+        $database->close();
+        $this->setCommunityTrainings($communityTrainings);
+    }
+
+    public function getCommunityTrainings(): array
+    {
+        return $this->communityTrainings;
+    }
+
+    public function setCommunityTrainings(array $communityTrainings): void
+    {
+        $this->communityTrainings = $communityTrainings;
     }
 }
 
