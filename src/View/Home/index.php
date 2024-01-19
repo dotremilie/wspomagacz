@@ -1,12 +1,15 @@
 <!doctype html>
 <html lang="en">
 <?php use Wspomagacz\Enums\TrainingStatus;
+use Wspomagacz\Model\CommunityTraining;
+use Wspomagacz\Model\Exercise;
 use Wspomagacz\Model\Training;
 use Wspomagacz\Model\TrainingExercise;
 use Wspomagacz\Model\UserExercisePersonalBest;
 
 /** @var array $data */
 $userStatistics = $data['userStatistics'];
+$communityTrainings = $data['communityTrainings'];
 
 require_once __DIR__ . "/../../../templates/head.php"; ?>
 <body class="bg-white dark:bg-slate-900 dark:text-white text-slate-800 mb-20">
@@ -41,6 +44,70 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="grid w-full grid-cols-3 gap-4 mb-4 pr-4">
+                <?php switch ($todayTraining->getStatus()):
+                    case TrainingStatus::Planned: ?>
+                        <a class="flex items-center justify-center w-full bg-amber-400 dark:text-slate-800 rounded-xl text-xl p-4">
+                            <div class="text-sm truncate flex flex-col justify-center gap-2 items-center aspect-square">
+                                <i data-feather="calendar" class="w-5 h-5"></i>
+                                Planowane
+                            </div>
+                        </a>
+                        <a href="/trainings/<?= $todayTraining->getId(); ?>?set_status=2" class="flex items-center justify-center w-full dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
+                            <div class="text-sm truncate flex flex-col justify-center gap-2 items-center text-sky-400 aspect-square">
+                                <i data-feather="arrow-right-circle" class="w-5 h-5"></i>
+                                W trakcie
+                            </div>
+                        </a>
+                        <a href="/trainings/<?= $todayTraining->getId(); ?>?set_status=3" class="flex items-center justify-center w-full bg-lime-400 dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
+                            <div class="text-sm truncate flex flex-col justify-center gap-2 items-center text-lime-400 aspect-square">
+                                <i data-feather="check-circle" class="w-5 h-5"></i>
+                                Wykonane
+                            </div>
+                        </a>
+                        <?php break;
+                    case TrainingStatus::InProgress: ?>
+                        <a href="/trainings/<?= $todayTraining->getId(); ?>?set_status=1" class="flex items-center justify-center w-full dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
+                            <div class="text-sm truncate flex flex-col justify-center gap-2 items-center text-amber-400 aspect-square">
+                                <i data-feather="calendar" class="w-5 h-5"></i>
+                                Planowane
+                            </div>
+                        </a>
+                        <a class="flex items-center justify-center w-full bg-sky-400 dark:text-slate-800 rounded-xl text-xl p-4">
+                            <div class="text-sm truncate flex flex-col justify-center gap-2 items-center aspect-square">
+                                <i data-feather="arrow-right-circle" class="w-5 h-5"></i>
+                                W trakcie
+                            </div>
+                        </a>
+                        <a href="/trainings/<?= $todayTraining->getId(); ?>?set_status=3" class="flex items-center justify-center w-full bg-lime-400 dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
+                            <div class="text-sm truncate flex flex-col justify-center gap-2 items-center text-lime-400 aspect-square">
+                                <i data-feather="check-circle" class="w-5 h-5"></i>
+                                Wykonane
+                            </div>
+                        </a>
+                        <?php break;
+                    case TrainingStatus::Completed: ?>
+                        <a href="/trainings/<?= $todayTraining->getId(); ?>?set_status=1" class="flex items-center justify-center w-full dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
+                            <div class="text-sm truncate flex flex-col justify-center gap-2 items-center text-amber-400 aspect-square">
+                                <i data-feather="calendar" class="w-5 h-5"></i>
+                                Planowane
+                            </div>
+                        </a>
+                        <a href="/trainings/<?= $todayTraining->getId(); ?>?set_status=2" class="flex items-center justify-center w-full dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
+                            <div class="text-sm truncate flex flex-col justify-center gap-2 items-center text-sky-400 aspect-square">
+                                <i data-feather="arrow-right-circle" class="w-5 h-5"></i>
+                                W trakcie
+                            </div>
+                        </a>
+                        <a class="flex items-center justify-center w-full bg-lime-400 dark:text-slate-800 rounded-xl text-xl p-4">
+                            <div class="text-sm truncate flex flex-col justify-center gap-2 items-center aspect-square">
+                                <i data-feather="check-circle" class="w-5 h-5"></i>
+                                Wykonane
+                            </div>
+                        </a>
+                        <?php break;
+                endswitch; ?>
             </div>
             <div class="flex gap-6 overflow-x-scroll snap-x overflow-y-hidden pr-4">
                 <?php /** @var TrainingExercise $exercise */
@@ -101,20 +168,31 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
     <section class="mx-auto pl-4 w-full">
         <div class="text-2xl font-bold mb-4">Treningi społeczności</div>
         <div class="flex gap-6 overflow-x-scroll overflow-y-hidden snap-x pr-4">
-            <div class="flex items-center dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
+            <?php /** @var CommunityTraining $communityTraining */
+            foreach ($communityTrainings as $communityTraining): ?>
+            <a href="/trainings/create?name=<?= $communityTraining->getTrainingName(); ?>&exercises=<?php
+            $exercises = [];
+            foreach ($communityTraining->getExercises() as $exercise2) /** @var Exercise $exercise2 */ $exercises[] = $exercise2->getId();
+
+            echo implode(",",$exercises) ?>" class="flex items-center dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
                 <div class="flex flex-col h-full leading-none justify-center">
                     <div class="mb-4 truncate max-w-48">
-                        Przerzucanie żeliwa
+                        <?= $communityTraining->getTrainingName(); ?>
                         <div class="text-sm dark:text-slate-400 text-slate-600 truncate">
-                            utworzył <span class="font-semibold">sneakydog</span>
+                            utworzył <span class="font-semibold"><?= $communityTraining->getUsername(); ?></span>
                         </div>
                     </div>
-                    8 ćwiczeń
+                    <?php echo count($communityTraining->getExercises());
+
+                    if (count($communityTraining->getExercises()) === 1) echo " ćwiczenie";
+                    else if (count($communityTraining->getExercises()) >= 2 && count($communityTraining->getExercises()) <= 4) echo " ćwiczenia";
+                    else echo " ćwiczeń"; ?>
                 </div>
                 <div class="h-full flex items-center dark:text-slate-400 text-slate-600 pl-4">
                     <i class="ti ti-plus"></i>
                 </div>
-            </div>
+            </a>
+            <?php endforeach; ?>
             <div class="flex flex-col items-center justify-center rounded-xl text-xl p-4">
                 <div class="h-full items-center justify-center flex flex-col text-center gap-2 dark:text-slate-400 text-slate-600 w-32">
                     <i class="ti ti-mood-cry"></i>
