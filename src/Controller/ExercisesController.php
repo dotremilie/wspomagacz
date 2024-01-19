@@ -6,7 +6,7 @@ use Wspomagacz\Core\Database;
 use Wspomagacz\Model\CustomExercise;
 use Wspomagacz\Model\Equipment;
 use Wspomagacz\Model\Exercise;
-use Wspomagacz\Model\Muscle;
+use Wspomagacz\Model\ExerciseMuscle;
 use Wspomagacz\View\View;
 
 class ExercisesController
@@ -24,6 +24,29 @@ class ExercisesController
 
         $view = new View(__DIR__ . '/../View/Exercises');
         $view->render('index', ["exercises"=>$this->getExercises(),"customExercises"=>$this->getCustomExercises()], 'Wspomagacz | Ćwiczenia');
+    }
+
+    public function show(array $params): void
+    {
+        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+
+        $exerciseId = isset($params['id']) ? (int)$params['id'] : null;
+        $exerciseObject = null;
+
+        $this->fetchExercises();
+
+        /** @var Exercise $exercise */
+        foreach ($this->getExercises() as $exercise) {
+            if ($exercise->getId() == $exerciseId) {
+                $exerciseObject = $exercise;
+                break;
+            }
+        }
+
+        $titleExercise = $exerciseObject->getName() ?? "Nie znaleziono";
+
+        $view = new View(__DIR__ . '/../View/Exercises');
+        $view->render('show', ["exercise"=> $exerciseObject], "Wspomagacz | $titleExercise");
     }
 
     private function setExercises(array $exercises): void
@@ -46,7 +69,8 @@ class ExercisesController
             q.id AS equipment_id,
             q.name AS equipment_name,
             m.id AS muscle_id,
-            m.name AS muscle_name 
+            m.name AS muscle_name,
+            em.strength AS muscle_strength
         FROM 
             exercises e
         JOIN
@@ -76,7 +100,8 @@ class ExercisesController
             q.id AS equipment_id,
             q.name AS equipment_name,
             m.id AS muscle_id,
-            m.name AS muscle_name 
+            m.name AS muscle_name, 
+            em.strength AS muscle_strength 
         FROM 
             custom_exercises e
         JOIN
@@ -163,7 +188,7 @@ class ExercisesController
             $equipment = [];
             foreach ($data as $exercise) {
                 if ($exercise['exercise_id'] == $row['exercise_id']) {
-                    $muscle = new Muscle($exercise['muscle_id'], $exercise['muscle_name']);
+                    $muscle = new ExerciseMuscle($exercise['muscle_id'], $exercise['muscle_name'], $exercise['muscle_strength']);
                     $eq = new Equipment($exercise['equipment_id'], $exercise['equipment_name']);
 
                     if (!array_search($muscle, $muscles)) $muscles[] = $muscle;

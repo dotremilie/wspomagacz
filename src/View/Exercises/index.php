@@ -5,7 +5,7 @@
 use Wspomagacz\Model\CustomExercise;
 use Wspomagacz\Model\Equipment;
 use Wspomagacz\Model\Exercise;
-use Wspomagacz\Model\Muscle;
+use Wspomagacz\Model\ExerciseMuscle;
 
 require_once __DIR__ . "/../../../templates/head.php"; ?>
 <body class="bg-white dark:bg-slate-900 dark:text-white text-slate-800 mb-20">
@@ -18,7 +18,7 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
             /** @var array $data */
             /** @var Exercise $exercise */
             /** @var Equipment $eq */
-            /** @var Muscle $muscle */
+            /** @var ExerciseMuscle $muscle */
             if (!empty($data['exercises'])):
                 foreach ($data['exercises'] as $exercise):
                     $equipment = [];
@@ -28,7 +28,7 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
                     foreach ($exercise->getMusclesUsed() as $muscle) $muscles[] = $muscle->getName();
 
                     ?>
-                    <a id="exercise-<?= $exercise->getId() ?>" href=""
+                    <a id="exercise-<?= $exercise->getId() ?>" href="/exercises/<?= $exercise->getId() ?>"
                        class="w-full p-6 dark:bg-slate-800 rounded-xl flex justify-between items-center">
                         <div>
                             <div class="text-lg font-bold"><?= $exercise->getName() ?></div>
@@ -61,7 +61,7 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
             /** @var array $data */
             /** @var CustomExercise $exercise */
             /** @var Equipment $eq */
-            /** @var Muscle $muscle */
+            /** @var ExerciseMuscle $muscle */
             if (!empty($data['customExercises'])):
                 foreach ($data['customExercises'] as $exercise):
                     $equipment = [];
