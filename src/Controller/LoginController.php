@@ -17,15 +17,25 @@ class LoginController
         $view->render('index', [], 'Wspomagacz | Logowanie');
     }
 
-    private function verifyLogin(string $username, string $password): bool
+    public function verify(): void
+    {
+        if (isset($_POST['login']) && isset($_POST['password'])) {
+            if ($user_id = $this->verifyLogin($_POST['login'], $_POST['password'])) {
+                session_start();
+                $_SESSION['user_id'] = $user_id;
+            }
+        }
+    }
+
+    private function verifyLogin(string $username, string $password): bool | int
     {
         $database = new Database();
 
-        $query = "SELECT u.password_hash FROM users u WHERE u.username = :username;";
+        $query = "SELECT u.id, u.password_hash FROM users u WHERE u.username = :username;";
 
-        $password_hash = $database->query($query, ['username' => $username])->fetch();
+        $user_data = $database->query($query, ['username' => $username])->fetch();
 
-        if (password_verify($password, $password_hash)) return true;
+        if (password_verify($password, $user_data['password_hash'])) return $user_data['id'];
         return false;
     }
 }
