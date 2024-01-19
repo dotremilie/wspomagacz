@@ -8,7 +8,7 @@
             <i data-feather="home"></i>
         </a>
     <?php endif; ?>
-    <?php if (str_contains($_SERVER['REQUEST_URI'], 'exercises')): ?>
+    <?php if (str_starts_with($_SERVER['REQUEST_URI'], '/exercises')): ?>
         <a href="/exercises" class="grow flex justify-center p-4 text-red-400 active:dark:bg-slate-700 active:bg-slate-200 transition">
             <i data-feather="zap"></i>
         </a>
@@ -17,7 +17,7 @@
             <i data-feather="zap"></i>
         </a>
     <?php endif; ?>
-    <?php if (str_contains($_SERVER['REQUEST_URI'], 'training')): ?>
+    <?php if (str_starts_with($_SERVER['REQUEST_URI'], '/training')): ?>
         <a href="/trainings" class="grow flex justify-center p-4 text-red-400 active:dark:bg-slate-700 active:bg-slate-200 transition">
             <i data-feather="activity"></i>
         </a>
@@ -26,7 +26,7 @@
             <i data-feather="activity"></i>
         </a>
     <?php endif; ?>
-    <?php if (str_contains($_SERVER['REQUEST_URI'], 'ranking')): ?>
+    <?php if (str_starts_with($_SERVER['REQUEST_URI'], '/ranking')): ?>
         <a href="/ranking" class="grow flex justify-center p-4 text-red-400 active:dark:bg-slate-700 active:bg-slate-200 transition">
             <i data-feather="award"></i>
         </a>
