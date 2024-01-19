@@ -15,35 +15,66 @@ use Wspomagacz\Core\Router;
 
 $router = new Router();
 
+// Ekran główny
 $router->addRoute('GET', '/', HomeController::class, 'index');
 
+// Ekran powitalny
 $router->addRoute('GET', '/startup', StartupController::class, 'index');
 
+// Logowanie
 $router->addRoute('GET', '/login', LoginController::class, 'index');
 $router->addRoute('POST', '/login/verify', LoginController::class, 'verify');
 
+// Rejestracja
 $router->addRoute('GET', '/signup', SignupController::class, 'index');
 $router->addRoute('POST', '/signup/verify', SignupController::class, 'verify');
 
+// Wyświetlenie rankingu
 $router->addRoute('GET', '/ranking', RankingController::class, 'index');
 
+// Wyświetlenie ćwiczeń
 $router->addRoute('GET', '/exercises', ExercisesController::class, 'index');
 $router->addRoute('GET', '/exercises/{id}', ExercisesController::class, 'show');
 
+// Wyświetlenie treningów
 $router->addRoute('GET', '/trainings', TrainingsController::class, 'index');
 
-$router->addRoute('GET', '/trainings', TrainingsController::class, 'index');
+// Utworzenie treningu
 $router->addRoute('GET', '/trainings/create', TrainingsController::class, 'create');
+$router->addRoute('GET', '/trainings/create/save', TrainingsController::class, 'save_create');
 
+// Wyświetlenie treningu
 $router->addRoute('GET', '/trainings/{id}', TrainingsController::class, 'show');
-$router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}', TrainingsController::class, 'showExercises');
-$router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}/sets/{set_id}', TrainingsController::class, 'showSets');
 
+// Usunięcie treningu
+$router->addRoute('GET', '/trainings/{id}/delete', TrainingsController::class, 'delete');
+
+// Edycja treningu
 $router->addRoute('GET', '/trainings/{id}/edit', TrainingsController::class, 'edit');
-$router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}/sets/{set_id}/edit', TrainingsController::class, 'editSets');
+$router->addRoute('GET', '/trainings/{id}/edit/save', TrainingsController::class, 'save_edit');
 
-$router->addRoute('GET', '/trainings/create/save', TrainingsController::class, 'save');
-$router->addRoute('GET', '/trainings/{id}/edit/save', TrainingsController::class, 'editSave');
-$router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}/sets/{set_id}/edit/save', TrainingsController::class, 'editSaveSets');
+// Wyświetlenie ćwiczenia
+$router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}', TrainingsController::class, 'show_exercise');
+
+// Dodanie ćwiczenia do treningu
+$router->addRoute('GET', '/trainings/{training_id}/add_exercise', TrainingsController::class, 'add_exercise');
+$router->addRoute('GET', '/trainings/{training_id}/add_exercise/{exercise_id}', TrainingsController::class, 'save_add_exercise');
+
+// Wyświetlenie ćwiczenia
+$router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}/delete', TrainingsController::class, 'delete_exercise');
+
+// Wyświetlenie serii
+$router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}/sets/{set_id}', TrainingsController::class, 'show_set');
+
+// Dodanie serii do ćwiczenia
+$router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}/add_set', TrainingsController::class, 'add_set');
+$router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}/add_set/save', TrainingsController::class, 'save_add_set');
+
+// Usunięcie serii
+$router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}/sets/{set_id}/delete', TrainingsController::class, 'delete_set');
+
+// Edycja serii
+$router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}/sets/{set_id}/edit', TrainingsController::class, 'edit_set');
+$router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}/sets/{set_id}/edit/save', TrainingsController::class, 'save_edit_set');
 
 $router->dispatch($_SERVER['REQUEST_METHOD'], parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));

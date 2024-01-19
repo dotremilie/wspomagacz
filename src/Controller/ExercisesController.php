@@ -59,7 +59,7 @@ class ExercisesController
         $this->customExercises = $customExercises;
     }
 
-    private function fetchExercises(): void
+    public function fetchExercises(): void
     {
         $database = new Database();
         $query = "

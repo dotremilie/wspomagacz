@@ -32,6 +32,60 @@ class TrainingsController
     /**
      * @throws Exception
      */
+    public function create(): void
+    {
+        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+
+        $trainingObject = null;
+        $exercises = [];
+
+        if (isset($_GET['user_id']) && isset($_GET['training_id']) && isset($_GET['exercises'])) {
+            $this->fetchTrainings(intval($_GET['user_id']));
+            /** @var Training $training */
+            foreach ($this->getTrainings() as $training) {
+                if ($training->getId() == $_GET['training_id']) {
+                    $trainingObject = $training;
+                    break;
+                }
+            }
+
+            $exercisesIntList = explode(',', $_GET['exercises']);
+
+            foreach ($exercisesIntList as $exercise) {
+                $exercisesController = new ExercisesController();
+
+                $exercises[] = $exercisesController->fetchExerciseById(intval($exercise));
+            }
+        }
+
+        $view = new View(__DIR__ . '/../View/Trainings');
+        $view->render('create', ['training' => $trainingObject, 'exercises' => $exercises], 'Wspomagacz | Nowy Trening');
+    }
+
+    public function save_create(): void
+    {
+        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+
+        if (!isset($_GET['name']) || !isset($_GET['date'])) header('Location: /trainings');
+
+        if ($_GET['name'] == '' || $_GET['date'] == '') header('Location: /trainings');
+
+        if (!($trainingId = $this->addTraining($_SESSION['user_id'], $_GET['name'], $_GET['date']))) header('Location: /trainings');
+
+        if (!isset($_GET['exercises'])) header('Location: /trainings');
+
+        $exercisesIds = explode(',', $_GET['exercises']);
+
+        foreach ($exercisesIds as $exerciseId) {
+            $this->addTrainingExercise(intval($trainingId), intval($exerciseId));
+        }
+
+        header('Location: /trainings');
+    }
+
+    /**
+     * @throws Exception
+     */
     public function show(array $params): void
     {
         if (!isset($_SESSION['user_id'])) header('Location: /startup');
@@ -55,6 +109,24 @@ class TrainingsController
 
         $view = new View(__DIR__ . '/../View/Trainings');
         $view->render('show', ['training' => $trainingObject], "Wspomagacz | $titleTraining");
+    }
+
+    public function delete(array $params): void
+    {
+        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+
+        $trainingId = isset($params['id']) ? (int)$params['id'] : null;
+
+        $this->fetchTrainings($_SESSION['user_id']);
+
+        /** @var Training $training */
+        foreach ($this->getTrainings() as $training) {
+            if ($training->getId() == $trainingId) {
+                $this->removeTraining($trainingId);
+                break;
+            }
+        }
+        header('Location: /trainings');
     }
 
     /**
@@ -83,25 +155,7 @@ class TrainingsController
         $view->render('edit', ['training' => $trainingObject], "Wspomagacz | $titleTraining");
     }
 
-    public function delete(array $params): void
-    {
-        if (!isset($_SESSION['user_id'])) header('Location: /startup');
-
-        $trainingId = isset($params['id']) ? (int)$params['id'] : null;
-
-        $this->fetchTrainings($_SESSION['user_id']);
-
-        /** @var Training $training */
-        foreach ($this->getTrainings() as $training) {
-            if ($training->getId() == $trainingId) {
-                $this->removeTraining($trainingId);
-                break;
-            }
-        }
-        header('Location: /trainings');
-    }
-
-    public function editSave(array $params): void
+    public function save_edit(array $params): void
     {
         if (!isset($_SESSION['user_id'])) header('Location: /startup');
 
@@ -126,51 +180,7 @@ class TrainingsController
     /**
      * @throws Exception
      */
-    public function editSets(array $params): void
-    {
-        if (!isset($_SESSION['user_id'])) header('Location: /startup');
-
-        $trainingId = isset($params['training_id']) ? (int)$params['training_id'] : null;
-        $exerciseId = isset($params['exercise_id']) ? (int)$params['exercise_id'] : null;
-        $setId = isset($params['exercise_id']) ? (int)$params['exercise_id'] : null;
-        $trainingObject = null;
-        $exerciseObject = null;
-        $setObject = null;
-
-        $this->fetchTrainings($_SESSION['user_id']);
-
-        /** @var Training $training */
-        foreach ($this->getTrainings() as $training) {
-            if ($training->getId() == $trainingId) {
-                $trainingObject = $training;
-
-                foreach ($training->getExercises() as $exercise) {
-                    if ($exercise->getId() == $exerciseId) {
-                        $exerciseObject = $exercise;
-
-                        foreach ($exercise->getSets() as $set) {
-                            if ($set->getId() == $setId) {
-                                $setObject = $set;
-                                break;
-                            }
-                        }
-                        break;
-                    }
-                }
-                break;
-            }
-        }
-
-        $titleTraining = isset($trainingObject) ? $trainingObject->getName() : "Nie znaleziono";
-
-        $view = new View(__DIR__ . '/../View/TrainingExerciseSets');
-        $view->render('edit', ['training' => $trainingObject, 'exercise' => $exerciseObject, 'set' => $setObject], "Wspomagacz | $titleTraining");
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function showExercises(array $params): void
+    public function show_exercise(array $params): void
     {
         if (!isset($_SESSION['user_id'])) header('Location: /startup');
 
@@ -207,7 +217,60 @@ class TrainingsController
     /**
      * @throws Exception
      */
-    public function showSets(array $params): void
+    public function add_exercise(array $params): void
+    {
+        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+
+        $trainingId = isset($params['training_id']) ? (int)$params['training_id'] : null;
+        $trainingObject = null;
+
+        $this->fetchTrainings($_SESSION['user_id']);
+
+        /** @var Training $training */
+        foreach ($this->getTrainings() as $training) {
+            if ($training->getId() == $trainingId) {
+                $trainingObject = $training;
+                break;
+            }
+        }
+
+        $exerciseController = new ExercisesController();
+
+        $exerciseController->fetchExercises();
+
+        $exercises = $exerciseController->getExercises();
+
+        $view = new View(__DIR__ . '/../View/TrainingExercises');
+        $view->render('add', ['training' => $trainingObject, 'exercises' => $exercises], "Wspomagacz | Dodaj Ćwiczenie");
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function save_add_exercise(array $params): void
+    {
+        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+
+        $trainingId = isset($params['training_id']) ? (int)$params['training_id'] : null;
+        $exerciseId = isset($params['exercise_id']) ? (int)$params['exercise_id'] : null;
+
+        $this->fetchTrainings($_SESSION['user_id']);
+
+        /** @var Training $training */
+        foreach ($this->getTrainings() as $training) {
+            if ($training->getId() == $trainingId) {
+                $this->addTrainingExercise($trainingId, $exerciseId);
+                break;
+            }
+        }
+
+        header("Location: /trainings/$trainingId");
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function show_set(array $params): void
     {
         if (!isset($_SESSION['user_id'])) header('Location: /startup');
 
@@ -251,55 +314,12 @@ class TrainingsController
     /**
      * @throws Exception
      */
-    public function create(): void
+    public function edit_set(array $params): void
     {
-        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+        $titleTraining = isset($trainingObject) ? $trainingObject->getName() : "Nie znaleziono";
 
-        $trainingObject = null;
-        $exercises = [];
-
-        if (isset($_GET['user_id']) && isset($_GET['training_id']) && isset($_GET['exercises'])) {
-            $this->fetchTrainings(intval($_GET['user_id']));
-            /** @var Training $training */
-            foreach ($this->getTrainings() as $training) {
-                if ($training->getId() == $_GET['training_id']) {
-                    $trainingObject = $training;
-                    break;
-                }
-            }
-
-            $exercisesIntList = explode(',', $_GET['exercises']);
-
-            foreach ($exercisesIntList as $exercise) {
-                $exercisesController = new ExercisesController();
-
-                $exercises[] = $exercisesController->fetchExerciseById(intval($exercise));
-            }
-        }
-
-        $view = new View(__DIR__ . '/../View/Trainings');
-        $view->render('create', ['training' => $trainingObject, 'exercises' => $exercises], 'Wspomagacz | Nowy Trening');
-    }
-
-    public function save(): void
-    {
-        if (!isset($_SESSION['user_id'])) header('Location: /startup');
-
-        if (!isset($_GET['name']) || !isset($_GET['date'])) header('Location: /trainings');
-
-        if ($_GET['name'] == '' || $_GET['date'] == '') header('Location: /trainings');
-
-        if (!($trainingId = $this->addTraining($_SESSION['user_id'], $_GET['name'], $_GET['date']))) header('Location: /trainings');
-
-        if (!isset($_GET['exercises'])) header('Location: /trainings');
-
-        $exercisesIds = explode(',', $_GET['exercises']);
-
-        foreach ($exercisesIds as $exerciseId) {
-            $this->addTrainingExercises(intval($trainingId), intval($exerciseId));
-        }
-
-        header('Location: /trainings');
+        $view = new View(__DIR__ . '/../View/TrainingExerciseSets');
+        $view->render('edit', [], "Wspomagacz | $titleTraining");
     }
 
 
@@ -363,6 +383,8 @@ class TrainingsController
 
             if ($trainingExercises = $database->query($query, ["training_id" => $training['training_id']])->fetchAll()) {
                 foreach ($trainingExercises as $trainingExercise) {
+                    $trainingExercisesSetsArray = [];
+
                     $query = "
                     SELECT 
                         tes.id,                  
@@ -379,12 +401,10 @@ class TrainingsController
                         `order`";
 
                     if ($trainingExercisesSets = $database->query($query, ["training_exercise_id" => $trainingExercise['id']])->fetchAll()) {
-                        $trainingExercisesSetsArray = [];
-
                         foreach ($trainingExercisesSets as $trainingExercisesSet) $trainingExercisesSetsArray[] = new TrainingExerciseSet($trainingExercisesSet['id'], $trainingExercisesSet['order'], $trainingExercisesSet['repetitions'], $trainingExercisesSet['weight']);
-
-                        $trainingExercisesArray[] = new TrainingExercise($trainingExercise['id'], $training['training_id'], $trainingExercise['name'], $trainingExercise['order'], TrainingStatus::from($trainingExercise['status']), $trainingExercisesSetsArray);
                     }
+
+                    $trainingExercisesArray[] = new TrainingExercise($trainingExercise['id'], $training['training_id'], $trainingExercise['name'], $trainingExercise['order'], TrainingStatus::from($trainingExercise['status']), $trainingExercisesSetsArray);
                 }
             }
 
@@ -394,7 +414,6 @@ class TrainingsController
         $this->setTrainings($trainingsArray);
         $database->close();
     }
-
 
     private function addTraining(int $user_id, string $training_name, string $training_date): false|string
     {
@@ -449,7 +468,7 @@ class TrainingsController
         $database->close();
     }
 
-    private function addTrainingExercises(int $trainingId, int $exerciseId): false|string
+    private function addTrainingExercise(int $trainingId, int $exerciseId): false|string
     {
         $database = new Database();
 
@@ -466,7 +485,7 @@ class TrainingsController
         return $lastInsertId;
     }
 
-    private function removeTrainingExercises(int $trainingExerciseId): void
+    private function removeTrainingExercise(int $trainingExerciseId): void
     {
         $database = new Database();
 
