@@ -101,6 +101,28 @@ class TrainingsController
         header('Location: /trainings');
     }
 
+    public function editSave(array $params): void
+    {
+        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+
+        $trainingId = isset($params['id']) ? (int)$params['id'] : null;
+        $trainingName = isset($_GET['name']) ? (int)$_GET['name'] : null;
+        $trainingDate = isset($_GET['date']) ? (int)$_GET['date'] : null;
+
+        $this->fetchTrainings($_SESSION['user_id']);
+
+        /** @var Training $training */
+        foreach ($this->getTrainings() as $training) {
+            if ($training->getId() == $trainingId) {
+                if (isset($trainingName) && isset($trainingDate)) $this->editTraining($trainingId, $trainingName, $trainingDate);
+                else if (isset($trainingName))  $this->editTraining($trainingId, $trainingName, $training->getDate());
+                else if (isset($trainingDate))  $this->editTraining($trainingId, $training->getName(), $trainingDate);
+                break;
+            }
+        }
+        header("Location: /trainings/$trainingId");
+    }
+
     /**
      * @throws Exception
      */
