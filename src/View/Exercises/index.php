@@ -29,7 +29,7 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
 
                     ?>
                     <a id="exercise-<?= $exercise->getId() ?>" href="/exercises/<?= $exercise->getId() ?>"
-                       class="w-full p-6 dark:bg-slate-800 rounded-xl flex justify-between items-center">
+                       class="w-full p-6 dark:bg-slate-800 bg-slate-100 rounded-xl flex justify-between items-center">
                         <div>
                             <div class="text-lg font-bold"><?= $exercise->getName() ?></div>
                             <div class="text-gray-400 max-w-64 truncate">
@@ -72,7 +72,7 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
 
                     ?>
                     <a id="custom-exercise-<?= $exercise->getId() ?>" href=""
-                       class="w-full p-6 dark:bg-slate-800 rounded-xl flex justify-between items-center">
+                       class="w-full p-6 dark:bg-slate-800 bg-slate-100 rounded-xl flex justify-between items-center">
                         <div>
                             <div class="text-lg font-bold"><?= $exercise->getName() ?></div>
                             <div class="text-gray-400 max-w-64 truncate">
@@ -90,12 +90,16 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
                     </a>
                 <?php endforeach;
             else: ?>
-                <div class="text-xl w-full flex flex-col gap-4 p-6 text-center dark:bg-slate-800 bg-slate-100 rounded-xl">
-                    Nie zdefiniowałeś żadnych własnych ćwiczeń. Czy chcesz dodać swoje ćwiczenie?
-                    <a href="/training"
-                       class="w-full text-center bg-red-400 transition active:bg-red-500 rounded-xl p-3 disabled:bg-gray-400">Nowe
-                        Ćwiczenie
-                    </a>
+                <div class="w-full">
+                    <div class="text-xl w-full flex flex-col gap-6 text-center rounded-xl">
+                        <div class="text-center dark:text-slate-400 text-slate-600">
+                            Brakuje ci jakiegoś ćwiczenia?
+                        </div>
+                        <a href="/training"
+                           class="w-full text-center bg-red-400 transition active:bg-red-500 rounded-xl p-3 disabled:bg-gray-400">
+                            Dodaj własne ćwiczenie
+                        </a>
+                    </div>
                 </div>
             <?php endif; ?>
         </div>
