@@ -39,6 +39,8 @@ class TrainingsController
         $trainingId = isset($params['id']) ? (int)$params['id'] : null;
         $trainingObject = null;
 
+        if (isset($_GET['set_status'])) $this->editTrainingStatus($trainingId, $_GET['set_status']);
+
         $this->fetchTrainings($_SESSION['user_id']);
 
         /** @var Training $training */
