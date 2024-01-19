@@ -83,6 +83,24 @@ class TrainingsController
         $view->render('edit', ['training' => $trainingObject], "Wspomagacz | $titleTraining");
     }
 
+    public function delete(array $params): void
+    {
+        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+
+        $trainingId = isset($params['id']) ? (int)$params['id'] : null;
+
+        $this->fetchTrainings($_SESSION['user_id']);
+
+        /** @var Training $training */
+        foreach ($this->getTrainings() as $training) {
+            if ($training->getId() == $trainingId) {
+                $this->removeTraining($trainingId);
+                break;
+            }
+        }
+        header('Location: /trainings');
+    }
+
     /**
      * @throws Exception
      */
