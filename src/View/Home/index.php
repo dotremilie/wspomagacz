@@ -7,7 +7,7 @@
     <section class="mx-auto pl-4 w-full">
         <div class="text-2xl font-bold mb-4">Dzisiejszy plan</div>
         <div class="">
-            <div class="flex gap-6 overflow-x-scroll overflow-y-hidden pr-4 mb-4">
+            <div class="flex gap-6 pr-4 mb-4">
                 <div class="flex flex-col w-full gap-2 dark:bg-slate-800 bg-slate-100 rounded-xl p-4">
                     <div class="w-full flex items-center justify-between">
                         <div class="flex items-center gap-2">
@@ -29,7 +29,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex gap-6 overflow-x-scroll overflow-y-hidden pr-4">
+            <div class="flex gap-6 overflow-x-scroll snap-x overflow-y-hidden pr-4">
                 <div class="flex items-center dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
                     <div class="flex flex-col h-full justify-center">
                         <div class="mb-4 truncate max-w-48">
@@ -95,7 +95,7 @@
     </section>
     <section class="mx-auto pl-4 w-full">
         <div class="text-2xl font-bold mb-4">Popularne treningi</div>
-        <div class="flex gap-6 overflow-y-scroll pr-4">
+        <div class="flex gap-6 overflow-x-scroll overflow-y-hidden snap-x pr-4">
             <div class="flex items-center dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
                 <div class="flex flex-col h-full leading-none justify-center">
                     <div class="mb-4 truncate max-w-48">
