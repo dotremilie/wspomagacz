@@ -25,6 +25,9 @@ $router->addRoute('GET', '/startup', StartupController::class, 'index');
 $router->addRoute('GET', '/login', LoginController::class, 'index');
 $router->addRoute('POST', '/login/verify', LoginController::class, 'verify');
 
+// Wylogowanie
+$router->addRoute('GET', '/logout', LoginController::class, 'logout');
+
 // Rejestracja
 $router->addRoute('GET', '/signup', SignupController::class, 'index');
 $router->addRoute('POST', '/signup/verify', SignupController::class, 'verify');

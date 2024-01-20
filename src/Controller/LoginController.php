@@ -28,6 +28,13 @@ class LoginController
         header('Location: /login');
     }
 
+    public function logout(): void
+    {
+        session_destroy();
+        header('Location: /startup');
+        exit();
+    }
+
     private function verifyLogin(string $username, string $password): bool | int
     {
         $database = new Database();
