@@ -811,14 +811,18 @@ class TrainingsController
                 JOIN
                     training_exercises_sets tes ON te.id = tes.training_exercise_id
                 WHERE
-                    tes.id = :setId)";
+                    tes.id = :set_id)";
 
-        $personalBest = $database->query($query, ["set_id" => $setId]);
+        $personalBest = $database->query($query, ["set_id" => $setId])->fetchAll();
         $database->close();
 
-        if(isset($personalBest)) {
-            if ($personalBest >= $weight) $this->editNewPersonalBest($setId, $weight);
-        } else $this->setNewPersonalBest($setId, $weight);
+        if(isset($personalBest['weight'])) {
+            if ($personalBest['weight'] >= $weight) {
+                $this->editPersonalBest($setId, $weight);
+            }
+        } else {
+            $this->setNewPersonalBest($setId, $weight);
+        }
     }
 
     private function setNewPersonalBest(int $setId,  int $weight): void
@@ -829,26 +833,26 @@ class TrainingsController
             INSERT INTO user_exercise_personal_best (user_id, exercise_id, training_id, weight)
             VALUES (
                     (SELECT u.id FROM users u JOIN trainings t ON u.id = t.user_id WHERE t.id = 
-                        (SELECT t.id FROM training_exercises_sets tes JOIN training_exercises te ON tes.training_exercise_id = te.id JOIN trainings t ON te.training_id = t.id WHERE tes.id = :setId)),
-                    (SELECT te.exercise_id FROM training_exercises_sets tes JOIN training_exercises te ON tes.training_exercise_id = te.id WHERE tes.id = :setId),
-                    (SELECT t.id FROM training_exercises_sets tes JOIN training_exercises te ON tes.training_exercise_id = te.id JOIN trainings t ON te.training_id = t.id WHERE tes.id = :setId),
+                        (SELECT t.id FROM training_exercises_sets tes JOIN training_exercises te ON tes.training_exercise_id = te.id JOIN trainings t ON te.training_id = t.id WHERE tes.id = :set_id)),
+                    (SELECT te.exercise_id FROM training_exercises_sets tes JOIN training_exercises te ON tes.training_exercise_id = te.id WHERE tes.id = :set_id),
+                    (SELECT t.id FROM training_exercises_sets tes JOIN training_exercises te ON tes.training_exercise_id = te.id JOIN trainings t ON te.training_id = t.id WHERE tes.id = :set_id),
                     :weight
-                   )";
+                   ) ON DUPLICATE KEY UPDATE weight = :weight, training_id = (SELECT t.id FROM training_exercises_sets tes JOIN training_exercises te ON tes.training_exercise_id = te.id JOIN trainings t ON te.training_id = t.id WHERE tes.id = :set_id)";
 
         $database->query($query, ["set_id" => $setId, "weight" => $weight]);
         $database->close();
     }
 
-    private function editNewPersonalBest(int $setId, int $weight): void
+    private function editPersonalBest(int $setId, int $weight): void
     {
         $database = new Database();
 
         $query = "
             UPDATE user_exercise_personal_best
             SET weight = :weight,
-                training_id = (SELECT t.id FROM training_exercises_sets tes JOIN training_exercises te ON tes.training_exercise_id = te.id JOIN trainings t ON te.training_id = t.id WHERE tes.id = :setId)
+                training_id = (SELECT t.id FROM training_exercises_sets tes JOIN training_exercises te ON tes.training_exercise_id = te.id JOIN trainings t ON te.training_id = t.id WHERE tes.id = :set_id)
             WHERE
-                exercise_id = (SELECT te.exercise_id FROM training_exercises_sets tes JOIN training_exercises te ON tes.training_exercise_id = te.id WHERE tes.id = :setId)";
+                exercise_id = (SELECT te.exercise_id FROM training_exercises_sets tes JOIN training_exercises te ON tes.training_exercise_id = te.id WHERE tes.id = :set_id)";
 
         $database->query($query, ["set_id" => $setId, "weight" => $weight]);
         $database->close();
