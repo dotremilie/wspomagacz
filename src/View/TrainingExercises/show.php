@@ -111,7 +111,7 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
             </div>
             <div class="text-2xl font-bold mb-4">Serie</div>
             <div class="w-full flex flex-col gap-4 justify-center items-center">
-                <a href="/trainings/create"
+                <a href="/trainings/<?= $training->getId() ?>/exercises/<?= $exercise->getId() ?>/add_set"
                    class="w-full text-center bg-red-400 transition active:bg-red-500 rounded-xl p-3 disabled:bg-gray-400">
                     Dodaj serię
                 </a>
