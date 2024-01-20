@@ -6,7 +6,6 @@ use DateTime;
 use Exception;
 use Wspomagacz\Core\Database;
 use Wspomagacz\Enums\TrainingStatus;
-use Wspomagacz\Model\Exercise;
 use Wspomagacz\Model\Training;
 use Wspomagacz\Model\TrainingExercise;
 use Wspomagacz\Model\TrainingExerciseSet;
@@ -773,6 +772,8 @@ class TrainingsController
 
         $database->query($query, ["set_id" => $setId, "weight" => $weight, "repetitions" => $repetitions]);
         $database->close();
+
+        $this->checkIfSetIsNewPersonalBest($setId, $weight);
     }
 
     private function addSet(int $trainingExerciseId, int $weight, int $repetitions): void
@@ -786,6 +787,70 @@ class TrainingsController
             (:training_exercise_id, (SELECT COALESCE(MAX(`order`), 0) + 1 FROM training_exercises_sets tes WHERE tes.id = :training_exercise_id), :repetitions, :weight);";
 
         $database->query($query, ["training_exercise_id" => $trainingExerciseId, "weight" => $weight, "repetitions" => $repetitions]);
+
+        $this->checkIfSetIsNewPersonalBest($database->lastInsertId(), $weight);
+
+        $database->close();
+    }
+
+    private function checkIfSetIsNewPersonalBest(int $setId, int $weight): void
+    {
+        $database = new Database();
+
+        $query = "
+            SELECT
+                uepb.weight
+            FROM
+                user_exercise_personal_best uepb
+            WHERE
+                uepb.exercise_id = (
+                SELECT
+                    te.exercise_id
+                FROM
+                    training_exercises te
+                JOIN
+                    training_exercises_sets tes ON te.id = tes.training_exercise_id
+                WHERE
+                    tes.id = :setId)";
+
+        $personalBest = $database->query($query, ["set_id" => $setId]);
+        $database->close();
+
+        if(isset($personalBest)) {
+            if ($personalBest >= $weight) $this->editNewPersonalBest($setId, $weight);
+        } else $this->setNewPersonalBest($setId, $weight);
+    }
+
+    private function setNewPersonalBest(int $setId,  int $weight): void
+    {
+        $database = new Database();
+
+        $query = "
+            INSERT INTO user_exercise_personal_best (user_id, exercise_id, training_id, weight)
+            VALUES (
+                    (SELECT u.id FROM users u JOIN trainings t ON u.id = t.user_id WHERE t.id = 
+                        (SELECT t.id FROM training_exercises_sets tes JOIN training_exercises te ON tes.training_exercise_id = te.id JOIN trainings t ON te.training_id = t.id WHERE tes.id = :setId)),
+                    (SELECT te.exercise_id FROM training_exercises_sets tes JOIN training_exercises te ON tes.training_exercise_id = te.id WHERE tes.id = :setId),
+                    (SELECT t.id FROM training_exercises_sets tes JOIN training_exercises te ON tes.training_exercise_id = te.id JOIN trainings t ON te.training_id = t.id WHERE tes.id = :setId),
+                    :weight
+                   )";
+
+        $database->query($query, ["set_id" => $setId, "weight" => $weight]);
+        $database->close();
+    }
+
+    private function editNewPersonalBest(int $setId, int $weight): void
+    {
+        $database = new Database();
+
+        $query = "
+            UPDATE user_exercise_personal_best
+            SET weight = :weight,
+                training_id = (SELECT t.id FROM training_exercises_sets tes JOIN training_exercises te ON tes.training_exercise_id = te.id JOIN trainings t ON te.training_id = t.id WHERE tes.id = :setId)
+            WHERE
+                exercise_id = (SELECT te.exercise_id FROM training_exercises_sets tes JOIN training_exercises te ON tes.training_exercise_id = te.id WHERE tes.id = :setId)";
+
+        $database->query($query, ["set_id" => $setId, "weight" => $weight]);
         $database->close();
     }
 
