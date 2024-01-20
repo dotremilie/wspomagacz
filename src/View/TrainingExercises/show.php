@@ -125,7 +125,7 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
                         <a href="/trainings/<?= $training->getId(); ?>/exercises/<?= $exercise->getId(); ?>/sets/<?= $set->getId(); ?>"
                            class="flex items-center justify-between w-full dark:bg-slate-800 bg-slate-100 rounded-xl text-xl p-4">
                             <div class="flex flex-col h-full justify-center">
-                                <div class="mb-4 truncate">Seria nr <?= $set->getOrder() ?></div>
+                                <div class="mb-4 truncate">Seria</div>
                                 <div class="text-sm dark:text-slate-400 text-slate-600 truncate">
                                     <i class="ti ti-123"></i>
                                     <?php echo $set->getRepetitions();
