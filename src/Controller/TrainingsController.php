@@ -295,7 +295,7 @@ class TrainingsController
 
         $trainingId = isset($params['training_id']) ? (int)$params['training_id'] : null;
         $exerciseId = isset($params['exercise_id']) ? (int)$params['exercise_id'] : null;
-        $setId = isset($params['exercise_id']) ? (int)$params['exercise_id'] : null;
+        $setId = isset($params['set_id']) ? (int)$params['set_id'] : null;
         $trainingObject = null;
         $exerciseObject = null;
         $setObject = null;
@@ -335,10 +335,82 @@ class TrainingsController
      */
     public function edit_set(array $params): void
     {
+        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+
+        $trainingId = isset($params['training_id']) ? (int)$params['training_id'] : null;
+        $exerciseId = isset($params['exercise_id']) ? (int)$params['exercise_id'] : null;
+        $setId = isset($params['set_id']) ? (int)$params['set_id'] : null;
+        $trainingObject = null;
+        $exerciseObject = null;
+        $setObject = null;
+
+
+        $this->fetchTrainings($_SESSION['user_id']);
+
+        /** @var Training $training */
+        foreach ($this->getTrainings() as $training) {
+            if ($training->getId() == $trainingId) {
+                $trainingObject = $training;
+
+                foreach ($training->getExercises() as $exercise) {
+                    if ($exercise->getId() == $exerciseId) {
+                        $exerciseObject = $exercise;
+
+                        foreach ($exercise->getSets() as $set) {
+                            if ($set->getId() == $setId) {
+                                $setObject = $set;
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+
         $titleTraining = isset($trainingObject) ? $trainingObject->getName() : "Nie znaleziono";
 
         $view = new View(__DIR__ . '/../View/TrainingExerciseSets');
-        $view->render('edit', [], "Wspomagacz | $titleTraining");
+        $view->render('show', ['training' => $trainingObject, 'exercise' => $exerciseObject, 'set' => $setObject], "Wspomagacz | $titleTraining");
+    }
+
+    public function save_edit_set(array $params): void
+    {
+        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+
+        $trainingId = isset($params['training_id']) ? (int)$params['training_id'] : null;
+        $exerciseId = isset($params['exercise_id']) ? (int)$params['exercise_id'] : null;
+        $setId = isset($params['set_id']) ? (int)$params['set_id'] : null;
+        $setWeight = isset($_GET['weight']) ? (int)$_GET['weight'] : null;
+        $setRepetitions = isset($_GET['repetitions']) ? (int)$_GET['repetitions'] : null;
+
+
+        $this->fetchTrainings($_SESSION['user_id']);
+
+        /** @var Training $training */
+        foreach ($this->getTrainings() as $training) {
+            if ($training->getId() == $trainingId) {
+
+                foreach ($training->getExercises() as $exercise) {
+                    if ($exercise->getId() == $exerciseId) {
+
+                        foreach ($exercise->getSets() as $set) {
+                            if ($set->getId() == $setId) {
+                                if (isset($setWeight) && isset($setRepetitions)) $this->editSet($setId, $setWeight, $setRepetitions);
+                                else if (isset($setWeight)) $this->editSet($setId, $setWeight, $set['repetitions']);
+                                else if (isset($setRepetitions)) $this->editSet($setId, $set['weight'], $setRepetitions);
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+
+        header("Location: /trainings/$trainingId/exercises/$exerciseId");
     }
 
     public function delete_set(array $params): void
@@ -551,6 +623,23 @@ class TrainingsController
         $query = "DELETE FROM training_exercises_sets where id = :set_id";
 
         $database->query($query, ["set_id" => $setId]);
+        $database->close();
+    }
+
+    private function editSet(int $setId, int $weight, int $repetitions): void
+    {
+        $database = new Database();
+
+        $query = "
+        UPDATE 
+            training_exercises_sets 
+        SET 
+            weight = :weight,
+            repetitions = :repetitions
+        WHERE 
+            id = :set_id";
+
+        $database->query($query, ["set_id" => $setId, "weight" => $weight, "repetitions" => $repetitions]);
         $database->close();
     }
 
