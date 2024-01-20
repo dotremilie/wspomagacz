@@ -753,6 +753,8 @@ class TrainingsController
 
         $query = "DELETE FROM training_exercises_sets where id = :set_id";
 
+        $this->checkForNewPersonalBest($setId, 0);
+
         $database->query($query, ["set_id" => $setId]);
         $database->close();
     }
@@ -773,7 +775,7 @@ class TrainingsController
         $database->query($query, ["set_id" => $setId, "weight" => $weight, "repetitions" => $repetitions]);
         $database->close();
 
-        $this->checkIfSetIsNewPersonalBest($setId, $weight);
+        $this->checkForNewPersonalBest($setId, $weight);
     }
 
     private function addSet(int $trainingExerciseId, int $weight, int $repetitions): void
@@ -788,12 +790,12 @@ class TrainingsController
 
         $database->query($query, ["training_exercise_id" => $trainingExerciseId, "weight" => $weight, "repetitions" => $repetitions]);
 
-        $this->checkIfSetIsNewPersonalBest($database->lastInsertId(), $weight);
+        $this->checkForNewPersonalBest($database->lastInsertId(), $weight);
 
         $database->close();
     }
 
-    private function checkIfSetIsNewPersonalBest(int $setId, int $weight): void
+    private function checkForNewPersonalBest(int $setId, int $weight): void
     {
         $database = new Database();
 
@@ -857,5 +859,4 @@ class TrainingsController
         $database->query($query, ["set_id" => $setId, "weight" => $weight]);
         $database->close();
     }
-
 }
