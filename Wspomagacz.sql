@@ -1,18 +1,18 @@
-create or replace table equipment
+create table equipment
 (
     id   int auto_increment
         primary key,
     name tinytext not null
 );
 
-create or replace table exercises
+create table exercises
 (
     id   int auto_increment
         primary key,
     name tinytext not null
 );
 
-create or replace table custom_exercise_equipment
+create table custom_exercise_equipment
 (
     id                 int auto_increment
         primary key,
@@ -24,7 +24,7 @@ create or replace table custom_exercise_equipment
         foreign key (equipment_id) references equipment (id)
 );
 
-create or replace table exercise_equipment
+create table exercise_equipment
 (
     id           int auto_increment
         primary key,
@@ -36,14 +36,14 @@ create or replace table exercise_equipment
         foreign key (equipment_id) references equipment (id)
 );
 
-create or replace table muscles
+create table muscles
 (
     id   int auto_increment
         primary key,
     name tinytext not null
 );
 
-create or replace table custom_exercise_muscles
+create table custom_exercise_muscles
 (
     id                 int auto_increment
         primary key,
@@ -58,7 +58,7 @@ create or replace table custom_exercise_muscles
         foreign key (muscle_id) references muscles (id)
 );
 
-create or replace table exercise_muscles
+create table exercise_muscles
 (
     id          int auto_increment
         primary key,
@@ -73,28 +73,28 @@ create or replace table exercise_muscles
         foreign key (muscle_id) references muscles (id)
 );
 
-create or replace table training_statuses
+create table training_statuses
 (
     id   int auto_increment
         primary key,
     name tinytext not null
 );
 
-create or replace table user_genders
+create table user_genders
 (
     id   int auto_increment
         primary key,
     name tinytext not null
 );
 
-create or replace table user_statuses
+create table user_statuses
 (
     id   int auto_increment
         primary key,
     name tinytext not null
 );
 
-create or replace table users
+create table users
 (
     id             int auto_increment
         primary key,
@@ -114,7 +114,7 @@ create or replace table users
         foreign key (status) references user_statuses (id)
 );
 
-create or replace table custom_exercises
+create table custom_exercises
 (
     id      int auto_increment
         primary key,
@@ -124,7 +124,7 @@ create or replace table custom_exercises
         foreign key (user_id) references users (id)
 );
 
-create or replace table trainings
+create table trainings
 (
     id              int auto_increment
         primary key,
@@ -142,7 +142,7 @@ create or replace table trainings
             on delete cascade
 );
 
-create or replace table training_exercises
+create table training_exercises
 (
     id          int auto_increment
         primary key,
@@ -159,7 +159,7 @@ create or replace table training_exercises
             on delete cascade
 );
 
-create or replace table training_exercises_sets
+create table training_exercises_sets
 (
     id                   int auto_increment
         primary key,
@@ -172,7 +172,7 @@ create or replace table training_exercises_sets
             on delete cascade
 );
 
-create or replace table user_exercise_personal_best
+create table user_exercise_personal_best
 (
     id          int auto_increment
         primary key,
@@ -180,6 +180,8 @@ create or replace table user_exercise_personal_best
     exercise_id int   not null,
     training_id int   not null,
     weight      float not null,
+    constraint user_exercise_personal_best_pk
+        unique (user_id, exercise_id),
     constraint user_exercise_personal_best_exercises_id_fk
         foreign key (exercise_id) references exercises (id),
     constraint user_exercise_personal_best_trainings_id_fk
@@ -188,7 +190,7 @@ create or replace table user_exercise_personal_best
         foreign key (user_id) references users (id)
 );
 
-create or replace table user_weights
+create table user_weights
 (
     id      int auto_increment
         primary key,
@@ -297,39 +299,39 @@ VALUES ('Klatka piersiowa'),
 
 
 INSERT INTO exercise_muscles (exercise_id, muscle_id, strength)
-VALUES (1, 3, 3),
-       (1, 9, 2),
-       (2, 9, 3),
-       (2, 10, 2),
-       (3, 9, 3),
-       (3, 10, 2),
-       (4, 1, 4),
-       (4, 4, 3),
-       (5, 1, 4),
-       (5, 4, 3),
-       (6, 1, 3),
-       (6, 4, 2),
-       (7, 1, 3),
-       (7, 4, 2),
-       (8, 2, 4),
-       (9, 2, 3),
-       (10, 2, 3),
-       (11, 3, 4),
-       (11, 10, 3),
-       (12, 3, 4),
-       (12, 4, 3),
-       (13, 3, 4),
-       (13, 4, 3),
-       (14, 4, 4),
-       (15, 4, 4),
-       (16, 4, 4),
-       (17, 4, 3),
-       (18, 6, 4),
-       (19, 4, 4),
-       (20, 5, 3),
-       (21, 5, 3),
-       (22, 9, 4),
-       (23, 10, 3);
+VALUES (1, 3, 2),
+       (1, 9, 1),
+       (2, 9, 2),
+       (2, 10, 1),
+       (3, 9, 2),
+       (3, 10, 1),
+       (4, 1, 3),
+       (4, 4, 2),
+       (5, 1, 3),
+       (5, 4, 2),
+       (6, 1, 2),
+       (6, 4, 1),
+       (7, 1, 2),
+       (7, 4, 1),
+       (8, 2, 3),
+       (9, 2, 2),
+       (10, 2, 2),
+       (11, 3, 3),
+       (11, 10, 2),
+       (12, 3, 3),
+       (12, 4, 2),
+       (13, 3, 3),
+       (13, 4, 2),
+       (14, 4, 3),
+       (15, 4, 3),
+       (16, 4, 3),
+       (17, 4, 2),
+       (18, 6, 3),
+       (19, 4, 3),
+       (20, 5, 2),
+       (21, 5, 2),
+       (22, 9, 3),
+       (23, 10, 2);
 
 INSERT INTO training_statuses (name)
 VALUES ('Planowany'),
