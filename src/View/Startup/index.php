@@ -10,11 +10,11 @@
     </header>
     <div class="flex flex-col gap-6 p-6 grow justify-center">
         <a href="/login"
-           class="w-full text-center bg-red-400 transition active:bg-red-500 rounded p-3 disabled:bg-gray-400">Zaloguj
+           class="w-full text-center bg-red-400 transition rounded-xl p-3 disabled:bg-gray-400">Zaloguj
             się</a>
         <div class="w-full text-center">Nie masz jeszcze konta?</div>
         <a href="/signup"
-           class="w-full text-center bg-slate-800 transition active:bg-red-500 rounded p-3 disabled:bg-gray-400">Zarejestruj
+           class="w-full text-center bg-slate-800 transition active:bg-red-400 rounded-xl p-3 disabled:bg-gray-400">Zarejestruj
             się</a>
     </div>
 </section>

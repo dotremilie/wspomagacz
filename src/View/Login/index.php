@@ -13,13 +13,13 @@
           class="flex flex-col gap-6 p-6 grow justify-center">
         <div class="text-2xl font-bold">Zaloguj się</div>
         <div class="w-full" id="login-container">
-            <div class="relative rounded w-full">
+            <div class="relative rounded-xl w-full">
                 <div class="absolute pointer-events-none inset-y-0 left-0 pl-3 flex items-center">
                     <i data-feather="user" class="absolute h-5 w-5 text-slate-400"></i>
                 </div>
                 <label>
                     <input type="text" name="login" id="login-input"
-                           class="w-full px-10 block p-3 border bg-transparent border-slate-400 rounded dark:focus:bg-white dark:focus:bg-opacity-10 transition"
+                           class="w-full px-10 block p-3 border bg-transparent border-slate-400 rounded-xl dark:focus:bg-white dark:focus:bg-opacity-10 transition"
                            placeholder="Nazwa użytkownika">
                 </label>
                 <div id="login-error-icon"
@@ -32,13 +32,13 @@
         </div>
 
         <div class="w-full" id="password-container">
-            <div class="relative rounded w-full">
+            <div class="relative rounded-xl w-full">
                 <div class="absolute pointer-events-none inset-y-0 left-0 pl-3 flex items-center">
                     <i data-feather="lock" class="absolute h-5 w-5 text-slate-400"></i>
                 </div>
                 <label>
                     <input type="password" name="password" id="password-input"
-                           class="w-full pl-10 block p-3 border bg-transparent border-slate-400 rounded dark:focus:bg-white dark:focus:bg-opacity-10 transition"
+                           class="w-full pl-10 block p-3 border bg-transparent border-slate-400 rounded-xl dark:focus:bg-white dark:focus:bg-opacity-10 transition"
                            placeholder="Hasło">
                 </label>
                 <div id="password-error-icon"
@@ -51,7 +51,7 @@
         </div>
 
         <input type="submit" id="submit-button" name="login"
-               class="w-full bg-red-400 transition active:bg-red-500 rounded p-3 disabled:bg-gray-400"
+               class="w-full bg-red-400 transition active:bg-red-500 rounded-xl p-3 disabled:bg-gray-400"
                value="Zaloguj">
 
     </form>

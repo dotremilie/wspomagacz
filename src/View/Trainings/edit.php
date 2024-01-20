@@ -44,7 +44,7 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
                 </div>
             </div>
             <input type="submit"
-                   class="w-full text-center border border-lime-400 text-lime-400 transition active:bg-red-500 rounded-xl p-3 disabled:bg-gray-400"
+                   class="w-full text-center border border-lime-400 text-lime-400 transition rounded-xl p-3 disabled:bg-gray-400"
                    value="Zapisz Trening">
         </form>
     <?php endif; ?>

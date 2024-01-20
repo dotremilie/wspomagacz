@@ -21,7 +21,10 @@ class TrainingsController
      */
     public function index(): void
     {
-        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /startup');
+            exit();
+        }
 
         $this->fetchTrainings($_SESSION['user_id']);
 
@@ -34,7 +37,10 @@ class TrainingsController
      */
     public function create(): void
     {
-        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /startup');
+            exit();
+        }
 
         $trainingObject = null;
         $exercises = [];
@@ -64,15 +70,30 @@ class TrainingsController
 
     public function save_create(): void
     {
-        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /startup');
+            exit();
+        }
 
-        if (!isset($_GET['name']) || !isset($_GET['date'])) header('Location: /trainings');
+        if (!isset($_GET['name']) || !isset($_GET['date'])) {
+            header('Location: /trainings');
+            exit();
+        }
 
-        if ($_GET['name'] == '' || $_GET['date'] == '') header('Location: /trainings');
+        if ($_GET['name'] == '' || $_GET['date'] == '') {
+            header('Location: /trainings');
+            exit();
+        }
 
-        if (!($trainingId = $this->addTraining($_SESSION['user_id'], $_GET['name'], $_GET['date']))) header('Location: /trainings');
+        if (!($trainingId = $this->addTraining($_SESSION['user_id'], $_GET['name'], $_GET['date']))) {
+            header('Location: /trainings');
+            exit();
+        }
 
-        if (!isset($_GET['exercises'])) header('Location: /trainings');
+        if (!isset($_GET['exercises'])) {
+            header('Location: /trainings');
+            exit();
+        }
 
         $exercisesIds = explode(',', $_GET['exercises']);
 
@@ -81,6 +102,7 @@ class TrainingsController
         }
 
         header('Location: /trainings');
+        exit();
     }
 
     /**
@@ -88,7 +110,10 @@ class TrainingsController
      */
     public function show(array $params): void
     {
-        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /startup');
+            exit();
+        }
 
         $trainingId = isset($params['id']) ? (int)$params['id'] : null;
         $trainingObject = null;
@@ -113,7 +138,10 @@ class TrainingsController
 
     public function delete(array $params): void
     {
-        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /startup');
+            exit();
+        }
 
         $trainingId = isset($params['id']) ? (int)$params['id'] : null;
 
@@ -126,7 +154,9 @@ class TrainingsController
                 break;
             }
         }
+
         header('Location: /trainings');
+        exit();
     }
 
     /**
@@ -134,7 +164,10 @@ class TrainingsController
      */
     public function edit(array $params): void
     {
-        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /startup');
+            exit();
+        }
 
         $trainingId = isset($params['id']) ? (int)$params['id'] : null;
         $trainingObject = null;
@@ -160,24 +193,37 @@ class TrainingsController
      */
     public function save_edit(array $params): void
     {
-        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /startup');
+            exit();
+        }
 
-        $trainingId = isset($params['id']) ? (int)$params['id'] : null;
-        $trainingName = isset($_GET['name']) ? (string)$_GET['name'] : null;
-        $trainingDate = isset($_GET['date']) ? (new DateTime($_GET['date'])) : null;
+        $trainingId = isset($params['id']) ? (int) $params['id'] : null;
+
+        if (!isset($_GET['name']) || !isset($_GET['date'])) {
+            header("Location: /trainings/$trainingId");
+            exit();
+        }
+
+        if ($_GET['name'] == '' || $_GET['date'] == '') {
+            header("Location: /trainings/$trainingId");
+            exit();
+        }
+
+        $trainingName = $_GET['name'];
+        $trainingDate = new DateTime($_GET['date']);
 
         $this->fetchTrainings($_SESSION['user_id']);
 
         /** @var Training $training */
         foreach ($this->getTrainings() as $training) {
             if ($training->getId() == $trainingId) {
-                if (isset($trainingName) && isset($trainingDate)) $this->editTraining($trainingId, $trainingName, $trainingDate);
-                else if (isset($trainingName))  $this->editTraining($trainingId, $trainingName, $training->getDate());
-                else if (isset($trainingDate))  $this->editTraining($trainingId, $training->getName(), $trainingDate);
+                $this->editTraining($trainingId, $trainingName, $trainingDate);
                 break;
             }
         }
         header("Location: /trainings/$trainingId");
+        exit();
     }
 
     /**
@@ -185,7 +231,10 @@ class TrainingsController
      */
     public function show_exercise(array $params): void
     {
-        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /startup');
+            exit();
+        }
 
         $trainingId = isset($params['training_id']) ? (int)$params['training_id'] : null;
         $exerciseId = isset($params['exercise_id']) ? (int)$params['exercise_id'] : null;
@@ -222,7 +271,10 @@ class TrainingsController
      */
     public function add_exercise(array $params): void
     {
-        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /startup');
+            exit();
+        }
 
         $trainingId = isset($params['training_id']) ? (int)$params['training_id'] : null;
         $trainingObject = null;
@@ -252,7 +304,10 @@ class TrainingsController
      */
     public function save_add_exercise(array $params): void
     {
-        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /startup');
+            exit();
+        }
 
         $trainingId = isset($params['training_id']) ? (int)$params['training_id'] : null;
         $exerciseId = isset($params['exercise_id']) ? (int)$params['exercise_id'] : null;
@@ -272,7 +327,10 @@ class TrainingsController
 
     public function delete_exercise(array $params): void
     {
-        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /startup');
+            exit();
+        }
 
         $trainingId = isset($params['training_id']) ? (int)$params['training_id'] : null;
         $trainingExerciseId = isset($params['exercise_id']) ? (int)$params['exercise_id'] : null;
@@ -286,7 +344,7 @@ class TrainingsController
                 break;
             }
         }
-        header('Location: /trainings');
+        header("Location: /trainings/$trainingId");
     }
 
     /**
@@ -294,7 +352,10 @@ class TrainingsController
      */
     public function show_set(array $params): void
     {
-        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /startup');
+            exit();
+        }
 
         $trainingId = isset($params['training_id']) ? (int)$params['training_id'] : null;
         $exerciseId = isset($params['exercise_id']) ? (int)$params['exercise_id'] : null;
@@ -338,7 +399,10 @@ class TrainingsController
      */
     public function edit_set(array $params): void
     {
-        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /startup');
+            exit();
+        }
 
         $trainingId = isset($params['training_id']) ? (int)$params['training_id'] : null;
         $exerciseId = isset($params['exercise_id']) ? (int)$params['exercise_id'] : null;
@@ -346,7 +410,6 @@ class TrainingsController
         $trainingObject = null;
         $exerciseObject = null;
         $setObject = null;
-
 
         $this->fetchTrainings($_SESSION['user_id']);
 
@@ -375,19 +438,21 @@ class TrainingsController
         $titleTraining = isset($trainingObject) ? $trainingObject->getName() : "Nie znaleziono";
 
         $view = new View(__DIR__ . '/../View/TrainingExerciseSets');
-        $view->render('show', ['training' => $trainingObject, 'exercise' => $exerciseObject, 'set' => $setObject], "Wspomagacz | $titleTraining");
+        $view->render('edit', ['training' => $trainingObject, 'exercise' => $exerciseObject, 'set' => $setObject], "Wspomagacz | $titleTraining");
     }
 
     public function save_edit_set(array $params): void
     {
-        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /startup');
+            exit();
+        }
 
         $trainingId = isset($params['training_id']) ? (int)$params['training_id'] : null;
         $exerciseId = isset($params['exercise_id']) ? (int)$params['exercise_id'] : null;
         $setId = isset($params['set_id']) ? (int)$params['set_id'] : null;
         $setWeight = isset($_GET['weight']) ? (int)$_GET['weight'] : null;
         $setRepetitions = isset($_GET['repetitions']) ? (int)$_GET['repetitions'] : null;
-
 
         $this->fetchTrainings($_SESSION['user_id']);
 
@@ -416,9 +481,73 @@ class TrainingsController
         header("Location: /trainings/$trainingId/exercises/$exerciseId");
     }
 
+    /**
+     * @throws Exception
+     */
+    public function add_set(array $params): void
+    {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /startup');
+            exit();
+        }
+
+        $trainingId = isset($params['training_id']) ? (int)$params['training_id'] : null;
+        $exerciseId = isset($params['exercise_id']) ? (int)$params['exercise_id'] : null;
+
+        $this->fetchTrainings($_SESSION['user_id']);
+
+        /** @var Training $training */
+        foreach ($this->getTrainings() as $training) {
+            if ($training->getId() == $trainingId) {
+                foreach ($training->getExercises() as $exercise) {
+                    if (!$exercise->getId() == $exerciseId) {
+                        $trainingId = null;
+                        $exerciseId = null;
+                    }
+                }
+                break;
+            }
+        }
+
+        $view = new View(__DIR__ . '/../View/TrainingExerciseSets');
+        $view->render('create', ['training' => $trainingId, 'exercise' => $exerciseId], "Wspomagacz | Dodaj Ćwiczenie");
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function save_add_set(array $params): void
+    {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /startup');
+            exit();
+        }
+
+        $trainingId = isset($params['training_id']) ? (int)$params['training_id'] : null;
+        $exerciseId = isset($params['exercise_id']) ? (int)$params['exercise_id'] : null;
+
+        $setWeight = isset($_GET['weight']) ? (int)$_GET['weight'] : null;
+        $setRepetitions = isset($_GET['repetitions']) ? (int)$_GET['repetitions'] : null;
+
+        $this->fetchTrainings($_SESSION['user_id']);
+
+        /** @var Training $training */
+        foreach ($this->getTrainings() as $training) {
+            if ($training->getId() == $trainingId) {
+                $this->addSet($exerciseId, $setWeight, $setRepetitions);
+                break;
+            }
+        }
+
+        header("Location: /trainings/$trainingId/exercises/$exerciseId");
+    }
+
     public function delete_set(array $params): void
     {
-        if (!isset($_SESSION['user_id'])) header('Location: /startup');
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /startup');
+            exit();
+        }
 
         $trainingId = isset($params['training_id']) ? (int)$params['training_id'] : null;
         $exerciseId = isset($params['exercise_id']) ? (int)$params['exercise_id'] : null;
@@ -546,7 +675,7 @@ class TrainingsController
         return $lastInsertId;
     }
 
-    private function editTraining(int $training_id, string $training_name, string $training_date): void
+    private function editTraining(int $training_id, string $training_name, DateTime $training_date): void
     {
         $database = new Database();
 
@@ -558,7 +687,7 @@ class TrainingsController
         WHERE
             id = :training_id;";
 
-        $database->query($query, ["training_id" => $training_id, "training_name" => $training_name, "training_date" => $training_date]);
+        $database->query($query, ["training_id" => $training_id, "training_name" => $training_name, "training_date" => $training_date->format('Y-m-d')]);
         $database->close();
     }
 
@@ -643,6 +772,20 @@ class TrainingsController
             id = :set_id";
 
         $database->query($query, ["set_id" => $setId, "weight" => $weight, "repetitions" => $repetitions]);
+        $database->close();
+    }
+
+    private function addSet(int $trainingExerciseId, int $weight, int $repetitions): void
+    {
+        $database = new Database();
+
+        $query = "
+        INSERT INTO
+            training_exercises_sets (training_exercise_id, `order`, repetitions, weight) 
+        VALUES 
+            (:training_exercise_id, (SELECT COALESCE(MAX(`order`), 0) + 1 FROM training_exercises_sets tes WHERE tes.id = :training_exercise_id), :repetitions, :weight);";
+
+        $database->query($query, ["training_exercise_id" => $trainingExerciseId, "weight" => $weight, "repetitions" => $repetitions]);
         $database->close();
     }
 

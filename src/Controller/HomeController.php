@@ -261,11 +261,12 @@ class HomeController
                 JOIN trainings t ON te.training_id = t.id
             WHERE t.id = :training_id";
             $exercisesData = $database->query($query, ["training_id"=>$training['training_id']])->fetchAll();
+            if (count($exercisesData) > 0) {
+                $exercises = [];
+                foreach ($exercisesData as $exercise) $exercises[] = new Exercise($exercise['exercise_id'], $exercise['exercise_name'], [], []);
 
-            $exercises = [];
-            foreach ($exercisesData as $exercise) $exercises[] = new Exercise($exercise['exercise_id'], $exercise['exercise_name'], [], []);
-
-            $communityTrainings[] = new CommunityTraining($training['training_id'], $training['user_id'], $training['username'], $training['training_name'], $exercises);
+                $communityTrainings[] = new CommunityTraining($training['training_id'], $training['user_id'], $training['username'], $training['training_name'], $exercises);
+            }
         }
 
         $database->close();

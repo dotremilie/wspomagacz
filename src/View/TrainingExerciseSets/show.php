@@ -27,7 +27,7 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
                    class="w-full text-center border border-sky-400 text-sky-400 transition rounded-xl p-3 disabled:bg-gray-400">
                     Edytuj serię
                 </a>
-                <a href="/trainings/<?= $training->getId() ?>/exercise/<?= $exercise->getId() ?>/sets/<?= $set->getId() ?>/delete"
+                <a href="/trainings/<?= $training->getId() ?>/exercises/<?= $exercise->getId() ?>/sets/<?= $set->getId() ?>/delete"
                    class="w-full text-center border border-red-400 text-red-400 transition rounded-xl p-3 disabled:bg-gray-400">
                     Usuń serię
                 </a>

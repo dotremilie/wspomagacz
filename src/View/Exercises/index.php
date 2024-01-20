@@ -95,7 +95,7 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
                         <div class="text-center dark:text-slate-400 text-slate-600">
                             Brakuje twojego ulubionego ćwiczenia?
                         </div>
-                        <a href="/training"
+                        <a href="/trainings"
                            class="w-full text-center bg-red-400 transition active:bg-red-500 rounded-xl p-3 disabled:bg-gray-400">
                             Dodaj własne ćwiczenie
                         </a>

@@ -51,7 +51,7 @@ $router->addRoute('GET', '/trainings/{id}', TrainingsController::class, 'show');
 // Usunięcie treningu
 $router->addRoute('GET', '/trainings/{id}/delete', TrainingsController::class, 'delete');
 
-// TODO: Edycja treningu
+// Edycja treningu
 $router->addRoute('GET', '/trainings/{id}/edit', TrainingsController::class, 'edit');
 $router->addRoute('GET', '/trainings/{id}/edit/save', TrainingsController::class, 'save_edit');
 
@@ -68,14 +68,14 @@ $router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}/delet
 // Wyświetlenie serii w ćwiczeniu
 $router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}/sets/{set_id}', TrainingsController::class, 'show_set');
 
-// TODO: Dodanie serii do ćwiczenia
+// Dodanie serii do ćwiczenia
 $router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}/add_set', TrainingsController::class, 'add_set');
 $router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}/add_set/save', TrainingsController::class, 'save_add_set');
 
-// TODO: Usunięcie serii z ćwiczenia
+// Usunięcie serii z ćwiczenia
 $router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}/sets/{set_id}/delete', TrainingsController::class, 'delete_set');
 
-// TODO: Edycja serii w ćwiczeniu
+// Edycja serii w ćwiczeniu
 $router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}/sets/{set_id}/edit', TrainingsController::class, 'edit_set');
 $router->addRoute('GET', '/trainings/{training_id}/exercises/{exercise_id}/sets/{set_id}/edit/save', TrainingsController::class, 'save_edit_set');
 

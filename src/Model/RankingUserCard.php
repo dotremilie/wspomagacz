@@ -9,9 +9,9 @@ class RankingUserCard
     private int $id;
     private string $username;
     private int $place;
-    private int $weight;
+    private float $weight;
 
-    public function __construct(int $id, string $username, int $place, int $weight)
+    public function __construct(int $id, string $username, int $place, float $weight)
     {
 
         $this->id = $id;
@@ -20,7 +20,7 @@ class RankingUserCard
         $this->weight = $weight;
     }
 
-    public function getWeight(): int
+    public function getWeight(): float
     {
         return $this->weight;
     }

@@ -7,10 +7,10 @@ class UserStatistics
     private int $id;
     private string $username;
     private int $exercises;
-    private int $weight;
+    private float $weight;
     private int $burntCalories;
 
-    public function __construct(int $id, string $username, int $exercises, int $weight, int $burntCalories)
+    public function __construct(int $id, string $username, int $exercises, float $weight, int $burntCalories)
     {
         $this->id = $id;
         $this->username = $username;
@@ -19,7 +19,7 @@ class UserStatistics
         $this->burntCalories = $burntCalories;
     }
 
-    public function getWeight(): int
+    public function getWeight(): float
     {
         return $this->weight;
     }

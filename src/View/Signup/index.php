@@ -34,7 +34,7 @@ require_once __DIR__ . "/../../../templates/head.php"; ?>
                     <label>
                         <input type="<?= $id === 'password' || $id === 'repeat-password' ? 'password' : 'text' ?>"
                                name="<?= $id ?>" id="<?= "$id-input" ?>"
-                               class="w-full <?= $id === 'password' || $id === 'repeat-password' ? 'pl-10' : 'px-10' ?> block p-3 border bg-transparent border-slate-400 rounded dark:focus:bg-white dark:focus:bg-opacity-10 transition"
+                               class="w-full <?= $id === 'password' || $id === 'repeat-password' ? 'pl-10' : 'px-10' ?> block p-3 border bg-transparent border-slate-400 rounded-xl dark:focus:bg-white dark:focus:bg-opacity-10 transition"
                                placeholder="<?= $placeholder ?>">
                     </label>
                     <div id="<?= "$id-error-icon" ?>"
