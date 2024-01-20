@@ -198,3 +198,151 @@ create or replace table user_weights
     constraint user_weights_users_id_fk
         foreign key (user_id) references users (id)
 );
+
+
+INSERT INTO equipment (name)
+VALUES ('Brak'),
+       ('Hantle'),
+       ('Ławka prosta'),
+       ('Ławka skośna'),
+       ('Mata fitness'),
+       ('Sztanga'),
+       ('Wyciąg górny'),
+       ('Wyciąg dolny'),
+       ('Maszyna do wysciskania nogami'),
+       ('Maszyna do rozpiętek'),
+       ('Rowerek'),
+       ('Orbitrek'),
+       ('Shoulder press'),
+       ('Drążek');
+
+
+INSERT INTO exercises (name)
+VALUES ('Przysiady'),
+       ('Wykroki'),
+       ('Wspięcia na palce'),
+       ('Wyciskanie sztangi'),
+       ('Wyciskanie skośne'),
+       ('Pompki'),
+       ('Rozpiętki'),
+       ('Brzuszki'),
+       ('Deska'),
+       ('Unoszenie nóg w leżeniu'),
+       ('Martwy ciąg'),
+       ('Wiosłowanie'),
+       ('Pull-up'),
+       ('Podciąganie sztangi'),
+       ('Unoszenie hantli bokiem'),
+       ('Shoulder press'),
+       ('Francuzy'),
+       ('Dipy'),
+       ('Wyciskanie hantli nad głową'),
+       ('Uginanie ramion z hantlami'),
+       ('Uginanie ramion ze sztangą'),
+       ('Hip trust'),
+       ('Wykroki w miejscu'),
+       ('Unoszenie hantli bokiem'),
+       ('Uginanie nprzedramion ze sztangą'),
+       ('Podciąganie na drążku'),
+       ('Wyciskanie hantli siedząc w górę'),
+       ('Wznosy nóg na drążku'),
+       ('Bułgary');
+
+
+
+INSERT INTO exercise_equipment (exercise_id, equipment_id)
+VALUES (1, 1),
+       (2, 1),
+       (3, 2),
+       (4, 6),
+       (5, 2),
+       (6, 1),
+       (7, 10),
+       (8, 1),
+       (9, 1),
+       (10, 1),
+       (11, 6),
+       (12, 6),
+       (13, 14),
+       (14, 6),
+       (15, 2),
+       (16, 13),
+       (17, 6),
+       (18, 14),
+       (19, 2),
+       (20, 2),
+       (21, 6),
+       (22, 3),
+       (23, 2),
+       (24, 12),
+       (25, 6),
+       (26, 14),
+       (27, 2),
+       (28, 14),
+       (29, 2);
+
+INSERT INTO muscles (name)
+VALUES ('Klatka piersiowa'),
+       ('Brzuch'),
+       ('Plecy'),
+       ('Ramiona'),
+       ('Biceps'),
+       ('Triceps'),
+       ('Barki'),
+       ('Przedramiona'),
+       ('Pośladki'),
+       ('Łydki'),
+       ('Uda');
+
+
+
+INSERT INTO exercise_muscles (exercise_id, muscle_id, strength)
+VALUES (1, 3, 3),
+       (1, 9, 2),
+       (2, 9, 3),
+       (2, 10, 2),
+       (3, 9, 3),
+       (3, 10, 2),
+       (4, 1, 4),
+       (4, 4, 3),
+       (5, 1, 4),
+       (5, 4, 3),
+       (6, 1, 3),
+       (6, 4, 2),
+       (7, 1, 3),
+       (7, 4, 2),
+       (8, 2, 4),
+       (9, 2, 3),
+       (10, 2, 3),
+       (11, 3, 4),
+       (11, 10, 3),
+       (12, 3, 4),
+       (12, 4, 3),
+       (13, 3, 4),
+       (13, 4, 3),
+       (14, 4, 4),
+       (15, 4, 4),
+       (16, 4, 4),
+       (17, 4, 3),
+       (18, 6, 4),
+       (19, 4, 4),
+       (20, 5, 3),
+       (21, 5, 3),
+       (22, 9, 4),
+       (23, 10, 3);
+
+INSERT INTO training_statuses (name)
+VALUES ('Planowany'),
+       ('W trakcie'),
+       ('Zakończony');
+
+
+INSERT INTO user_genders (name)
+VALUES ('Mężczyzna'),
+       ('Kobieta'),
+       ('Wolę nie podawać');
+
+INSERT INTO user_statuses (name)
+VALUES ('Aktywny'),
+       ('Nieaktywny'),
+       ('Zawieszony');
