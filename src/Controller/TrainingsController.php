@@ -155,13 +155,16 @@ class TrainingsController
         $view->render('edit', ['training' => $trainingObject], "Wspomagacz | $titleTraining");
     }
 
+    /**
+     * @throws Exception
+     */
     public function save_edit(array $params): void
     {
         if (!isset($_SESSION['user_id'])) header('Location: /startup');
 
         $trainingId = isset($params['id']) ? (int)$params['id'] : null;
-        $trainingName = isset($_GET['name']) ? (int)$_GET['name'] : null;
-        $trainingDate = isset($_GET['date']) ? (int)$_GET['date'] : null;
+        $trainingName = isset($_GET['name']) ? (string)$_GET['name'] : null;
+        $trainingDate = isset($_GET['date']) ? (new DateTime($_GET['date'])) : null;
 
         $this->fetchTrainings($_SESSION['user_id']);
 
