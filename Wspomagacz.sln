@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wspomagacz.MAUI", "Wspomagacz.MAUI\Wspomagacz.MAUI.csproj", "{FE54EF8A-CD6B-4997-9793-97163729E344}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wspomagacz.Library", "Wspomagacz.Library\Wspomagacz.Library.csproj", "{8401A7DD-AD5F-419F-93F0-4B3E61370163}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wspomagacz.Web", "Wspomagacz.Web\Wspomagacz.Web.csproj", "{448F5005-DB8F-41D2-9F65-C3D9DF0F65D1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FE54EF8A-CD6B-4997-9793-97163729E344}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE54EF8A-CD6B-4997-9793-97163729E344}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE54EF8A-CD6B-4997-9793-97163729E344}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE54EF8A-CD6B-4997-9793-97163729E344}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8401A7DD-AD5F-419F-93F0-4B3E61370163}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8401A7DD-AD5F-419F-93F0-4B3E61370163}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8401A7DD-AD5F-419F-93F0-4B3E61370163}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8401A7DD-AD5F-419F-93F0-4B3E61370163}.Release|Any CPU.Build.0 = Release|Any CPU
+		{448F5005-DB8F-41D2-9F65-C3D9DF0F65D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{448F5005-DB8F-41D2-9F65-C3D9DF0F65D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{448F5005-DB8F-41D2-9F65-C3D9DF0F65D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{448F5005-DB8F-41D2-9F65-C3D9DF0F65D1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
